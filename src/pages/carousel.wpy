@@ -7,19 +7,14 @@
 <template>
   <view>
     <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-<<<<<<< HEAD
       <repeat for="{{imgUrls}}" index="index" item="item" key="index">
         <swiper-item>
           <image src="{{item}}" class="slide-image"/>
-=======
-      <repeat for="{{imgUrls}}" key="index" index="index" item="item">
-        <swiper-item >
-          <image src="{{item}}" class="slide-image" width="355" height="150"/>
->>>>>>> 059cf95244f96f1325724747fcaee026eff1f28a
         </swiper-item>
       </repeat>
     </swiper>
   </view>
+  
 </template>
 <script>
   import wepy from 'wepy'
@@ -33,9 +28,9 @@
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
         'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
       ],
-      indicatorDots: false,
-      autoplay: false,
-      interval: 5000,
+      indicatorDots: true,
+      autoplay: true,
+      interval: 1000,
       duration: 1000
     }
     methods = {
