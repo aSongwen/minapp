@@ -3,6 +3,13 @@
     width:100vw;
     height:150px;
   }
+  .invertor{
+    display:flex;
+  }
+  .invertor-txt{
+    font-size:12px;
+    text-algin:center;
+  }
 </style>
 <template>
   <view>
@@ -13,11 +20,26 @@
         </swiper-item>
       </repeat>
     </swiper>
+    <view class="invertor">
+      <image class="invertor-img" src="{{invertorImg}}"></image>
+      <text class="invertor-txt">投资人专栏</text>
+    </view>
+    <button @tap="changeNum">点我点我</button>
+    <text>{{testData}}</text>
   </view>
-  
 </template>
 <script>
   import wepy from 'wepy'
+  import { content } from 'wepy-redux'
+  import { NEWS } from '../store/types/news'
+  @content({
+    testData(state) {
+      console.log(state)
+      return state.news.num
+    }
+  }, {
+    changeNum: NEWS
+  })
   export default class extends wepy.page {
     config = {
       'navigationBarTitleText': '十分之约'
@@ -31,7 +53,8 @@
       indicatorDots: true,
       autoplay: true,
       interval: 1000,
-      duration: 1000
+      duration: 1000,
+      invertorImg: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
     }
     methods = {
     }
