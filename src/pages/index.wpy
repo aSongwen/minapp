@@ -125,7 +125,7 @@
     data = {
       mynum: 20,
       userInfo: {
-        nickName: '加载中...'
+        nickName: '加载中... shine分支数据'
       },
       normalTitle: '原始标题',
       setTimeoutTitle: '标题三秒后会被修改',
