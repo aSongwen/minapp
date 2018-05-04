@@ -22,6 +22,8 @@
       <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
     </view>
 
+    <button @tap='skip'>点击跳转</button>
+    
     <panel>
       <view class="title" slot="title">测试数据绑定</view>
 
@@ -223,6 +225,11 @@
       counterEmit (...args) {
         let $event = args[args.length - 1]
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
+      },
+      skip () {
+        this.navigateTo({
+          url: 'pages/carousel.wpy'
+        })
       }
     }
 
