@@ -24,21 +24,27 @@
       <image class="invertor-img" src="{{invertorImg}}"></image>
       <text class="invertor-txt">投资人专栏</text>
     </view>
-    <button @tap="changeNum">点我点我</button>
-    <text>{{testData}}</text>
+    <button @tap="changeNum(200)">点我点我</button>
+    <text>{{ testData }}</text>
+    <button @tap="asyncNews(100)">1s以后增加</button>
+    <text>{{asyncData}}</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
-  import { content } from 'wepy-redux'
-  import { NEWS } from '../store/types/news'
-  @content({
+  import { connect } from 'wepy-redux'
+  // import { NEWS } from '../store/types/news'
+  import { asyncNews } from '../store/actions/news'
+ // import { asyncNews } from '../store/actions'
+  @connect({
     testData(state) {
-      console.log(state)
       return state.news.num
+    },
+    asyncData (state) {
+      return state.news.asyncNum
     }
   }, {
-    changeNum: NEWS
+    asyncNews
   })
   export default class extends wepy.page {
     config = {
