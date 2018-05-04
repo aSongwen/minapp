@@ -227,9 +227,7 @@
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
       },
       skip () {
-        this.navigateTo({
-          url: 'pages/carousel.wpy'
-        })
+        this.$navigate('./carousel')
       }
     }
 

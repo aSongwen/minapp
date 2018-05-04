@@ -4,11 +4,11 @@
 <template>
   <view>
     <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <block wx:for="{{imgUrls}}">
+      <repeat for="{{imgUrls}}" index="index" item="item" key="index">
         <swiper-item>
           <image src="{{item}}" class="slide-image" width="355" height="150"/>
         </swiper-item>
-      </block>
+      </repeat>
     </swiper>
     <button bindtap="changeIndicatorDots"> indicator-dots </button>
     <button bindtap="changeAutoplay"> autoplay </button>
@@ -29,19 +29,19 @@
       autoplay: false,
       interval: 5000,
       duration: 1000
-    },
+    }
     methods = {
       changeIndicatorDots (e) {
-        this.data.indicatorDots = !this.data.indicatorDots;
+        this.data.indicatorDots = !this.data.indicatorDots
       },
       changeAutoplay (e) {
-        this.data.autoplay = !this.data.autoplay;
+        this.data.autoplay = !this.data.autoplay
       },
       intervalChange (e) {
-        this.data.interval = e.detail.value;
+        this.data.interval = e.detail.value
       },
       durationChange (e) {
-        this.data.duration = e.detail.value;
+        this.data.duration = e.detail.value
       }
     }
   }
