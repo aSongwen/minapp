@@ -4,7 +4,7 @@ export default handleActions({
   [NEWS] (state, action) {
     return {
       ...state,
-      num: state.num + action.payload[0]
+      num: state.num + +action.payload[0]
     }
   },
   [ASYNC_NEWS] (state, action) {
