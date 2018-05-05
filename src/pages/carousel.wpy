@@ -33,9 +33,8 @@
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
-  // import { NEWS } from '../store/types/news'
-  import { asyncNews } from '../store/actions/news'
- // import { asyncNews } from '../store/actions'
+  import { NEWS } from '../store/types/news'
+  import { asyncNews } from '../store/actions'
   @connect({
     testData(state) {
       return state.news.num
@@ -44,6 +43,7 @@
       return state.news.asyncNum
     }
   }, {
+    changeNum: NEWS,
     asyncNews
   })
   export default class extends wepy.page {
