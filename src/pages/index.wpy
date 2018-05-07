@@ -1,8 +1,10 @@
 <style lang="less">
+
 </style>
+
 <template>
   <view class="container">
-  {{userInfo}}
+    {{userInfo}}
   </view>
   <view>
     <button @tap="navigate()">跳转</button>
@@ -13,42 +15,30 @@
   import wepy from 'wepy'
   // import { connect } from 'wepy-redux'
   import testMixin from '../mixins/test'
-
   // @connect({
   // })
-
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: 'index'
     }
-    components = {
-  
-    }
-
+    components = {}
     mixins = [testMixin]
-
     data = {
       'home': 'hello world!',
       'userInfo': ''
     }
-
-    computed = {
-  
-    }
-
+    computed = {}
     methods = {
       navigate() {
-        wepy.navigateTo({url: './vc'})
+        wepy.navigateTo({
+          url: './vc'
+        })
       }
     }
-
-    events = {
-
-    }
-
+    events = {}
     onLoad() {
       let self = this
-      this.$parent.getUserInfo(function (userInfo) {
+      this.$parent.getUserInfo(function(userInfo) {
         if (userInfo) {
           self.userInfo = userInfo.nickName
         }
