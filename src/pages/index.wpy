@@ -1,6 +1,7 @@
 <style lang="less">
 
 </style>
+
 <template>
   <view class="container">
     {{userInfo}}
@@ -20,15 +21,13 @@
     config = {
       navigationBarTitleText: 'index'
     }
-    components = {
-    }
+    components = {}
     mixins = [testMixin]
     data = {
       'home': 'hello world!',
       'userInfo': ''
     }
-    computed = {
-    }
+    computed = {}
     methods = {
       navigate() {
         wepy.navigateTo({
@@ -36,11 +35,9 @@
         })
       }
     }
-    events = {
-    }
+    events = {}
     onLoad() {
       let self = this
-      console.log(this)
       this.$parent.getUserInfo(function(userInfo) {
         if (userInfo) {
           self.userInfo = userInfo.nickName

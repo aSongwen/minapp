@@ -1,133 +1,174 @@
 <template>
-  <view class="top_search">
-    <view class="search_read_only">
-      <navigator class="search_content" url="/pages/search">
-        <i class="iconfont icon-search"></i>
-        <view class="search_input">搜索商品</view>
-      </navigator>
-    </view>
-  </view>
   <view class="classify" style="height:{{windowHeight-50}}px">
     <scroll-view class="classify_catetory" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
-      <view class="name {{item.active? 'active':''}}" wx:for="{{rootcateList}}" wx:key="item" @tap="changeCate" data-code="{{item.code}}">
-        {{item.name}}
-      </view>
+      <repeat for="{{rootcateList}}" key="item" index="index">
+        <view class="name {{item.active? 'active':''}}" @tap="changeCate" data-id="{{item.id}}" data-index="{{index}}">
+          {{item.name}}
+        </view>
+      </repeat>
     </scroll-view>
     <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
-        <view class="children">
-          <navigator hover-class="none" class="children_item" wx:for="{{childcateList}}" wx:for-item="item" wx:key="index" url="/pages/search?cateCode={{item.secondCategory.code}}&title={{item.secondCategory.name}}">
-            <image class="child_image" src="{{item.secondCategory.thumLogo}}"></image>
-            <view class="child_name">{{item.secondCategory.name}}</view>
+      <view class="children">
+        <repeat for="{{childcateList}}" key="item" index="index">
+          <navigator hover-class="none" class="children_item" url="">
+            <image class="child_image" src="{{item.thumLogo}}"></image>
+            <view class="child_name">{{item.name}}</view>
           </navigator>
-        </view>
+        </repeat>
+      </view>
     </scroll-view>
   </view>
 </template>
+
 <script>
-import wepy from 'wepy'
+  import wepy from 'wepy'
+  export default class Classify extends wepy.page {
+    config = {
+      navigationBarTitleText: '分类'
+    }
+    components = {}
+    data = {
+      scrollTop: 100,
+      windowHeight: 0,
+      list: {},
+      rootcateList: [{
+        id: 0,
+        name: '医疗',
+        active: true
+      }, {
+        id: 1,
+        name: '科技',
+        active: false
+      }, {
+        id: 2,
+        name: '消费',
+        active: false
+      }, {
+        id: 3,
+        name: 'AI',
+        active: false
+      }],
+      childcateList: [],
+      testData: [{
+        id: 0,
+        parentId: 0,
+        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        name: '医疗'
+      }, {
+        id: 1,
+        parentId: 1,
+        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        name: '科技'
+      }, {
+        id: 2,
+        parentId: 2,
+        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        name: '消费'
+      }, {
+        id: 3,
+        parentId: 3,
+        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        name: 'AI'
+      }]
+    }
+    cateIndex = 0
+    onLoad() {
+      let systemInfo
+      const that = this
+      this.dataCate(this.rootcateList[0].id)
+      wepy.getStorage({
+        key: 'systemInfo',
+        success: function(res) {
+          systemInfo = res.data
+          that.windowHeight = systemInfo.screenHeight
+          that.$apply()
+        }
+      })
+    }
 
-export default class Classify extends wepy.page {
-  config = {
-    navigationBarTitleText: '分类'
+    dataCate(parentId) {
+      this.childcateList = this.testData.filter((value) => value.parentId === parentId)
+    }
+
+    upStatus(index, newIndex) {
+      this.rootcateList[index].active = false
+      this.rootcateList[newIndex].active = true
+    }
+    onShow() {}
+    computed = {}
+    methods = {
+      changeCate(e) {
+        let id = e.currentTarget.dataset.id
+        let index = e.currentTarget.dataset.index
+        this.dataCate(id)
+        this.upStatus(this.cateIndex, index)
+        this.cateIndex = index
+      }
+    }
+    events = {}
   }
-  components = {
-
-  }
-
-  data = {
-    scrollTop: 100,
-    windowHeight: 0,
-    list: {},
-    rootcateList: {},
-    childcateList: {}
-  }
-
-  onLoad() {
-    wepy.getSystemInfo({ success: function(res) {
-      this.windowWidth = res.windowWidth
-    }})
-    this.$apply()
-  }
-
-  onShow() {
-
-  }
-
-  computed = {
-
-  }
-  methods = {
-
-  }
-  events = {
-
-  }
-}
-
 </script>
+
 <style lang="less">
-.search_read_only .search_content {
-  width: 100%;
-}
-
-.classify {
-  display: flex;
-  position: relative;
-  .classify_catetory {
-    width: 200rpx;
+  .search_read_only .search_content {
+    width: 100%;
+  }
+  .classify {
+    display: flex;
     position: relative;
-    z-index: 1;
-    .name {
-      text-align: center;
-      height: 100rpx;
-      line-height: 100rpx;
-      font-size: 28rpx;
-      color: #666;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+    .classify_catetory {
+      width: 200rpx;
+      position: relative;
+      z-index: 1;
+      .name {
+        text-align: center;
+        height: 100rpx;
+        line-height: 100rpx;
+        font-size: 28rpx;
+        color: #666;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .active {
+        border-left: 6rpx solid #ff6a3c;
+        background: #fff;
+        color: #ff6a3c;
+      }
     }
-    .active {
-      border-left: 6rpx solid #ff6a3c;
+    .classify_detail {
+      position: relative;
+      z-index: 999; // margin-left: -15rpx;
       background: #fff;
-      color: #ff6a3c;
+      padding: 15px 10px 10px 30px;
+      .classify_item {}
+      .title {
+        font-size: 30rpx;
+        color: #333;
+        margin-left: 25rpx;
+      }
+      .children {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20rpx 0rpx;
+      }
+      .child_image {
+        width: 60px;
+        height: 60px;
+      }
+      .child_name {
+        font-size: 26rpx;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 170rpx;
+      }
+      .children_item {
+        height: 200rpx;
+        width: 170rpx;
+        text-align: center;
+      }
     }
   }
-  .classify_detail {
-    position: relative;
-    z-index: 999;
-    // margin-left: -15rpx;
-    background: #fff;
-    padding: 15px 10px 10px 30px;
-    .classify_item {}
-    .title {
-      font-size: 30rpx;
-      color: #333;
-      margin-left: 25rpx;
-    }
-    .children {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 20rpx 0rpx;
-    }
-    .child_image {
-      width: 60px;
-      height: 60px;
-    }
-    .child_name {
-      font-size: 26rpx;
-      color: #666;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 170rpx;
-    }
-    .children_item {
-      height: 200rpx;
-      width: 170rpx;
-      text-align: center;
-    }
-  }
-}
-
 </style>
