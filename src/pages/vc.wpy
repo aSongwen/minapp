@@ -1,36 +1,18 @@
 <template>
-  <view class="classify" style="height:{{windowHeight-50}}px">
-    <scroll-view class="classify_catetory" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
-      <repeat for="{{rootcateList}}" key="item" index="index">
-        <view class="name {{item.active? 'active':''}}" @tap="changeCate" data-id="{{item.id}}" data-index="{{index}}">
-          {{item.name}}
-        </view>
-      </repeat>
-    </scroll-view>
-    <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
-      <view class="children">
-        <repeat for="{{childcateList}}" key="item" index="index">
-          <navigator hover-class="none" class="children_item" url="">
-            <image class="child_image" src="{{item.thumLogo}}"></image>
-            <view class="child_name">{{item.name}}</view>
-          </navigator>
-        </repeat>
-      </view>
-    </scroll-view>
-  </view>
+  <classify :rootcateList="rootcateList" :testData="testData"></classify>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import classify from '../components/common/classify'
   export default class Classify extends wepy.page {
     config = {
       navigationBarTitleText: '分类'
     }
-    components = {}
+    components = {
+      classify: classify
+    }
     data = {
-      scrollTop: 100,
-      windowHeight: 0,
-      list: {},
       rootcateList: [{
         id: 0,
         name: '医疗',
@@ -48,127 +30,36 @@
         name: 'AI',
         active: false
       }],
-      childcateList: [],
       testData: [{
         id: 0,
         parentId: 0,
-        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        thumLogo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2934981818,202476935&fm=27&gp=0.jpg',
         name: '医疗'
       }, {
         id: 1,
         parentId: 1,
-        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        thumLogo: '../images/common.jpg',
         name: '科技'
       }, {
         id: 2,
         parentId: 2,
-        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        thumLogo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2934981818,202476935&fm=27&gp=0.jpg',
         name: '消费'
       }, {
         id: 3,
         parentId: 3,
-        thumLogo: 'http://www.baidu.com/s?wd=%E4%BB%8A%E6%97%A5%E6%96%B0%E9%B2%9C%E4%BA%8B&tn=SE_PclogoS_8whnvm25&sa=ire_dl_gh_logo&rsv_dl=igh_logo_pcs',
+        thumLogo: '../images/common.jpg',
         name: 'AI'
       }]
     }
-    cateIndex = 0
-    onLoad() {
-      let systemInfo
-      const that = this
-      this.dataCate(this.rootcateList[0].id)
-      wepy.getStorage({
-        key: 'systemInfo',
-        success: function(res) {
-          systemInfo = res.data
-          that.windowHeight = systemInfo.screenHeight
-          that.$apply()
-        }
-      })
-    }
-
-    dataCate(parentId) {
-      this.childcateList = this.testData.filter((value) => value.parentId === parentId)
-    }
-
-    upStatus(index, newIndex) {
-      this.rootcateList[index].active = false
-      this.rootcateList[newIndex].active = true
-    }
+    onLoad() {}
     onShow() {}
     computed = {}
-    methods = {
-      changeCate(e) {
-        let id = e.currentTarget.dataset.id
-        let index = e.currentTarget.dataset.index
-        this.dataCate(id)
-        this.upStatus(this.cateIndex, index)
-        this.cateIndex = index
-      }
-    }
+    methods = {}
     events = {}
   }
 </script>
 
 <style lang="less">
-  .search_read_only .search_content {
-    width: 100%;
-  }
-  .classify {
-    display: flex;
-    position: relative;
-    .classify_catetory {
-      width: 200rpx;
-      position: relative;
-      z-index: 1;
-      .name {
-        text-align: center;
-        height: 100rpx;
-        line-height: 100rpx;
-        font-size: 28rpx;
-        color: #666;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-      .active {
-        border-left: 6rpx solid #ff6a3c;
-        background: #fff;
-        color: #ff6a3c;
-      }
-    }
-    .classify_detail {
-      position: relative;
-      z-index: 999; // margin-left: -15rpx;
-      background: #fff;
-      padding: 15px 10px 10px 30px;
-      .classify_item {}
-      .title {
-        font-size: 30rpx;
-        color: #333;
-        margin-left: 25rpx;
-      }
-      .children {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 20rpx 0rpx;
-      }
-      .child_image {
-        width: 60px;
-        height: 60px;
-      }
-      .child_name {
-        font-size: 26rpx;
-        color: #666;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 170rpx;
-      }
-      .children_item {
-        height: 200rpx;
-        width: 170rpx;
-        text-align: center;
-      }
-    }
-  }
+
 </style>
