@@ -1,58 +1,48 @@
 <template>
-  <classify :rootcateList="rootcateList" :testData="testData"></classify>
+  <vc-popup :show="vcPopup">
+  </vc-popup>
+  <classify :rootcateList.sync="vcCateList" :testData.sync="vcDetailList">
+  </classify>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import {
+    connect,
+    getStore
+  } from 'wepy-redux'
+  import {
+    asyncVcCateList,
+    asyncDetailList
+  } from '../store/actions'
   import classify from '../components/common/classify'
+  import popup from '../components/common/popup'
+  @connect({
+    vcDetailList(state) {
+      return state.vcPage.vcDetailList
+    },
+    vcCateList(state) {
+      console.dir(state.vcPage.vcCateList)
+      return state.vcPage.vcCateList
+    }
+  })
   export default class Classify extends wepy.page {
     config = {
       navigationBarTitleText: '分类'
     }
     components = {
-      classify: classify
+      classify,
+      'vc-popup': popup
     }
     data = {
-      rootcateList: [{
-        id: 0,
-        name: '医疗',
-        active: true
-      }, {
-        id: 1,
-        name: '科技',
-        active: false
-      }, {
-        id: 2,
-        name: '消费',
-        active: false
-      }, {
-        id: 3,
-        name: 'AI',
-        active: false
-      }],
-      testData: [{
-        id: 0,
-        parentId: 0,
-        thumLogo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2934981818,202476935&fm=27&gp=0.jpg',
-        name: '医疗'
-      }, {
-        id: 1,
-        parentId: 1,
-        thumLogo: '../images/common.jpg',
-        name: '科技'
-      }, {
-        id: 2,
-        parentId: 2,
-        thumLogo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2934981818,202476935&fm=27&gp=0.jpg',
-        name: '消费'
-      }, {
-        id: 3,
-        parentId: 3,
-        thumLogo: '../images/common.jpg',
-        name: 'AI'
-      }]
+      vcPopup: 'display: none'
     }
-    onLoad() {}
+    onLoad() {
+      const store = getStore()
+      store.dispatch(asyncVcCateList())
+      store.dispatch(asyncDetailList())
+      this.$broadcast('EdataCate')
+    }
     onShow() {}
     computed = {}
     methods = {}
