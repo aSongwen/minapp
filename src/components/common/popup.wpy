@@ -1,0 +1,37 @@
+<template>
+  <view class="wrap" style="{{show}}">
+    <view class="window">垂直居中</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class popup extends wepy.component {
+    props = {
+      show: String
+    }
+    data = {
+
+    }
+  }
+</script>
+
+<style lang="less">
+.wrap {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .window{
+    height: 400rpx;
+    width: 500rpx;
+    background: #eee;
+    margin-left: 68px;
+  }
+}
+</style>
