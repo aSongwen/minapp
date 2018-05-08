@@ -1,13 +1,13 @@
 <template>
   <view class="classify" style="height:{{windowHeight-50}}px">
-    <scroll-view class="classify_catetory" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
+    <scroll-view class="classify_catetory" scroll-y scroll-with-animation="true" style="height:{{windowHeight-25}}px">
       <repeat for="{{rootcateList}}" key="item" index="index">
         <view class="name {{item.active? 'active':''}}" @tap="changeCate" data-id="{{item.id}}" data-index="{{index}}">
           {{item.name}}
         </view>
       </repeat>
     </scroll-view>
-    <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
+    <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-25}}px">
       <view class="children">
         <repeat for="{{childcateList}}" key="item" index="index">
           <navigator hover-class="none" class="children_item" url="">

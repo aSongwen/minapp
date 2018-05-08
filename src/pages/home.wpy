@@ -1,0 +1,117 @@
+<template>
+  <view class="container">
+    <swiper class="slider-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <repeat for="{{silderImg}}" key="index" index="index" item="item">
+        <block>
+          <swiper-item>
+            <image src="{{item}}" class="slide-image" />
+          </swiper-item>
+        </block>
+      </repeat>
+    </swiper>
+    <repeat for="{{vcImg}}" key="item" index="index" item="item">
+      <view class="vc">
+        <image src="{{item.src}}" class="{{item.imgCls}}"></image>
+        <text class="{{item.vcCls}}">{{item.text}}</text>
+      </view>
+    </repeat>
+  </view>
+
+  <view class="test">
+    <repeat for="{{test}}" key="item" index="index" item="item">
+      <view @tap="changeColor" class="">{{item.txt}}</view>
+    </repeat>
+  </view>
+
+  <view class="footer">底边栏</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class extends wepy.page {
+    config = {
+      navigationBarTitleText: '十分之约'
+    }
+    data = {
+      silderImg: [
+        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
+        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      ],
+      indicatorDots: true,
+      autoplay: true,
+      interval: 1000,
+      duration: 1000,
+      vcImg: [
+        {
+          src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+          text: '投资人专栏',
+          imgCls: 'vc-image',
+          vcCls: 'vc-text'
+        },
+        {
+          src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+          text: '投资人专栏',
+          imgCls: 'vc-image',
+          vcCls: 'vc-text'
+        },
+        {
+          src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+          text: '动点科技文章',
+          imgCls: 'vc-image-article',
+          vcCls: 'vc-text-article'
+        },
+        {
+          src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+          text: '投资人专栏',
+          imgCls: 'vc-image',
+          vcCls: 'vc-text'
+        }
+      ]
+    }
+    methods = {}
+  }
+</script>
+
+<style lang="less">
+.slider-box{
+  margin-top:40rpx;
+  .slide-image{
+    width: 100vw;
+  }
+}
+.vc{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40rpx;
+  .vc-image{
+    width: 480rpx;
+    height: 302rpx;
+  }
+  .vc-image-article{
+    width: 100vw;
+    height: 302rpx;
+  }
+  .vc-text,.vc-text-article{
+    align-self: center;
+    text-align: center;
+    width: 270rpx;
+    font-size: 14px;
+    font-family: Arial;
+    color: #101010;
+  }
+  .vc-text-article{
+    width: 100vw;
+    text-align: right;
+    margin-right: 40rpx;
+  }
+}
+.footer{
+  width: 100vw;
+  height: 118rpx;
+  background-color: #f8f8f8;
+  text-align: center;
+  line-height: 118rpx;
+}
+</style>
