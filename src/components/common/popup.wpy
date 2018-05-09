@@ -4,15 +4,15 @@
       <view style="font-size:40rpx; color:#000;">{{vcDetail.name}}</view>
       <view class="focusArea">关注领域：</view>
       <view class="focusArea-wrap">
-      <repeat for="{{vcDetail.foucsArea}}" key="item" index="index">
-        <text class="focusArea-item">{{item}}</text>
-      </repeat>
+        <repeat for="{{vcDetail.foucsArea}}" key="item" index="index">
+          <text class="focusArea-item">{{item}}</text>
+        </repeat>
       </view>
       <view style="margin-top:20rpx">投资轮次：</view>
       <view class="focusArea-wrap">
-      <repeat for="{{vcDetail.rounds}}" key="item" index="index">
-        <text class="focusArea-item">{{item}}</text>
-      </repeat>
+        <repeat for="{{vcDetail.rounds}}" key="item" index="index">
+          <text class="focusArea-item">{{item}}</text>
+        </repeat>
       </view>
       <view class="btn-ok" @tap="hidePopup">好的</view>
     </view>
@@ -66,10 +66,10 @@
       .focusArea-wrap {
         margin-top: 10rpx;
         line-height: 60rpx;
-        max-height:115rpx;
-        overflow-x:auto;
+        max-height: 115rpx;
+        overflow-x: auto;
         .focusArea-item {
-          border: 1px solid #ff6a3c;
+          border-bottom: 1px solid #ff6a3c;
           color: #ff6a3c;
           padding: 0 2rpx 0 2rpx;
           margin-right: 20rpx;
@@ -77,17 +77,17 @@
         }
       }
       .btn-ok {
-        color:#ff6a3c;
-        float:right;
-        margin-top:20rpx;
-        transition:all 0.2s;
-        width:150rpx;
-        height:70rpx;
-        line-height:70rpx;
-        text-align:center;
+        background: #ff6a3c;
+        color: #fff;
+        float: right;
+        margin-top: 20rpx;
+        transition: all 0.2s;
+        width: 150rpx;
+        height: 70rpx;
+        line-height: 70rpx;
+        text-align: center;
         &:hover{
-          background:#ff6a3c;
-          color:#fff;
+          color: #f5f5f5;
         }
       }
     }
