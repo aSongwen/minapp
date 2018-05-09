@@ -1,5 +1,5 @@
 <template>
-  <vc-popup :show="vcPopup">
+  <vc-popup :show.sync="vcPopupCss" :vcDetail.sync="vcPopupDetail">
   </vc-popup>
   <classify :rootcateList.sync="vcCateList" :testData.sync="vcDetailList">
   </classify>
@@ -34,7 +34,8 @@
       'vc-popup': popup
     }
     data = {
-      vcPopup: 'display: none'
+      vcPopupCss: 'display: none',
+      vcPopupDetail: {}
     }
     onLoad() {
       const store = getStore()
@@ -43,14 +44,23 @@
       })
     }
     onShow() {}
+    vcDetailById(index) {
+      return this.vcDetailList.filter(({id}) => id === index)
+    }
     computed = {}
     methods = {}
-    events = {}
+    events = {
+      showDetail(index) {
+        this.vcPopupCss = 'display: flex'
+        const vcDetail = this.vcDetailById(index)
+        if (vcDetail.length > 0) this.vcPopupDetail = vcDetail[0]
+      }
+    }
   }
 </script>
 
 <style lang="less">
-page {
-  background: #f5f5f5;
-}
+  page {
+    background: #f5f5f5;
+  }
 </style>
