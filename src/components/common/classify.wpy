@@ -68,7 +68,11 @@
     events = {
       EdataCate() {
         console.log(`触发EdataCate`)
-        this.dataCate(this.rootcateList[0].id)
+        if (this.rootcateList.length > 0) {
+          this.dataCate(this.rootcateList[0].id)
+        } else {
+          console.log(this.rootcateList.length)
+        }
       }
     }
   }
