@@ -10,10 +10,9 @@
     <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:100%">
       <view class="children">
         <repeat for="{{childcateList}}" key="item" index="index">
-          <navigator hover-class="none" class="children_item" url="">
-            <image class="child_image" src="{{item.thumLogo}}" lazy-load="true"></image>
+          <view hover-class="none" class="children_item" url="" data-index="{{item.id}}" @tap="showDetail">
             <view class="child_name">{{item.name}}</view>
-          </navigator>
+          </view>
         </repeat>
       </view>
     </scroll-view>
@@ -22,7 +21,6 @@
 
 <script>
   import wepy from 'wepy'
-  
   export default class Classify extends wepy.component {
     data = {
       scrollTop: 100,
@@ -58,11 +56,15 @@
     computed = {}
     methods = {
       changeCate(e) {
-        let id = e.currentTarget.dataset.id
-        let index = e.currentTarget.dataset.index
+        const id = e.currentTarget.dataset.id
+        const index = e.currentTarget.dataset.index
         this.dataCate(id)
         this.upStatus(this.cateIndex, index)
         this.cateIndex = index
+      },
+      showDetail(e) {
+        const index = e.currentTarget.dataset.index
+        this.$emit('showDetail', index)
       }
     }
     events = {
@@ -126,17 +128,17 @@
         height: 60px;
       }
       .child_name {
-        font-size: 26rpx;
-        color: #666;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         width: 170rpx;
+
+        color: #ff6a3c;
       }
       .children_item {
-        height: 200rpx;
         width: 170rpx;
         text-align: center;
+        margin-top:20rpx;
       }
     }
   }

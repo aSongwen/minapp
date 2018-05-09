@@ -1,6 +1,21 @@
 <template>
   <view class="wrap" style="{{show}}">
-    <view class="window">垂直居中</view>
+    <view class="window">
+      <view style="font-size:40rpx; color:#000;">{{vcDetail.name}}</view>
+      <view class="focusArea">关注领域：</view>
+      <view class="focusArea-wrap">
+      <repeat for="{{vcDetail.foucsArea}}" key="item" index="index">
+        <text class="focusArea-item">{{item}}</text>
+      </repeat>
+      </view>
+      <view style="margin-top:20rpx">投资轮次：</view>
+      <view class="focusArea-wrap">
+      <repeat for="{{vcDetail.rounds}}" key="item" index="index">
+        <text class="focusArea-item">{{item}}</text>
+      </repeat>
+      </view>
+      <view class="btn-ok" @tap="hidePopup">好的</view>
+    </view>
   </view>
 </template>
 
@@ -8,30 +23,73 @@
   import wepy from 'wepy'
   export default class popup extends wepy.component {
     props = {
-      show: String
+      show: {
+        type: String,
+        twoWay: true
+      },
+      vcDetail: {
+        type: Object,
+        twoWay: true
+      }
     }
-    data = {
-
+    data = {}
+    methods = {
+      hidePopup() {
+        this.show = 'display: none'
+      }
     }
   }
 </script>
 
 <style lang="less">
-.wrap {
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .window{
-    height: 400rpx;
-    width: 500rpx;
-    background: #eee;
-    margin-left: 68px;
+  .wrap {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    .window {
+      height: 550rpx;
+      width: 590rpx;
+      background: #f5f5f5;
+      position: relative;
+      padding: 20rpx;
+      margin-right: 10rpx;
+      box-sizing: border-box;
+      .focusArea {
+        margin-top: 20rpx
+      }
+      .focusArea-wrap {
+        margin-top: 10rpx;
+        line-height: 60rpx;
+        max-height:115rpx;
+        overflow-x:auto;
+        .focusArea-item {
+          border: 1px solid #ff6a3c;
+          color: #ff6a3c;
+          padding: 0 2rpx 0 2rpx;
+          margin-right: 20rpx;
+          margin-top: 10rpx;
+        }
+      }
+      .btn-ok {
+        color:#ff6a3c;
+        float:right;
+        margin-top:20rpx;
+        transition:all 0.2s;
+        width:150rpx;
+        height:70rpx;
+        line-height:70rpx;
+        text-align:center;
+        &:hover{
+          background:#ff6a3c;
+          color:#fff;
+        }
+      }
+    }
   }
-}
 </style>

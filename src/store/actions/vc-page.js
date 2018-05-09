@@ -29,23 +29,51 @@ export const asyncDetailList = createAction(ASYNC_VC_DETAILLIST, (res) => {
   const vcDetailList = [{
     id: 0,
     parentId: 0,
-    thumLogo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2934981818,202476935&fm=27&gp=0.jpg',
-    name: '医疗'
+    name: '真格基金1',
+    foucsArea: ['医疗', '生物科技'],
+    rounds: ['A轮', 'B轮', '天使轮']
   }, {
     id: 1,
     parentId: 1,
-    thumLogo: '../images/common.jpg',
-    name: '科技'
+    name: '科技基金',
+    foucsArea: ['科技', '计算机'],
+    rounds: ['A轮', 'C轮', '天使轮']
   }, {
     id: 2,
     parentId: 2,
-    thumLogo: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2934981818,202476935&fm=27&gp=0.jpg',
-    name: '消费'
+    name: '消费基金',
+    foucsArea: ['消费', '茅台'],
+    rounds: ['A轮', 'B轮', '天使轮']
   }, {
     id: 3,
     parentId: 3,
-    thumLogo: '../images/common.jpg',
-    name: 'AI'
+    name: 'AI基金',
+    foucsArea: ['人工智能', '生物改造'],
+    rounds: ['A轮', 'C轮', '天使轮']
+  }, {
+    id: 4,
+    parentId: 0,
+    name: '真格基金2',
+    foucsArea: ['医疗', '生物科技'],
+    rounds: ['A轮', 'E轮', '天使轮']
+  }, {
+    id: 5,
+    parentId: 0,
+    name: '真格基金3',
+    foucsArea: ['医疗', '生物科技'],
+    rounds: ['A轮', 'B轮', '天使轮']
+  }, {
+    id: 6,
+    parentId: 0,
+    name: '真格基金4',
+    foucsArea: ['医疗', '生物科技'],
+    rounds: ['A轮', 'B轮', '天使轮']
+  }, {
+    id: 7,
+    parentId: 0,
+    name: '真格基金5',
+    foucsArea: ['医疗', '生物科技'],
+    rounds: ['A轮', 'B轮', '天使轮']
   }]
   return new Promise(resolve => {
     setTimeout(() => {
