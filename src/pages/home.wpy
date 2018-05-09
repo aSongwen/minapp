@@ -48,9 +48,14 @@
     }
     onLoad() {
       const store = getStore()
-      console.log(store)
-      store.dispatch(asyncHomeSliderImg())
-      store.dispatch(asyncHomeVcImg())
+      wepy.showLoading({
+        title: 'loading...'
+      })
+      Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg())]).then(() => {
+        wepy.hideLoading()
+        store.dispatch(asyncHomeSliderImg())
+        store.dispatch(asyncHomeVcImg())
+      })
     }
     methods = {
     }
