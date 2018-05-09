@@ -16,7 +16,6 @@
       return state.vcPage.vcDetailList
     },
     vcCateList(state) {
-      // console.dir(state.vcPage.vcCateList)
       return state.vcPage.vcCateList
     }
   })
@@ -33,10 +32,9 @@
     }
     onLoad() {
       const store = getStore()
-      console.log(store)
-      store.dispatch(asyncVcCateList())
-      store.dispatch(asyncDetailList())
-      this.$broadcast('EdataCate')
+      Promise.all([store.dispatch(asyncVcCateList()), store.dispatch(asyncDetailList())]).then(res => {
+        this.$broadcast('EdataCate')
+      })
     }
     onShow() {}
     computed = {}
