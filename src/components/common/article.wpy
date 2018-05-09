@@ -1,0 +1,40 @@
+<template>
+  <view class="vc">
+    <image src="{{articleData.src}}" class="vc-image-article"></image>
+    <text class="vc-text-article">{{articleData.text}}</text>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import { connect, getStore } from 'wepy-redux'
+  import { article } from '../../store/actions'
+  @connect({
+    articleData(state) {
+      return state.actionsCom.articleData
+    }
+  })
+  export default class extends wepy.component {
+    onLoad() {
+      const store = getStore()
+      store.dispatch(article())
+    }
+  }
+</script>
+<style lang="less">
+  .vc{
+    flex-wrap: wrap;
+    .vc-image-article{
+      width: 100vw;
+      height: 302rpx;
+    }
+    .vc-text-article{
+      align-self: center;
+      text-align: right;
+      width: 100vw;
+      font-size: 14px;
+      font-family: Arial;
+      color: #101010;
+      margin-right: 40rpx;
+    }
+  }
+</style>
