@@ -7,14 +7,8 @@
 
 <script>
   import wepy from 'wepy'
-  import {
-    connect,
-    getStore
-  } from 'wepy-redux'
-  import {
-    asyncVcCateList,
-    asyncDetailList
-  } from '../store/actions'
+  import { connect, getStore } from 'wepy-redux'
+  import { asyncVcCateList, asyncDetailList } from '../store/actions'
   import classify from '../components/common/classify'
   import popup from '../components/common/popup'
   @connect({
@@ -22,7 +16,7 @@
       return state.vcPage.vcDetailList
     },
     vcCateList(state) {
-      console.dir(state.vcPage.vcCateList)
+      // console.dir(state.vcPage.vcCateList)
       return state.vcPage.vcCateList
     }
   })
@@ -39,6 +33,7 @@
     }
     onLoad() {
       const store = getStore()
+      console.log(store)
       store.dispatch(asyncVcCateList())
       store.dispatch(asyncDetailList())
       this.$broadcast('EdataCate')
