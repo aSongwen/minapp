@@ -33,7 +33,11 @@
     }
     onLoad() {
       const store = getStore()
+      wepy.showLoading({
+        title: 'loading...'
+      })
       Promise.all([store.dispatch(asyncVcCateList()), store.dispatch(asyncDetailList())]).then(res => {
+        wepy.hideLoading()
         this.$broadcast('EdataCate')
       })
     }
