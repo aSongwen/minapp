@@ -14,6 +14,6 @@ export default handleActions({
     }
   }
 }, {
-  vcCateList: [1, 2, 3],
-  vcDetailList: [2]
+  vcCateList: [],
+  vcDetailList: []
 })
