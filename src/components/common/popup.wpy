@@ -1,18 +1,38 @@
 <template>
   <view class="wrap" style="{{show}}">
     <view class="window">
-      <view style="font-size:40rpx; color:#000;">{{vcDetail.name}}</view>
-      <view class="focusArea">关注领域：</view>
-      <view class="focusArea-wrap">
-      <repeat for="{{vcDetail.foucsArea}}" key="item" index="index">
-        <text class="focusArea-item">{{item}}</text>
-      </repeat>
+      <view style="font-size:40rpx; color:#000;">{{detail.name}}</view>
+      <view wx:if="{{dataType === 'vcPage'}}">
+        <view class="focusArea">关注领域：</view>
+        <view class="focusArea-wrap">
+          <repeat for="{{detail.foucsArea}}" key="item" index="index">
+            <text class="focusArea-item">{{item}}</text>
+          </repeat>
+        </view>
+        <view style="margin-top:20rpx">投资轮次：</view>
+        <view class="focusArea-wrap">
+          <repeat for="{{detail.rounds}}" key="item" index="index">
+            <text class="focusArea-item">{{item}}</text>
+          </repeat>
+        </view>
       </view>
-      <view style="margin-top:20rpx">投资轮次：</view>
-      <view class="focusArea-wrap">
-      <repeat for="{{vcDetail.rounds}}" key="item" index="index">
-        <text class="focusArea-item">{{item}}</text>
-      </repeat>
+      <view wx:elif="{{dataType === 'startupPage'}}">
+        <view class="focusArea">创业领域：</view>
+        <view class="focusArea-wrap">
+          <repeat for="{{detail.foucsArea}}" key="item" index="index">
+            <text class="focusArea-item">{{item}}</text>
+          </repeat>
+        </view>
+        <view style="margin-top:20rpx">所在轮次：</view>
+        <view class="focusArea-wrap">
+          <repeat for="{{detail.rounds}}" key="item" index="index">
+            <text class="focusArea-item">{{item}}</text>
+          </repeat>
+        </view>
+        <view style="margin-top:20rpx">产品介绍：</view>
+        <text class="product-info">我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
+我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
+        </text>
       </view>
       <view class="btn-ok" @tap="hidePopup">好的</view>
     </view>
@@ -27,9 +47,12 @@
         type: String,
         twoWay: true
       },
-      vcDetail: {
+      detail: {
         type: Object,
         twoWay: true
+      },
+      dataType: {
+        type: String
       }
     }
     data = {}
@@ -53,7 +76,7 @@
     justify-content: flex-end;
     align-items: center;
     .window {
-      height: 550rpx;
+      min-height: 550rpx;
       width: 590rpx;
       background: #f5f5f5;
       position: relative;
@@ -66,10 +89,10 @@
       .focusArea-wrap {
         margin-top: 10rpx;
         line-height: 60rpx;
-        max-height:115rpx;
-        overflow-x:auto;
+        max-height: 115rpx;
+        overflow-x: auto;
         .focusArea-item {
-          border: 1px solid #ff6a3c;
+          border-bottom: 1px solid #ff6a3c;
           color: #ff6a3c;
           padding: 0 2rpx 0 2rpx;
           margin-right: 20rpx;
@@ -77,19 +100,24 @@
         }
       }
       .btn-ok {
-        color:#ff6a3c;
-        float:right;
-        margin-top:20rpx;
-        transition:all 0.2s;
-        width:150rpx;
-        height:70rpx;
-        line-height:70rpx;
-        text-align:center;
-        &:hover{
-          background:#ff6a3c;
-          color:#fff;
+        background: #ff6a3c;
+        color: #fff;
+        float: right;
+        margin-top: 20rpx;
+        transition: all 0.2s;
+        width: 150rpx;
+        height: 70rpx;
+        line-height: 70rpx;
+        text-align: center;
+        &:hover {
+          color: #f5f5f5;
         }
       }
     }
   }
+        .product-info {
+          display: inline-block;
+        max-height:250rpx;
+        overflow-y:auto;
+      }
 </style>

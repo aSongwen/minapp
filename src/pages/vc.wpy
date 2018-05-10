@@ -1,5 +1,5 @@
 <template>
-  <vc-popup :show.sync="vcPopupCss" :vcDetail.sync="vcPopupDetail">
+  <vc-popup :show.sync="vcPopupCss" :detail.sync="vcPopupDetail" :dataType.sync="dataType">
   </vc-popup>
   <classify :rootcateList.sync="vcCateList" :testData.sync="vcDetailList">
   </classify>
@@ -19,7 +19,7 @@
       return state.vcPage.vcCateList
     }
   })
-  export default class Classify extends wepy.page {
+  export default class extends wepy.page {
     config = {
       navigationBarTitleText: '分类'
     }
@@ -29,7 +29,8 @@
     }
     data = {
       vcPopupCss: 'display: none',
-      vcPopupDetail: {}
+      vcPopupDetail: {},
+      dataType: 'vcPage'
     }
     onLoad() {
       const store = getStore()

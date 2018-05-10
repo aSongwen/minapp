@@ -31,9 +31,6 @@
       align-self: center;
       text-align: right;
       width: 100vw;
-      font-size: 14px;
-      font-family: Arial;
-      color: #101010;
       margin-right: 40rpx;
     }
   }

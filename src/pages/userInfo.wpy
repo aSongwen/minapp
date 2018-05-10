@@ -1,8 +1,7 @@
 <template>
   <view>
     <view class="userinfo">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <view class="userinfo-nickname">{{userInfo.nickName}}</view>
+      <button @tap="getUserInfo">123</button>
     </view>
     <view class="per-navigation">
       <userItem>
@@ -32,17 +31,21 @@
       userInfo: {
         nickName: '加载中...'
       },
-      codeImg: ''
+      codeImg: '../images/qrcode.jpg'
     }
     components = {
       userItem
     }
-    onLoad() {
-      let self = this
-      this.$parent.getUserInfo((userInfo) => {
-        userInfo && (self.userInfo = userInfo)
-      })
+    getUserInfo(res) {
+      console.log(res.detail)
     }
+    // onLoad() {
+    //   let self = this
+    //   this.$parent.getUserInfo((userInfo) => {
+    //     userInfo && (self.userInfo = userInfo)
+    //     self.$apply()
+    //   })
+    // }
   }
 </script>
 
