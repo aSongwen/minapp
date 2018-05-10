@@ -132,8 +132,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         width: 170rpx;
-
-        color: #ff6a3c;
+        color: #666;
       }
       .children_item {
         width: 170rpx;

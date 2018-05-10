@@ -18,6 +18,7 @@
     <view class="qr-code">
       <image class="code-img" src="{{codeImg}}"></image>
     </view>
+    <button bindgetuserinfo='getUserInfo' open-type='getUserInfo'>我觉得ok</button>
   </view>
 </template>
 
@@ -38,10 +39,16 @@
       userItem
     }
     onLoad() {
-      let self = this
-      this.$parent.getUserInfo((userInfo) => {
-        userInfo && (self.userInfo = userInfo)
-      })
+      // let self = this
+      // this.$parent.getUserInfo((userInfo) => {
+      //   userInfo && (self.userInfo = userInfo)
+      //   self.$apply()
+      // })
+    }
+    methods = {
+      getUserInfo: (res) => {
+        console.log(res)
+      }
     }
   }
 </script>
