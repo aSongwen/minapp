@@ -16,7 +16,8 @@
       pages: [
         'pages/home',
         'pages/index',
-        'pages/vc'
+        'pages/vc',
+        'pages/user'
       ],
       window: {
         backgroundTextStyle: 'light',
