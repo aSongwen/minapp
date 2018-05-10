@@ -1,0 +1,65 @@
+<template>
+  <startup-popup :show.sync="startupPopupCss" :detail.sync="startupPopupDetail" :dataType.sync="dataType">
+  </startup-popup>
+  <classify :rootcateList.sync="startupCateList" :testData.sync="startupDetailList">
+  </classify>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect, getStore } from 'wepy-redux'
+  import { asyncStartupCateList, asyncStartupDetailList } from '../store/actions'
+  import classify from '../components/common/classify'
+  import popup from '../components/common/popup'
+  @connect({
+    startupDetailList(state) {
+      return state.startupPage.startupDetailList
+    },
+    startupCateList(state) {
+      return state.startupPage.startupCateList
+    }
+  })
+  export default class Classify extends wepy.page {
+    config = {
+      navigationBarTitleText: '分类'
+    }
+    components = {
+      classify,
+      'startup-popup': popup
+    }
+    data = {
+      startupPopupCss: 'display: none',
+      startupPopupDetail: {},
+      dataType: 'startupPage'
+    }
+    onLoad() {
+      const store = getStore()
+      wepy.showLoading({
+        title: 'loading...'
+      })
+      Promise.all([store.dispatch(asyncStartupCateList()), store.dispatch(asyncStartupDetailList())]).then(res => {
+        wepy.hideLoading()
+        this.$broadcast('EdataCate')
+      })
+    }
+    onShow() {}
+    startupDetailById(index) {
+      return this.startupDetailList.filter(({id}) => id === index)
+    }
+    computed = {}
+    methods = {}
+    events = {
+      showDetail(index) {
+        this.startupPopupCss = 'display: flex'
+        const startupDetail = this.startupDetailById(index)
+        if (startupDetail.length > 0) this.startupPopupDetail = startupDetail[0]
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  page {
+    background: #f5f5f5;
+  }
+</style>

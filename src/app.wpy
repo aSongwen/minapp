@@ -1,13 +1,13 @@
-<style lang="less">
-  @import "./styles/base";
-  @import "./styles/icon";
-  @import "./styles/style";
+<style lang='less'>
+  @import './styles/base';
 </style>
 
 <script>
   import wepy from 'wepy'
   import 'wepy-async-function'
-  import { setStore } from 'wepy-redux'
+  import {
+    setStore
+  } from 'wepy-redux'
   import configStore from './store'
   const store = configStore()
   setStore(store)
@@ -15,13 +15,40 @@
     config = {
       pages: [
         'pages/home',
-        'pages/index',
-        'pages/vc'
+        'pages/vc',
+        'pages/startup'
       ],
       window: {
         backgroundTextStyle: 'light',
         navigationBarBackgroundColor: '#f8f8f8',
         navigationBarTextStyle: 'black'
+      },
+      tabBar: {
+        'color': '#666',
+        'selectedColor': '#ff6a3c',
+        'backgroundColor': '#fff',
+        'borderStyle': '#f6f6f6',
+        'list': [{
+          'pagePath': 'pages/home',
+          'text': '主页',
+          'selectedIconPath': './images/icon-home-selected.png',
+          'iconPath': './images/icon-home.png'
+        }, {
+          'pagePath': 'pages/vc',
+          'text': '投资机构',
+          'selectedIconPath': './images/icon-vc-selected.png',
+          'iconPath': './images/icon-vc.png'
+        }, {
+          'pagePath': 'pages/startup',
+          'text': '创业项目',
+          'selectedIconPath': './images/icon-startup-selected.png',
+          'iconPath': './images/icon-startup.png'
+        }, {
+          'pagePath': 'pages/vc',
+          'text': '个人信息',
+          'selectedIconPath': './images/icon-user-selected.png',
+          'iconPath': './images/icon-user.png'
+        }]
       }
     }
     globalData = {

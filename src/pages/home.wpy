@@ -77,15 +77,12 @@
     align-self: center;
     text-align: center;
     width: 270rpx;
-    font-size: 14px;
-    font-family: Arial;
-    color: #101010;
   }
 }
 .footer{
   width: 100vw;
   height: 118rpx;
-  background-color: #f8f8f8;
+  background-color: #f5f5f5;
   text-align: center;
   line-height: 118rpx;
 }
