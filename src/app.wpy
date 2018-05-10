@@ -45,7 +45,7 @@
           'selectedIconPath': './images/icon-startup-selected.png',
           'iconPath': './images/icon-startup.png'
         }, {
-          'pagePath': 'pages/vc',
+          'pagePath': 'pages/userInfo',
           'text': '个人信息',
           'selectedIconPath': './images/icon-user-selected.png',
           'iconPath': './images/icon-user.png'

@@ -19,7 +19,7 @@
       return state.vcPage.vcCateList
     }
   })
-  export default class Classify extends wepy.page {
+  export default class extends wepy.page {
     config = {
       navigationBarTitleText: '分类'
     }
