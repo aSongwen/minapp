@@ -10,7 +10,7 @@
       </userItem>
       <userItem>
         <view slot="personalInfo">以交流项目</view>
-      </perInfoItem>
+      </userItem>
       <userItem class="border-none">
         <view slot="personalInfo">动点创投介绍</view>
       </userItem>
