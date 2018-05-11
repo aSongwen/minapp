@@ -1,4 +1,6 @@
 <template>
+  <loginBox>
+  </loginBox>
   <view>
     <view class="userinfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
@@ -18,25 +20,30 @@
     <view class="qr-code">
       <image class="code-img" src="{{codeImg}}"></image>
     </view>
-    <button bindgetuserinfo='getUserInfo' open-type='getUserInfo'>我觉得ok</button>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import {
+    connect
+  } from 'wepy-redux'
   import userItem from '../components/common/userItem'
+  import loginBox from '../components/common/login-box'
+  @connect({
+    userInfo(state) {
+      return state.userInfo.detail
+    }
+  })
   export default class extends wepy.page {
     config = {
       navigationBarTitleText: '个人信息'
     }
     data = {
-      userInfo: {
-        nickName: '加载中...'
-      },
-      codeImg: ''
     }
     components = {
-      userItem
+      userItem,
+      loginBox
     }
     onLoad() {
       // let self = this
@@ -45,45 +52,41 @@
       //   self.$apply()
       // })
     }
-    methods = {
-      getUserInfo: (res) => {
-        console.log(res)
-      }
-    }
+    methods = {}
   }
 </script>
 
 <style lang="less">
-  page{
+  page {
     background-color: #f5f5f5;
   }
-  .userinfo{
+  .userinfo {
     padding: 60rpx 0;
     text-align: center;
     background-color: #fff;
-    .userinfo-avatar{
+    .userinfo-avatar {
       width: 140rpx;
       height: 140rpx;
       border: 2px solid #fff;
       border-radius: 50%;
-      box-shadow:3px 3px 10px rgba(0,0,0,0.2);
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     }
   }
-  .per-navigation{
+  .per-navigation {
     background-color: #fff;
     margin-top: 20rpx;
     padding: 0 20rpx;
-    .border-none{
+    .border-none {
       border: none;
     }
   }
-  .qr-code{
+  .qr-code {
     background-color: #fff;
     width: 100vw;
     margin-top: 20rpx;
     padding: 40rpx 0;
     text-align: center;
-    .code-img{
+    .code-img {
       width: 320rpx;
       height: 320rpx;
     }

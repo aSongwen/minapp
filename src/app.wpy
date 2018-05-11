@@ -60,7 +60,17 @@
       super()
       this.use('requestfix')
     }
-    onLaunch() {
+    async onLaunch() {
+      wepy.login({
+        success: function(res) {
+          if (res.code) {
+            console.log(res.code)
+          } else {
+            console.log('登录失败！' + res.errMsg)
+          }
+        }
+      })
+
       wepy.getSystemInfo({
         success: function(res) {
           wepy.setStorage({

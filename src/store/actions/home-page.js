@@ -10,7 +10,7 @@ export const asyncHomeSliderImg = createAction(ASYNC_HOME_SLIDERIMG, (res) => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(silderImg)
-    }, 1000)
+    }, 0)
   })
 })
 
@@ -32,6 +32,6 @@ export const asyncHomeVcImg = createAction(ASYNC_HOME_VCIMG, (res) => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vcImg)
-    }, 1000)
+    }, 0)
   })
 })

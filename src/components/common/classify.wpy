@@ -69,7 +69,6 @@
     }
     events = {
       EdataCate() {
-        console.log(`触发EdataCate`)
         if (this.rootcateList.length > 0) {
           this.dataCate(this.rootcateList[0].id)
         } else {

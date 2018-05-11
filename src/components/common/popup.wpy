@@ -1,5 +1,5 @@
 <template>
-  <view class="wrap" style="{{show}}">
+  <view class="popupwrap" style="{{show}}">
     <view class="window">
       <view style="font-size:40rpx; color:#000;">{{detail.name}}</view>
       <view wx:if="{{dataType === 'vcPage'}}">
@@ -31,10 +31,10 @@
         </view>
         <view style="margin-top:20rpx">产品介绍：</view>
         <text class="product-info">我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
-我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
-        </text>
+  我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
+          </text>
       </view>
-      <view class="btn-ok" @tap="hidePopup">好的</view>
+      <view class="btn-ok" @tap="hidePopup" style="{{btnShow}}">好的</view>
     </view>
   </view>
 </template>
@@ -45,7 +45,8 @@
     props = {
       show: {
         type: String,
-        twoWay: true
+        twoWay: true,
+        default: 'visibility:hidden;'
       },
       detail: {
         type: Object,
@@ -53,26 +54,32 @@
       },
       dataType: {
         type: String
+      },
+      btnShow: {
+        type: String,
+        twoWay: true
       }
     }
     data = {}
     methods = {
-      hidePopup() {
-        this.show = 'display: none'
+      hidePopup(e) {
+        this.show = 'visibility:hidden;'
+        this.btnShow = 'display:none;'
       }
     }
   }
 </script>
 
 <style lang="less">
-  .wrap {
+  .popupwrap {
+    visibility: hidden;
+    display: flex;
     height: 100%;
     width: 100%;
     position: fixed;
     left: 0;
     top: 0;
     z-index: 1000;
-    display: flex;
     justify-content: flex-end;
     align-items: center;
     .window {
@@ -115,9 +122,9 @@
       }
     }
   }
-        .product-info {
-          display: inline-block;
-        max-height:250rpx;
-        overflow-y:auto;
-      }
+  .product-info {
+    display: inline-block;
+    max-height: 250rpx;
+    overflow-y: auto;
+  }
 </style>

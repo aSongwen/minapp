@@ -1,5 +1,6 @@
 <template>
-  <startup-popup :show.sync="startupPopupCss" :detail.sync="startupPopupDetail" :dataType.sync="dataType">
+<loginBox></loginBox>
+  <startup-popup :show.sync="startupPopupCss" :detail.sync="startupPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
   </startup-popup>
   <classify :rootcateList.sync="startupCateList" :testData.sync="startupDetailList">
   </classify>
@@ -10,7 +11,9 @@
   import { connect, getStore } from 'wepy-redux'
   import { asyncStartupCateList, asyncStartupDetailList } from '../store/actions'
   import classify from '../components/common/classify'
+  import loginBox from '../components/common/login-box'
   import popup from '../components/common/popup'
+  
   @connect({
     startupDetailList(state) {
       return state.startupPage.startupDetailList
@@ -25,12 +28,14 @@
     }
     components = {
       classify,
-      'startup-popup': popup
+      'startup-popup': popup,
+      loginBox
     }
     data = {
-      startupPopupCss: 'display: none',
+      startupPopupCss: 'visibility:hidden;',
       startupPopupDetail: {},
-      dataType: 'startupPage'
+      dataType: 'startupPage',
+      btnShow: 'display:block;'
     }
     onLoad() {
       const store = getStore()
@@ -50,7 +55,8 @@
     methods = {}
     events = {
       showDetail(index) {
-        this.startupPopupCss = 'display: flex'
+        this.startupPopupCss = 'visibility:visible;'
+        this.btnShow = 'display:block;'
         const startupDetail = this.startupDetailById(index)
         if (startupDetail.length > 0) this.startupPopupDetail = startupDetail[0]
       }
