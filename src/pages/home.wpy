@@ -9,15 +9,20 @@
         </block>
       </repeat>
     </swiper>
-    <repeat for="{{vcImg}}" key="item" index="index" item="item">
-      <view class="vc">
-        <image src="{{item.src}}" class="vc-image"></image>
-        <text class="vc-text">{{item.text}}</text>
-      </view>
-      <article wx:if='{{index===1}}'></article>
-    </repeat>
+    <view class="vc-article">
+      <repeat for="{{vcImg}}" key="item" index="index" item="item">
+        <view class="vc">
+          <image src="{{item.src}}" class="vc-image"></image>
+          <view class="vc-tit">
+            <text class="vc-text">{{item.text}}</text>
+            <view class="vc-describe">{{item.describe}}</view>
+            <view class="vc-time">{{time}}</view>
+          </view>
+        </view>
+        <article wx:if='{{index===1}}'></article>
+      </repeat>
+    </view>
   </view>
-  <view class="footer">底边栏</view>
 </template>
 
 <script>
@@ -25,6 +30,7 @@
   import article from '../components/common/article'
   import { connect, getStore } from 'wepy-redux'
   import { asyncHomeSliderImg, asyncHomeVcImg } from '../store/actions'
+  import { formatMsgTime } from '../utils/format'
   @connect({
     silderImg(state) {
       return state.homePage.sliderImg
@@ -41,7 +47,8 @@
       indicatorDots: true,
       autoplay: true,
       interval: 1000,
-      duration: 1000
+      duration: 1000,
+      time: ''
     }
     components = {
       article
@@ -51,44 +58,61 @@
       wepy.showLoading({
         title: 'loading...'
       })
+      store.dispatch(asyncHomeSliderImg())
+      store.dispatch(asyncHomeVcImg())
       Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg())]).then(() => {
         wepy.hideLoading()
-        store.dispatch(asyncHomeSliderImg())
-        store.dispatch(asyncHomeVcImg())
       })
+      this.time = formatMsgTime(new Date('2018/04/28 10:26'))
     }
-    methods = {
-    }
+    methods = {}
   }
 </script>
 
 <style lang="less">
-.slider-box{
-  margin-top:40rpx;
-  .slide-image{
-    width: 100vw;
-    height: 100%;
+  .slider-box {
+    .slide-image {
+      width: 100vw;
+      height: 100%;
+    }
   }
-}
-.vc{
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 40rpx;
-  .vc-image{
-    width: 480rpx;
-    height: 302rpx;
+  .vc-article{
+    padding: 30rpx 0;
   }
-  .vc-text{
-    align-self: center;
-    text-align: center;
-    width: 270rpx;
+  .vc {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30rpx;
+    padding: 0 30rpx;
+    .vc-image {
+      width: 300rpx;
+      height: 230rpx;
+    }
+    .vc-tit {
+      width: 390rpx;
+      height: 230rpx;
+      padding: 20rpx 0 20rpx 20rpx;
+      box-sizing: border-box;
+      text-align: right;
+      .vc-text {
+        font-size: 38rpx;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+      }
+      .vc-describe, .vc-time {
+        width: 100%;
+        position: relative;
+        top: 20rpx;
+      }
+      .vc-time {
+        top: 60rpx;
+      }
+    }
   }
-}
-.footer{
-  width: 100vw;
-  height: 118rpx;
-  background-color: #f5f5f5;
-  text-align: center;
-  line-height: 118rpx;
-}
+  .vc:nth-child(1){
+    margin-top: 0;
+  }
 </style>

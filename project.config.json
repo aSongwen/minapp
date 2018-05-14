@@ -1,0 +1,61 @@
+{
+	"description": "A WePY project",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxb6c9a41ebbb04dee",
+	"projectname": "vc",
+	"miniprogramRoot": "./dist",
+	"libVersion": "1.9.98",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "vc",
+					"pathName": "pages/vc",
+					"query": ""
+				},
+				{
+					"id": 1,
+					"name": "userInfo",
+					"pathName": "pages/userInfo",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "communicated",
+					"pathName": "pages/communicated",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "comdetails",
+					"pathName": "pages/comDetails",
+					"query": ""
+				}
+			]
+		}
+	}
+}

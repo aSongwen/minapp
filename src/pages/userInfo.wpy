@@ -3,16 +3,18 @@
   </loginBox>
   <view>
     <view class="userinfo">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <view class="userinfo-nickname">{{userInfo.nickName}}</view>
+      <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar"></image>
+      <view>{{userInfo.nickName}}</view>
     </view>
     <view class="per-navigation">
       <userItem>
         <view slot="personalInfo">个人信息</view>
       </userItem>
-      <userItem>
-        <view slot="personalInfo">以交流项目</view>
-      </userItem>
+      <navigator url="{{communicated}}">
+        <userItem>
+          <view slot="personalInfo">面谈记录</view>
+        </userItem>
+      </navigator>
       <userItem class="border-none">
         <view slot="personalInfo">动点创投介绍</view>
       </userItem>

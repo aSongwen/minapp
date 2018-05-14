@@ -1,0 +1,39 @@
+<template>
+  <view>
+    <comheader>
+      <view slot="comHeader">项目列表</view>
+    </comheader>
+    <comitem :comData.sync="communicatedData"></comitem>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import comItem from '../components/common/communicatedItem'
+  import comHeader from '../components/common/header'
+  import { connect, getStore } from 'wepy-redux'
+  import { communicatedData } from '../store/actions'
+  @connect({
+    communicatedData(state) {
+      return state.communicatedPage.comData
+    }
+  })
+  export default class extends wepy.page {
+    config = {
+      navigationBarTitleText: '已交流项目'
+    }
+    data = {}
+    components = {
+      comitem: comItem,
+      comheader: comHeader
+    }
+    onLoad() {
+      const store = getStore()
+      store.dispatch(communicatedData())
+    }
+  }
+</script>
+<style lang="less">
+  page{
+    background-color: #f5f5f5;
+  }
+</style>

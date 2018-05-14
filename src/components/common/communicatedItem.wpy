@@ -1,0 +1,43 @@
+<template>
+  <repeat for="{{comData}}" key="index" index="index" item="item">
+    <navigator url="../pages/comDetails" @tap="getIdxData" data-id="{{item.id}}">
+      <view class="comItem">
+        <view class="comItem-name">{{item.comName}}</view>
+        <view class="comIte-msg">{{item.comMsg}}</view>
+      </view>
+    </navigator>
+  </repeat>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class ComItem extends wepy.component {
+    data = {}
+    props = {
+      comData: Array
+    }
+    methods = {
+      getIdxData(e) {
+        const id = e.currentTarget.dataset.id
+        const sendData = this.comData.filter((val) => val.id === id)
+      }
+    }
+    event = {
+    }
+  }
+</script>
+<style lang="less">
+  .comItem{
+    width: 100%;
+    padding: 60rpx;
+    background-color: #fff;
+    margin-bottom: 20rpx;
+    .comItem-name{
+      font-size: 38rpx;
+      font-weight: 400;
+    }
+    .comIte-msg{
+      font-size: 25rpx;
+      margin-top: 10rpx;
+    }
+  }
+</style>
