@@ -4,23 +4,50 @@
       <view slot="comHeader">创业项目详情（有待改进）</view>
     </comheader>
     <view class="details">
-      <repeat for="{{}}">
-        <label>{{}}</label>
-        <label>{{}}</label>
-      </repeat>
+      <view class="details-box">
+        <repeat for="{{detailsData}}" key="item" index="index" item="item">
+          <view class="details-item">
+            <label class="details-name">项目名称</label>
+            <label class="details-txt">{{item.company}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">创业领域</label>
+            <label class="details-txt">{{item.focusArea}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">所处轮次</label>
+            <label class="details-txt">{{item.rounds}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">项目BP</label>
+            <label class="details-txt">{{}}</label>
+          </view>
+        </repeat>
+      </view>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   import comHeader from '../components/common/header'
+  import { connect } from 'wepy-redux'
+  @connect({
+    getData(state) {
+      return state.communicatedPage.comData
+    }
+  })
   export default class extends wepy.page {
     config = {
       navigationBarTitleText: '创业项目详情（有待改进）'
     }
-    data = {}
+    data = {
+      detailsData: {}
+    }
     components = {
       comheader: comHeader
+    }
+    onLoad(option) {
+      this.detailsData = this.getData.filter(({ id }) => id === +option.id)
     }
   }
 </script>
@@ -29,8 +56,35 @@
     background-color: #f5f5f5;
   }
   .details{
+    box-sizing: border-box;
     width: 100vw;
     padding: 40rpx;
     background-color: #fff;
+    .details-box{
+      width: 400rpx;
+      margin: 0 auto;
+    }
+    .details-item{
+      margin-top: 20rpx;
+    }
+    .details-name{
+      display:inline-block;
+      width: 150rpx;
+      position: relative;
+      float: left;
+    }
+    .details-name:after{
+      display: inline-block;
+      content: ":";
+      position: absolute;
+      right: 10rpx;
+    }
+    .details-txt{
+      position: relative;
+      left: 10rpx;
+      display: inline-block;
+      width: 250rpx;
+      word-wrap: break-word;
+    }
   }
 </style>

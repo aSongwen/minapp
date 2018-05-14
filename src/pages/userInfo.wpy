@@ -8,7 +8,7 @@
       <userItem>
         <view slot="personalInfo">个人信息</view>
       </userItem>
-      <navigator url="{{communicated}}">
+      <navigator url="{{url.communicated}}">
         <userItem>
           <view slot="personalInfo">面谈记录</view>
         </userItem>
@@ -19,6 +19,9 @@
     </view>
     <view class="qr-code">
       <image class="code-img" src="{{codeImg}}"></image>
+    </view>
+    <view class="sacn">
+      <image></image>
     </view>
   </view>
 </template>
@@ -35,7 +38,9 @@
         nickName: '加载中...'
       },
       codeImg: '../images/qrcode.jpg',
-      communicated: './communicated'
+      url: {
+        communicated: './communicated'
+      }
     }
     components = {
       userItem

@@ -1,11 +1,12 @@
 <template>
   <repeat for="{{comData}}" key="index" index="index" item="item">
-    <navigator url="../pages/comDetails" @tap="getIdxData" data-id="{{item.id}}">
-      <view class="comItem">
-        <view class="comItem-name">{{item.comName}}</view>
-        <view class="comIte-msg">{{item.comMsg}}</view>
+    <view class="comItem" @tap='getIdxData' data-id="{{item.id}}">
+      <view class="comItem-name">{{item.company}}</view>
+      <view class="comIte-msg">
+        <label class="focusArea">领域</label>
+        <label class="focusArea-txt">{{item.focusArea}}</label>
       </view>
-    </navigator>
+    </view>
   </repeat>
 </template>
 <script>
@@ -13,15 +14,17 @@
   export default class ComItem extends wepy.component {
     data = {}
     props = {
-      comData: Array
+      comData: Array,
+      twoWay: true
     }
     methods = {
       getIdxData(e) {
         const id = e.currentTarget.dataset.id
-        const sendData = this.comData.filter((val) => val.id === id)
+        console.log(id)
+        wepy.redirectTo({
+          url: `../pages/comDetails?id=${id}`
+        })
       }
-    }
-    event = {
     }
   }
 </script>
@@ -38,6 +41,16 @@
     .comIte-msg{
       font-size: 25rpx;
       margin-top: 10rpx;
+      .focusArea:after{
+        display: inline-block;
+        content: ':';
+        position: relative;
+        left: 5rpx;
+      }
+      .focusArea-txt{
+        position: relative;
+        left: 10rpx;
+      }
     }
   }
 </style>

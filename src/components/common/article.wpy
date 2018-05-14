@@ -32,24 +32,24 @@
     flex-wrap: wrap;
     .vc-image-article{
       width: 100vw;
-      height: 302rpx;
+      height: 270rpx;
     }
     .vc-text-article{
       width: 100vw;
+      font-size: 35rpx;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
       overflow: hidden;
     }
     .vc-describe, .vc-time {
-      text-align: right;
+      text-align: left;
       width: 100vw;
       position: relative;
-      top: 20rpx;
-      right: 30rpx;
+      top: 10rpx;
     }
-    .vc-time {
-      // top: 60rpx;
+    .vc-time{
+      top: 15rpx;
     }
   }
 </style>
