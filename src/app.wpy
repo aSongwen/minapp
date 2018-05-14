@@ -19,7 +19,9 @@
         'pages/startup',
         'pages/userInfo',
         'pages/communicated',
-        'pages/comDetails'
+        'pages/comDetails',
+        'pages/vcApply',
+        'pages/entApply'
       ],
       window: {
         backgroundTextStyle: 'light',

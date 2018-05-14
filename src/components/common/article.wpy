@@ -44,7 +44,7 @@
     }
     .vc-describe, .vc-time {
       text-align: left;
-      width: 100vw;
+      width: 100%;
       position: relative;
       top: 10rpx;
     }

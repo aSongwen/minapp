@@ -1,0 +1,12 @@
+<template>
+
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class extends wepy.component {
+    data = {}
+  }
+</script>
+<style lang="less">
+  
+</style>

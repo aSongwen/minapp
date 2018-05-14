@@ -45,28 +45,15 @@
       navigationBarTitleText: '个人信息'
     }
     data = {
-<<<<<<< HEAD
-      userInfo: {
-        nickName: '加载中...'
-      },
-      codeImg: '../images/qrcode.jpg',
       url: {
         communicated: './communicated'
       }
-=======
->>>>>>> c1581c02ff715559f836d370c3076740ea638fea
     }
     components = {
       userItem,
       loginBox
     }
-    onLoad() {
-      // let self = this
-      // this.$parent.getUserInfo((userInfo) => {
-      //   userInfo && (self.userInfo = userInfo)
-      //   self.$apply()
-      // })
-    }
+    onLoad() {}
     methods = {}
   }
 </script>

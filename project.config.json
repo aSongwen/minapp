@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -53,6 +53,18 @@
 					"id": 3,
 					"name": "comdetails",
 					"pathName": "pages/comDetails",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "vcApply",
+					"pathName": "pages/vcApply",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "entApply",
+					"pathName": "pages/entApply",
 					"query": ""
 				}
 			]

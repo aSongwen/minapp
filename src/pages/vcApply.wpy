@@ -1,8 +1,20 @@
 <template>
-
+  <inforeg :iptName.sync=""></inforeg>
 </template>
 <script>
-  
+  import wepy from 'wepy'
+  import infoReg from '../components/common/infoRegister'
+  export default class extends wepy.page {
+    config = {
+      navigationBarTitleText: '投资人报名'
+    }
+    data = {
+      iptName: ['公司名称', '产品名称', '姓名', '电话', '邮箱', '职位']
+    }
+    components = {
+      inforeg: infoReg
+    }
+  }
 </script>
 <style lang="less">
   

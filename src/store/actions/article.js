@@ -7,9 +7,5 @@ export const article = createAction(ARTICLE, (res) => {
     describe: '好的好的好的好的',
     time: ''
   }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(articleData)
-    }, 1000)
-  })
+  return new Promise(resolve => resolve(articleData))
 })
