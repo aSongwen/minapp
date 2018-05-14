@@ -18,15 +18,21 @@ export const asyncHomeVcImg = createAction(ASYNC_HOME_VCIMG, (res) => {
   const vcImg = [
     {
       src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      text: '投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏'
+      text: '投资人专栏投资人专栏投资人',
+      describe: '好的好的好的好的',
+      time: ''
     },
     {
       src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      text: '投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏'
+      text: '投资人专栏投资人专栏投资人',
+      describe: '好的好的好的好的',
+      time: ''
     },
     {
       src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      text: '投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏投资人专栏'
+      text: '投资人专栏投资人专栏投资人',
+      describe: '好的好的好的好的',
+      time: ''
     }
   ]
   return new Promise(resolve => {

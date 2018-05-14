@@ -1,0 +1,36 @@
+<template>
+  <view>
+    <comheader>
+      <view slot="comHeader">创业项目详情（有待改进）</view>
+    </comheader>
+    <view class="details">
+      <repeat for="{{}}">
+        <label>{{}}</label>
+        <label>{{}}</label>
+      </repeat>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import comHeader from '../components/common/header'
+  export default class extends wepy.page {
+    config = {
+      navigationBarTitleText: '创业项目详情（有待改进）'
+    }
+    data = {}
+    components = {
+      comheader: comHeader
+    }
+  }
+</script>
+<style lang="less">
+  page{
+    background-color: #f5f5f5;
+  }
+  .details{
+    width: 100vw;
+    padding: 40rpx;
+    background-color: #fff;
+  }
+</style>

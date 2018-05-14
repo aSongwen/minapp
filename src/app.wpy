@@ -17,7 +17,9 @@
         'pages/home',
         'pages/vc',
         'pages/startup',
-        'pages/userInfo'
+        'pages/userInfo',
+        'pages/communicated',
+        'pages/comDetails'
       ],
       window: {
         backgroundTextStyle: 'light',

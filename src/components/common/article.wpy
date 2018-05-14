@@ -2,21 +2,28 @@
   <view class="vc">
     <image src="{{articleData.src}}" class="vc-image-article"></image>
     <text class="vc-text-article">{{articleData.text}}</text>
+    <view class="vc-describe">{{articleData.describe}}</view>
+    <view class="vc-time">{{time}}</view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   import { connect, getStore } from 'wepy-redux'
   import { article } from '../../store/actions'
+  import { formatMsgTime } from '../../utils/format'
   @connect({
     articleData(state) {
       return state.actionsCom.articleData
     }
   })
   export default class extends wepy.component {
+    data = {
+      time: ''
+    }
     onLoad() {
       const store = getStore()
       store.dispatch(article())
+      this.time = formatMsgTime(new Date('2018/04/28 10:26'))
     }
   }
 </script>
@@ -28,10 +35,21 @@
       height: 302rpx;
     }
     .vc-text-article{
-      align-self: center;
+      width: 100vw;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+    }
+    .vc-describe, .vc-time {
       text-align: right;
       width: 100vw;
-      margin-right: 40rpx;
+      position: relative;
+      top: 20rpx;
+      right: 30rpx;
+    }
+    .vc-time {
+      // top: 60rpx;
     }
   }
 </style>

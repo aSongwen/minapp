@@ -1,15 +1,18 @@
 <template>
   <view>
     <view class="userinfo">
-      <button @tap="getUserInfo">123</button>
+      <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar"></image>
+      <view>{{userInfo.nickName}}</view>
     </view>
     <view class="per-navigation">
       <userItem>
         <view slot="personalInfo">个人信息</view>
       </userItem>
-      <userItem>
-        <view slot="personalInfo">以交流项目</view>
-      </userItem>
+      <navigator url="{{communicated}}">
+        <userItem>
+          <view slot="personalInfo">面谈记录</view>
+        </userItem>
+      </navigator>
       <userItem class="border-none">
         <view slot="personalInfo">动点创投介绍</view>
       </userItem>
@@ -31,13 +34,17 @@
       userInfo: {
         nickName: '加载中...'
       },
-      codeImg: '../images/qrcode.jpg'
+      codeImg: '../images/qrcode.jpg',
+      communicated: './communicated'
     }
     components = {
       userItem
     }
-    getUserInfo(res) {
-      console.log(res.detail)
+    methods = {
+      getUserInfo: (res) => {
+        console.log(res.detail.userInfo)
+        this.userInfo = res.detail.userInfo
+      }
     }
     // onLoad() {
     //   let self = this

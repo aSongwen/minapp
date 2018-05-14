@@ -1,0 +1,25 @@
+<template>
+  <view class="title">
+    <slot class="tit-txt" name="comHeader"></slot>
+    <view class="tit-line"></view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class extends wepy.component {}
+</script>
+<style lang="less">
+  .title{
+    text-align: center;
+    padding: 60rpx;
+    .tit-txt{
+      padding: 0 0 20rpx;
+    }
+    .tit-line{
+      width: 130rpx;
+      height: 2rpx;
+      background-color: #666;
+      margin: 30rpx auto 0;
+    }
+  }
+</style>
