@@ -69,7 +69,6 @@
     }
     events = {
       EdataCate() {
-        console.log(`触发EdataCate`)
         if (this.rootcateList.length > 0) {
           this.dataCate(this.rootcateList[0].id)
         } else {
@@ -132,8 +131,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         width: 170rpx;
-
-        color: #ff6a3c;
+        color: #666;
       }
       .children_item {
         width: 170rpx;

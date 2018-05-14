@@ -21,7 +21,7 @@ export const asyncVcCateList = createAction(ASYNC_VC_CATELIST, (res) => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vcCateList)
-    }, 1000)
+    }, 0)
   })
 })
 
@@ -78,6 +78,6 @@ export const asyncDetailList = createAction(ASYNC_VC_DETAILLIST, (res) => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(vcDetailList)
-    }, 1000)
+    }, 0)
   })
 })

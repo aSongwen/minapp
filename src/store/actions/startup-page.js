@@ -21,7 +21,7 @@ export const asyncStartupCateList = createAction(ASYNC_STARTUP_CATELIST, (res) =
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(startupCateList)
-    }, 1000)
+    }, 0)
   })
 })
 
@@ -54,6 +54,6 @@ export const asyncStartupDetailList = createAction(ASYNC_STARTUP_DETAILLIST, (re
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(startupDetailList)
-    }, 1000)
+    }, 0)
   })
 })

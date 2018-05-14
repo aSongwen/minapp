@@ -1,5 +1,6 @@
 <template>
-  <vc-popup :show.sync="vcPopupCss" :detail.sync="vcPopupDetail" :dataType.sync="dataType">
+<loginBox></loginBox>
+  <vc-popup :show.sync="vcPopupCss" :detail.sync="vcPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
   </vc-popup>
   <classify :rootcateList.sync="vcCateList" :testData.sync="vcDetailList">
   </classify>
@@ -11,6 +12,7 @@
   import { asyncVcCateList, asyncDetailList } from '../store/actions'
   import classify from '../components/common/classify'
   import popup from '../components/common/popup'
+  import loginBox from '../components/common/login-box'
   @connect({
     vcDetailList(state) {
       return state.vcPage.vcDetailList
@@ -25,12 +27,14 @@
     }
     components = {
       classify,
-      'vc-popup': popup
+      'vc-popup': popup,
+      loginBox
     }
     data = {
-      vcPopupCss: 'display: none',
+      vcPopupCss: 'visibility:hidden;',
       vcPopupDetail: {},
-      dataType: 'vcPage'
+      dataType: 'vcPage',
+      btnShow: 'display:block;'
     }
     onLoad() {
       const store = getStore()
@@ -50,7 +54,9 @@
     methods = {}
     events = {
       showDetail(index) {
-        this.vcPopupCss = 'display: flex'
+        console.log('EshowDetail')
+        this.vcPopupCss = 'visibility:visible;'
+        this.btnShow = 'display:block;'
         const vcDetail = this.vcDetailById(index)
         if (vcDetail.length > 0) this.vcPopupDetail = vcDetail[0]
       }
