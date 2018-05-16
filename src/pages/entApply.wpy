@@ -204,5 +204,5 @@
   }
 </script>
 <style lang="less">
-  @import '../styles/apply'
+  @import '../styles/apply';
 </style>
