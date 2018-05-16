@@ -1,12 +1,57 @@
 <template>
-
+  <repeat for="{{ckbName}}" item="item" index="index" key="key">
+    <view class="focus-area">
+      <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+        <label>{{item.name}}</label>
+        <checkbox class="ckb" color="#FF6A3C" value="{{item.name}}" checked="{{item.checked}}"></checkbox>
+      </checkbox-group>
+    </view>
+  </repeat>
+  <view class="ipt-box" wx:if="{{show}}">
+    <input bindinput="inputData" class="focus-ipt" type="text" placeholder="请输入其他领域" value="{{value}}">
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class extends wepy.component {
-    data = {}
+    data = {
+      show: false,
+      value: ''
+    }
+    props = {
+      ckbName: Array,
+      twoWay: true
+    }
+    methods = {
+      isChecked(e) {
+        this.ckbName[e.target.dataset.id].checked = !this.ckbName[e.target.dataset.id].checked
+        this.ckbName[7].checked ? (this.show = true) : (this.show = false)
+      },
+      inputData(e) {
+        // console.log('old:', this.value, 'new', e.detail.value)
+        this.value = e.detail.value
+        this.$emit('sendOther', this.value)
+      }
+    }
   }
 </script>
 <style lang="less">
-  
+  .focus-area{
+    display: inline-block;
+    padding: 20rpx 40rpx;
+    box-sizing: border-box;
+    width: 50%;
+    position: relative;
+    .ckb{
+      position: absolute;
+      right: 40rpx;
+    }
+  }
+  .ipt-box{
+    padding: 20rpx 40rpx;
+  }
+  .focus-ipt{
+    border: 2rpx solid #BBBBBB;
+    padding: 0 10rpx;
+  }
 </style>

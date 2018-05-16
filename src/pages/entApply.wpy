@@ -1,14 +1,208 @@
 <template>
+  <view class="apply-name">信息注册</view>
+  <repeat for="{{iptName}}" key="item" index="index" item="item">
+    <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+  </repeat>
 
+  <view class="apply-name focus">关注领域</view>
+  <focusarea :ckbName.sync="ckbName"></focusarea>
+
+  <view class="apply-name focus">所投轮次</view>
+  <repeat for="{{roundName}}" item="item" index="index" key="key">
+    <view class="focus-area">
+      <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+        <label>{{item.name}}</label>
+        <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
+      </checkbox-group>
+    </view>
+  </repeat>
+
+  <view class="submit">
+    <button @tap="submit">确定报名</button>
+  </view>
+  <view class="mask" wx:if="{{isShow}}"></view>
+  <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
+    <repeat for="{{validateCon}}" item="item" index="index" key="item">
+      <text class="val-text">{{item}}</text>
+    </repeat>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import infoReg from '../components/common/infoRegister'
+  import focusArea from '../components/common/focusArea'
   export default class extends wepy.page {
     config = {
       navigationBarTitleText: '创业者报名'
     }
+    data = {
+      iptName: [
+        {
+          id: 0,
+          name: '公司名称',
+          iptType: 'text',
+          engName: 'company'
+        }, {
+          id: 1,
+          name: '产品名称',
+          iptType: 'text',
+          engName: 'product'
+        }, {
+          id: 2,
+          name: '姓名',
+          iptType: 'text',
+          engName: 'name'
+        }, {
+          id: 3,
+          name: '电话',
+          iptType: 'number',
+          engName: 'tel',
+          validate: false
+        }, {
+          id: 4,
+          name: '邮箱',
+          iptType: 'text',
+          engName: 'email'
+        }, {
+          id: 5,
+          name: '职位',
+          iptType: 'text',
+          engName: 'position'
+        }
+      ],
+      ckbName: [
+        {
+          id: 0,
+          name: '人工智能',
+          checked: false
+        }, {
+          id: 1,
+          name: '金融行业',
+          checked: false
+        }, {
+          id: 2,
+          name: '区块链',
+          checked: false
+        }, {
+          id: 3,
+          name: '文化娱乐',
+          checked: false
+        }, {
+          id: 4,
+          name: '医药行业',
+          checked: false
+        }, {
+          id: 5,
+          name: '高端制造',
+          checked: false
+        }, {
+          id: 6,
+          name: '企业服务',
+          checked: false
+        }, {
+          id: 7,
+          name: '其他',
+          checked: false
+        }
+      ],
+      roundName: [
+        {
+          id: 0,
+          name: '种子轮',
+          checked: false
+        }, {
+          id: 1,
+          name: '天使轮',
+          checked: false
+        }, {
+          id: 2,
+          name: 'A轮',
+          checked: false
+        }, {
+          id: 3,
+          name: 'B轮',
+          checked: false
+        }, {
+          id: 4,
+          name: 'C轮',
+          checked: false
+        }, {
+          id: 5,
+          name: '不限',
+          checked: false
+        }
+      ],
+      isShow: false,
+      validateCon: [],
+      otherFocusVal: '',
+      jsonData: {
+        'company': '',
+        'product': '',
+        'name': '',
+        'tel': '',
+        'email': '',
+        'position': ''
+      },
+      areaData: [],
+      roundData: []
+    }
+    components = {
+      inforeg: infoReg,
+      focusarea: focusArea
+    }
+    validateForm() {
+      this.validateCon = []
+      const regTel = /^[1][3,4,5,7,8][0-9]{9}$/
+      const regEmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      !regTel.test(this.jsonData.tel) && this.validateCon.push('*请输入正确的手机号')
+      !regEmail.test(this.jsonData.email) && this.validateCon.push('*请输入正确的邮箱地址')
+      Object.values(this.jsonData).some(val => val === '') && this.validateCon.push('*信息请输入完整')
+      this.validateCon.length === 0 ? (this.isShow = false) : (this.isShow = true)
+    }
+    getData(thisArr, saveArr, Bool = false) {
+      let _this = this
+      thisArr.forEach((val, key, arr) => {
+        val.checked && saveArr.push(val.name)
+        if (Bool) {
+          if (key === arr.length - 1) {
+            saveArr.pop()
+            saveArr.push(_this.otherFocusVal)
+          }
+        }
+      })
+    }
+    methods = {
+      isChecked(e) {
+        this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
+      },
+      submit() {
+        this.areaData = []
+        this.roundData = []
+        this.getData(this.ckbName, this.areaData, true)
+        this.getData(this.roundName, this.roundData)
+        this.validateForm()
+        console.log('ifoData', this.jsonData)
+        console.log('areaData', this.areaData)
+        console.log('roundData', this.roundData)
+      },
+      perfectInfo() {
+        this.isShow = false
+      }
+    }
+    events = {
+      sendOther(value) {
+        this.otherFocusVal = value
+      },
+      sendInfoVal(value, curIdx, engName) {
+        this.iptName.forEach((val) => {
+          if (val.id === curIdx) {
+            this.jsonData[engName] = value
+          }
+        })
+      }
+    }
   }
 </script>
 <style lang="less">
-  
+  @import '../styles/apply'
 </style>

@@ -1,10 +1,7 @@
 <template>
-  <view>
-    <view class="apply-name">信息注册</view>
-    <repeat for="{{iptName}}" key="item" index="index" item="item">
-      <label class="ipt-name">{{item.company}}</label>
-      <input type="text">
-    </repeat>
+  <view class="item">
+    <label class="ipt-name">{{iptName}}</label>
+    <input bindinput="iptData" id="{{iptId}}" type="{{iptType}}" class="ipt" data-engName="{{engName}}">
   </view>
 </template>
 <script>
@@ -12,18 +9,36 @@
   export default class extends wepy.component {
     data = {}
     props = {
-      iptName: Array
+      iptName: String,
+      iptId: Number,
+      engName: String,
+      iptType: String,
+      twoWay: true
+    }
+    methods = {
+      iptData(e) {
+        this.$emit('sendInfoVal', e.detail.value, e.currentTarget.dataset.comIndex, e.currentTarget.dataset.engname)
+      }
     }
   }
 </script>
 <style lang="less">
-  page{
-    background-color: #f5f5f5;
+  .item{
+    padding: 15rpx 40rpx;
+    display: flex;
+    line-height: 55rpx;
+    .ipt-name{
+      width: 30%;
+    }
+    .ipt{
+      border: 2rpx solid #BBBBBB;
+      width: 70%;
+      height: 55rpx;
+      padding: 0 10rpx;
+      box-sizing: border-box;
+    }
   }
-  .apply-name{
-    width: 100vw;
-    background-color: #fff;
-    padding: 40rpx;
-    box-sizing: border-box;
+  .item:nth-child(2) {
+    margin-top: 30rpx;
   }
 </style>
