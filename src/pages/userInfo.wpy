@@ -15,15 +15,14 @@
           <view slot="personalInfo">面谈记录</view>
         </userItem>
       </navigator>
-      <userItem class="border-none">
-        <view slot="personalInfo">动点创投介绍</view>
-      </userItem>
+      <navigator url="{{url.introduced}}">
+        <userItem class="border-none">
+          <view slot="personalInfo">动点创投介绍</view>
+        </userItem>
+      </navigator>
     </view>
     <view class="qr-code">
       <image class="code-img" src="{{codeImg}}"></image>
-    </view>
-    <view class="sacn">
-      <image></image>
     </view>
   </view>
 </template>
@@ -46,7 +45,8 @@
     }
     data = {
       url: {
-        communicated: './communicated'
+        communicated: './communicated',
+        introduced: './vcIntroduced'
       }
     }
     components = {

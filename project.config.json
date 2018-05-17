@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": -1,
 			"list": [
 				{
 					"id": -1,
@@ -53,12 +53,31 @@
 					"id": 3,
 					"name": "comdetails",
 					"pathName": "pages/comDetails",
-					"query": ""
+					"query": "id=2"
 				},
 				{
 					"id": -1,
 					"name": "vcapply",
-					"pathName": "pages/vcApply"
+					"pathName": "pages/vcApply",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "entApply",
+					"pathName": "pages/entApply",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "vcIntroduced",
+					"pathName": "pages/vcIntroduced",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "techArticle",
+					"pathName": "pages/techArticle",
+					"query": "id=2"
 				}
 			]
 		}

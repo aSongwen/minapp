@@ -19,7 +19,9 @@
             <view class="vc-time">{{time}}</view>
           </view>
         </view>
-        <article wx:if='{{index===1}}'></article>
+        <navigator wx:if='{{index===1}}' hover-class="none" url="{{url.article}}">
+          <article></article>
+        </navigator>
       </repeat>
     </view>
   </view>
@@ -48,7 +50,10 @@
       autoplay: true,
       interval: 1000,
       duration: 1000,
-      time: ''
+      time: '',
+      url: {
+        article: './techArticle'
+      }
     }
     components = {
       article
@@ -63,7 +68,7 @@
       Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg())]).then(() => {
         wepy.hideLoading()
       })
-      this.time = formatMsgTime(new Date('2018/04/28 10:26'))
+      this.time = formatMsgTime(new Date())
     }
     methods = {}
   }

@@ -1,7 +1,7 @@
 <template>
-  <view class="vc">
+  <view class="vc" style="margin-top: 30rpx;">
     <image src="{{articleData.src}}" class="vc-image-article"></image>
-    <text class="vc-text-article">{{articleData.text}}</text>
+    <text class="vc-text-article">{{articleData.title}}</text>
     <view class="vc-describe">{{articleData.describe}}</view>
     <view class="vc-time">{{time}}</view>
   </view>
@@ -41,6 +41,7 @@
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
       overflow: hidden;
+      margin-top: 10rpx;
     }
     .vc-describe, .vc-time {
       text-align: left;

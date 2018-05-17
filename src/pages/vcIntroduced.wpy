@@ -1,0 +1,35 @@
+<template>
+  <view>
+    <comheader>
+      <view slot="comHeader">动点创投介绍</view>
+    </comheader>
+    <view class="content">
+      2017年 TechCrunch 深圳峰会的余温还未散尽，TechCrunch 2017 上海峰会又将重装上阵。
+      “十分之约”作为 TechCrunch 中国峰会最受欢迎的环节之一，再次隆重推出。
+      十分之约是动点科技旗下最受创投圈欢迎的独立投融资品牌，近万家创业公司获得了匹配机会，
+      帮助了像我厨、朋友印象、石墨文档等10余家来自国内一线投资机构的千万级别的融资以及背后资源的支持，
+      同样有13家国外创业团队获得了投资机构在国内落地的支持，另有多家国外创业团队待定，
+      50+家创业公司也拿到了Pra-A前的早期融资，本次大会，我们将会继续发力邀请上百家国内外知名投资机构，
+      与前来的创业者进行零距离接触。期待更多的创业者通过我们的“十分之约”，获得投资者的青睐，成为下一个中国互联网的独角兽。
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import comHeader from '../components/common/header'
+  export default class extends wepy.page {
+    config = {
+      navigationBarTitleText: '十分之约'
+    }
+    components = {
+      comheader: comHeader
+    }
+  }
+</script>
+
+<style lang="less">
+  .content{
+    padding: 0 80rpx;
+  }
+</style>

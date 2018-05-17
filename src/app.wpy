@@ -21,7 +21,9 @@
         'pages/communicated',
         'pages/comDetails',
         'pages/vcApply',
-        'pages/entApply'
+        'pages/entApply',
+        'pages/vcIntroduced',
+        'pages/techArticle'
       ],
       window: {
         backgroundTextStyle: 'light',
