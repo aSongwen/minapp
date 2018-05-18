@@ -33,17 +33,15 @@
       testData: Array
     }
     cateIndex = 0
-    onLoad() {
-      let systemInfo
-      const that = this
-      wepy.getStorage({
-        key: 'systemInfo',
-        success: function(res) {
-          systemInfo = res.data
-          that.windowHeight = systemInfo.windowHeight - that.statusBarHeight
-          that.$apply()
-        }
-      })
+    async onLoad() {
+      try {
+        const that = this
+        const systemInfo = (await wepy.getStorage({key: 'systemInfo'})).data
+        that.windowHeight = systemInfo.windowHeight - that.statusBarHeight
+        that.$apply()
+      } catch (err) {
+        // console.log(err)
+      }
     }
     dataCate(parentId) {
       this.childcateList = this.testData.filter((value) => value.parentId === parentId)

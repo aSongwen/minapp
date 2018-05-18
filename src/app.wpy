@@ -9,6 +9,7 @@
     setStore
   } from 'wepy-redux'
   import configStore from './store'
+  import login from './api/login'
   const store = configStore()
   setStore(store)
   export default class extends wepy.app {
@@ -60,31 +61,51 @@
     }
     globalData = {
       userInfo: null,
-      baseUrl: 'https:://vcmeetup.technode.com'
+      baseUrl: 'https://vcmeetup.technode.com/api'
     }
     constructor() {
       super()
-      this.use('requestfix')
+      // this.use('requestfix')
+      this.use('promisify')
     }
     async onLaunch() {
-      wepy.login({
-        success: function(res) {
-          if (res.code) {
-            console.log(res.code)
-          } else {
-            console.log('登录失败！' + res.errMsg)
+      // const token = await wepy.getStorage({key: 'token'})
+      // console.log(`获取到的token`, token)
+      try {
+        await wepy.checkSession()
+        // throw new Error('error')
+      } catch (err) {
+        console.log(err)
+        // session_key 已经失效，需要重新执行登录流程
+        console.log(`需要登录`)
+        try {
+          const code = (await wepy.login()).code
+          console.log(code)
+          try {
+            const user = await wepy.getStorage({key: 'userInfo'})
+            const userInfo = user.data
+            const result = await login.login(code, { ...userInfo })
+            console.log(`token`, result.data.jwt)
+            wepy.setStorage({
+              key: 'token',
+              data: result.data.jwt
+            })
+          } catch (err) {
+            console.log(`err`, err)
           }
+        } catch (err) {
+          console.log('登录失败！', err)
         }
-      })
-
-      wepy.getSystemInfo({
-        success: function(res) {
-          wepy.setStorage({
-            key: 'systemInfo',
-            data: res
-          })
-        }
-      })
+      }
+      try {
+        const systemInfo = await wepy.getSystemInfo()
+        wepy.setStorage({
+          key: 'systemInfo',
+          data: systemInfo
+        })
+      } catch (err) {
+        console.log(err)
+      }
     }
     getUserInfo(cb) {
       const that = this

@@ -1,8 +1,8 @@
-import wepy from 'wepy'
+// import wepy from 'wepy'
 import http from '../utils/http'
 
 export default class base {
-  static baseUrl = wepy.$instance.globalData.baseUrl
+  static baseUrl = 'https://vcmeetup.technode.com/api'
   static get = http.get.bind(http)
   static put = http.put.bind(http)
   static post = http.post.bind(http)
