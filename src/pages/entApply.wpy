@@ -36,12 +36,6 @@
       navigationBarTitleText: '创业者报名'
     }
     onLoad(option) {
-      const role = option.role
-      if (role === '1') {
-        this.iptName = this.iptName.filter(({ id }) => {
-          return id !== 1
-        })
-      }
     }
     data = {
       iptName: [

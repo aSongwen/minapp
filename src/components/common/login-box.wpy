@@ -63,9 +63,15 @@
                 key: 'token',
                 data: result.data.jwt
               })
-              wepy.navigateTo({
-                url: `../pages/entApply?role=${role}`
-              })
+              if (role === '1') {
+                wepy.navigateTo({
+                  url: `../pages/vcApply`
+                })
+              } else {
+                wepy.navigateTo({
+                  url: `../pages/entApply`
+                })
+              }
             } catch (err) {
               console.log(err)
             }
