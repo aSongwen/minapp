@@ -2,8 +2,8 @@
   <view class="login-wrap" style="{{loginBoxVisual}}">
     <view class="window">
       <view class="title">请选择您的身份</view>
-      <button  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
-      <button  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
+      <button data-role='1'  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
+      <button data-role='2' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
     </view>
   </view>
 </template>
@@ -15,9 +15,11 @@
     getStore
   } from 'wepy-redux'
   import {
-    setUserInfo,
-    setLoginBoxVisual
+    setUserInfo
+    // setLoginBoxVisual
   } from '../../store/actions/user-info'
+  import login from '../../api/login'
+
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -28,26 +30,48 @@
   })
   export default class extends wepy.component {
     store = getStore()
-    onLoad () {
+    async onLoad() {
       const self = this
-      wepy.getStorage({
-        key: 'userInfo',
-        success: async function(res) {
-          console.log(res.data)
-          await self.store.dispatch(setUserInfo(res.data))
-          await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
-        }
-      })
+      try {
+        const user = await wepy.getStorage({key: 'userInfo'})
+        const userInfo = user.data
+        await self.store.dispatch(setUserInfo(userInfo))
+        // await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+      } catch (err) {
+        // console.log(err)
+      }
     }
     methods = {
       getUserInfo: async(res) => {
+        const role = res.currentTarget.dataset.role
         if (res.detail.errMsg === 'getUserInfo:ok') {
+          const loginCode = await wepy.login()
+          console.log(loginCode)
           await this.store.dispatch(setUserInfo(res.detail.userInfo))
-          await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+          // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
           wepy.setStorage({
             key: 'userInfo',
             data: res.detail.userInfo
           })
+          if (loginCode.code) {
+            const code = loginCode.code
+            console.log(code)
+            try {
+              const result = await login.login(code, { ...res.detail.userInfo })
+              console.log(result.data.jwt)
+              wepy.setStorage({
+                key: 'token',
+                data: result.data.jwt
+              })
+              wepy.navigateTo({
+                url: `../pages/entApply?role=${role}`
+              })
+            } catch (err) {
+              console.log(err)
+            }
+          } else {
+            console.log('登录失败！' + res.errMsg)
+          }
         } else {
           this.loginBoxVisual = 'visibility:visible;'
           wepy.showToast({

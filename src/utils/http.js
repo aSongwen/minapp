@@ -6,7 +6,10 @@ export default class http {
     const param = {
       url: url,
       method: method,
-      data: data
+      data: data,
+      header: {
+        'authorization': method !== 'GET' ? `Bearer token` : ''
+      }
     }
     if (loading) {
       // Tips.loading();
@@ -14,7 +17,7 @@ export default class http {
     console.info(`[http]request url=${url}`)
     const res = await wepy.request(param)
     if (this.isSuccess(res)) {
-      return res.data.data
+      return res.data
     } else {
       throw this.requestException(res)
     }
@@ -25,12 +28,8 @@ export default class http {
    */
   static isSuccess (res) {
     const wxCode = res.statusCode
-    // 微信请求错误
-    if (wxCode !== 200) {
-      return false
-    }
-    const wxData = res.data
-    return !(wxData && wxData.code !== 0)
+    const serverCode = res.data.code
+    return wxCode === 200 && serverCode === 20000
   }
 
   /**

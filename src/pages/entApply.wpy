@@ -35,6 +35,14 @@
     config = {
       navigationBarTitleText: '创业者报名'
     }
+    onLoad(option) {
+      const role = option.role
+      if (role === '1') {
+        this.iptName = this.iptName.filter(({ id }) => {
+          return id !== 1
+        })
+      }
+    }
     data = {
       iptName: [
         {
@@ -152,7 +160,7 @@
     }
     validateForm() {
       this.validateCon = []
-      const regTel = /^[1][3,4,5,7,8][0-9]{9}$/
+      const regTel = /^[1][3,4,5,7,8,9]\d{9}$/
       const regEmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
       !regTel.test(this.jsonData.tel) && this.validateCon.push('*请输入正确的手机号')
       !regEmail.test(this.jsonData.email) && this.validateCon.push('*请输入正确的邮箱地址')
