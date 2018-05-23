@@ -6,10 +6,12 @@
   import wepy from 'wepy'
   import 'wepy-async-function'
   import {
-    setStore
+    setStore,
+    getStore
   } from 'wepy-redux'
   import configStore from './store'
   import login from './api/login'
+  import { asyncToken } from './store/actions'
   const store = configStore()
   setStore(store)
   export default class extends wepy.app {
@@ -71,6 +73,7 @@
     async onLaunch() {
       // const token = await wepy.getStorage({key: 'token'})
       // console.log(`获取到的token`, token)
+      const store = getStore()
       try {
         await wepy.checkSession()
         // throw new Error('error')
@@ -86,6 +89,7 @@
             const userInfo = user.data
             const result = await login.login(code, { ...userInfo })
             console.log(`token`, result.data.jwt)
+            await store.dispatch(asyncToken(result.data.jwt))
             wepy.setStorage({
               key: 'token',
               data: result.data.jwt

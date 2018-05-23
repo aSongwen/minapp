@@ -20,7 +20,10 @@
   import wepy from 'wepy'
   import infoReg from '../components/common/infoRegister'
   import focusArea from '../components/common/focusArea'
+  import { getStore } from 'wepy-redux'
+  import { setRole, setLoginBoxVisual } from '../store/actions/user-info'
   export default class extends wepy.page {
+    store = getStore()
     config = {
       navigationBarTitleText: '投资人报名'
     }
@@ -126,11 +129,14 @@
       })
     }
     methods = {
-      submit() {
+      async submit() {
         this.getAreaData()
         this.validateForm()
         console.log(this.jsonData)
         console.log(this.areaData)
+        // 报名成功后设置
+        this.store.dispatch(setRole(1))
+        await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
       },
       perfectInfo() {
         this.isShow = false

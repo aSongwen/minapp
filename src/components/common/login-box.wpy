@@ -1,7 +1,7 @@
 <template>
   <view class="login-wrap" style="{{loginBoxVisual}}">
     <view class="window">
-      <view class="title">请选择您的身份</view>
+      <view class="title">请选择您的身份{{role}}</view>
       <button data-role='1'  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
       <button data-role='2' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
     </view>
@@ -19,6 +19,7 @@
     // setLoginBoxVisual
   } from '../../store/actions/user-info'
   import login from '../../api/login'
+  import { asyncToken } from '../../store/actions/token'
 
   @connect({
     userInfo(state) {
@@ -26,6 +27,13 @@
     },
     loginBoxVisual(state) {
       return state.userInfo.loginBoxVisual
+    },
+    token(state) {
+      // console.log(`state`, state.token.token)
+      return state.token.token
+    },
+    role(state) {
+      return state.userInfo.role
     }
   })
   export default class extends wepy.component {
@@ -36,7 +44,10 @@
         const user = await wepy.getStorage({key: 'userInfo'})
         const userInfo = user.data
         await self.store.dispatch(setUserInfo(userInfo))
-        // await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        // if (this.role) {
+        //   console.log(`role`, this.role)
+        //   await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        // }
       } catch (err) {
         // console.log(err)
       }
@@ -48,7 +59,10 @@
           const loginCode = await wepy.login()
           console.log(loginCode)
           await this.store.dispatch(setUserInfo(res.detail.userInfo))
-          // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+          // if (this.role) {
+          //   console.log(`role`, this.role)
+          //   await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+          // }
           wepy.setStorage({
             key: 'userInfo',
             data: res.detail.userInfo
@@ -59,6 +73,8 @@
             try {
               const result = await login.login(code, { ...res.detail.userInfo })
               console.log(result.data.jwt)
+              const store = getStore()
+              await store.dispatch(asyncToken(result.data.jwt))
               wepy.setStorage({
                 key: 'token',
                 data: result.data.jwt

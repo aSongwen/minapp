@@ -7,6 +7,7 @@ import startupPage from './startup-page'
 import actionsCom from './article'
 import userInfo from './user-info'
 import communicatedPage from './communicated'
+import token from './token'
 
 export default combineReducers({
   counter,
@@ -16,5 +17,6 @@ export default combineReducers({
   homePage,
   startupPage,
   userInfo,
-  communicatedPage
+  communicatedPage,
+  token
 })

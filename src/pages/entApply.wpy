@@ -29,9 +29,15 @@
 </template>
 <script>
   import wepy from 'wepy'
+  // import // 引入redux setRole
+  import { getStore } from 'wepy-redux'
+  // 报名接口返回setRole角色
   import infoReg from '../components/common/infoRegister'
   import focusArea from '../components/common/focusArea'
+  import { setRole, setLoginBoxVisual } from '../store/actions/user-info'
+
   export default class extends wepy.page {
+    store = getStore()
     config = {
       navigationBarTitleText: '创业者报名'
     }
@@ -177,7 +183,7 @@
       isChecked(e) {
         this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
       },
-      submit() {
+      async submit() {
         this.areaData = []
         this.roundData = []
         this.getData(this.ckbName, this.areaData, true)
@@ -186,6 +192,9 @@
         console.log('ifoData', this.jsonData)
         console.log('areaData', this.areaData)
         console.log('roundData', this.roundData)
+        // 报名成功后设置role
+        await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        this.store.dispatch(setRole(2))
       },
       perfectInfo() {
         this.isShow = false

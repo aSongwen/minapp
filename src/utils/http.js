@@ -1,14 +1,17 @@
 import wepy from 'wepy'
+import { getStore } from 'wepy-redux'
 
 // HTTP工具类
 export default class http {
   static async request (method, url, data, loading = true) {
+    const store = getStore()
+    const state = store.getState()
     const param = {
       url: url,
       method: method,
       data: data,
       header: {
-        'authorization': method !== 'GET' ? `Bearer token` : ''
+        'authorization': `Bearer ${state.token.token}`
       }
     }
     if (loading) {
