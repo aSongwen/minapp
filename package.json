@@ -16,6 +16,7 @@
   "author": "riguang <102936778@qq.com>",
   "license": "MIT",
   "dependencies": {
+    "buffer": "^5.1.0",
     "lodash": "^4.17.5",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",

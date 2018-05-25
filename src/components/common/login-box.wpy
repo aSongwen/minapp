@@ -1,7 +1,7 @@
 <template>
-  <view class="login-wrap" style="{{loginBoxVisual}}">
+  <view wx:if='{{!role}}' class="login-wrap">
     <view class="window">
-      <view class="title">请选择您的身份{{role}}</view>
+      <view class="title">请选择您的身份</view>
       <button data-role='1'  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
       <button data-role='2' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
     </view>
@@ -15,19 +15,21 @@
     getStore
   } from 'wepy-redux'
   import {
-    setUserInfo
+    setUserInfo,
+    setRole
     // setLoginBoxVisual
   } from '../../store/actions/user-info'
   import login from '../../api/login'
   import { asyncToken } from '../../store/actions/token'
+  import { Buffer } from 'buffer'
 
   @connect({
     userInfo(state) {
       return state.userInfo.detail
     },
-    loginBoxVisual(state) {
-      return state.userInfo.loginBoxVisual
-    },
+    // loginBoxVisual(state) {
+    //   return state.userInfo.loginBoxVisual
+    // },
     token(state) {
       // console.log(`state`, state.token.token)
       return state.token.token
@@ -44,6 +46,9 @@
         const user = await wepy.getStorage({key: 'userInfo'})
         const userInfo = user.data
         await self.store.dispatch(setUserInfo(userInfo))
+        if (userInfo.role) {
+          await self.store.dispatch(setRole(userInfo.role))
+        }
         // if (this.role) {
         //   console.log(`role`, this.role)
         //   await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
@@ -79,6 +84,18 @@
                 key: 'token',
                 data: result.data.jwt
               })
+              // 如果jwt里的role!==0,那么无需跳转直接写store和缓存
+              const serverRole = JSON.parse(Buffer.from(result.data.jwt.split('.')[1], 'base64').toString('ascii')).role
+              if (serverRole) {
+                this.store.dispatch(setRole(serverRole))
+                const userInfo = this.userInfo
+                userInfo.role = serverRole
+                wepy.setStorage({
+                  key: 'userInfo',
+                  data: userInfo
+                })
+                return
+              }
               if (role === '1') {
                 wepy.navigateTo({
                   url: `../pages/vcApply`
@@ -95,7 +112,7 @@
             console.log('登录失败！' + res.errMsg)
           }
         } else {
-          this.loginBoxVisual = 'visibility:visible;'
+          // this.loginBoxVisual = 'visibility:visible;'
           wepy.showToast({
             title: '微信登录失败,请允许授权!',
             icon: 'none',
@@ -109,7 +126,7 @@
 
 <style lang="less">
   .login-wrap {
-    visibility:hidden;
+    // visibility:hidden;
     display: flex;
     height: 100%;
     width: 100%;

@@ -2,10 +2,14 @@
  * vc数据获取类
  */
 import base from './base'
-import Url from './url'
+import url from './url'
 export default class vc extends base {
   static getInfo(id) {
-    const url = `${Url.vc}/${id}`
-    return this.get(url).then(data => data)
+    const vcurl = `${url.vc}/${id}`
+    return this.get(vcurl).then(data => data)
+  }
+  static apply(param) {
+    const vcurl = url.vc
+    return this.post(vcurl, param)
   }
 }
