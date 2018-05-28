@@ -1,18 +1,20 @@
 <template>
-  <view class="apply-name">信息注册</view>
-  <repeat for="{{iptName}}" key="item" index="index" item="item">
-    <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
-  </repeat>
-  <view class="apply-name focus">关注领域</view>
-  <focusarea :ckbName.sync="ckbName"></focusarea>
-  <view class="submit">
-    <button @tap="submit">确定报名</button>
-  </view>
-  <view class="mask" wx:if="{{isShow}}"></view>
-  <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
-    <repeat for="{{validateCon}}" item="item" index="index" key="item">
-      <text class="val-text">{{item}}</text>
+  <view>
+    <view class="apply-name">信息注册</view>
+    <repeat for="{{iptName}}" key="item" index="index" item="item">
+      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
     </repeat>
+    <view class="apply-name focus">关注领域</view>
+    <focusarea :ckbName.sync="ckbName"></focusarea>
+    <view class="submit">
+      <button @tap="submit">确定报名</button>
+    </view>
+    <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
+    <view class="valDialog" wx:if="{{isShow}}">
+      <repeat for="{{validateCon}}" item="item" index="index" key="item">
+        <text class="val-text">{{item}}</text>
+      </repeat>
+    </view>
   </view>
 </template>
 
@@ -43,8 +45,7 @@
           id: 2,
           name: '电话',
           iptType: 'number',
-          engName: 'tel',
-          validate: false
+          engName: 'tel'
         }, {
           id: 3,
           name: '邮箱',

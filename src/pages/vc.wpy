@@ -1,5 +1,5 @@
 <template>
-<loginBox></loginBox>
+  <loginBox></loginBox>
   <vc-popup :show.sync="vcPopupCss" :detail.sync="vcPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
   </vc-popup>
   <classify :rootcateList.sync="vcCateList" :testData.sync="vcDetailList">

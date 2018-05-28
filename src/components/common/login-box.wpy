@@ -1,8 +1,8 @@
 <template>
   <view class="login-wrap" style="{{loginBoxVisual}}">
     <view class="window">
-      <view class="title">请选择您的身份{{role}}</view>
-      <button data-role='1'  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
+      <view class="title">请选择您的身份</view>
+      <button data-role='1' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
       <button data-role='2' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
     </view>
   </view>
@@ -41,7 +41,9 @@
     async onLoad() {
       const self = this
       try {
-        const user = await wepy.getStorage({key: 'userInfo'})
+        const user = await wepy.getStorage({
+          key: 'userInfo'
+        })
         const userInfo = user.data
         await self.store.dispatch(setUserInfo(userInfo))
         // if (this.role) {
@@ -71,6 +73,7 @@
             const code = loginCode.code
             console.log(code)
             try {
+              console.log({ ...res.detail.userInfo })
               const result = await login.login(code, { ...res.detail.userInfo })
               console.log(result.data.jwt)
               const store = getStore()
@@ -109,7 +112,7 @@
 
 <style lang="less">
   .login-wrap {
-    visibility:hidden;
+    visibility: hidden;
     display: flex;
     height: 100%;
     width: 100%;
