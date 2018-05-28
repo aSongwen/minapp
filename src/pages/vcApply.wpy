@@ -9,8 +9,8 @@
     <view class="submit">
       <button @tap="submit">确定报名</button>
     </view>
-    <view class="mask" wx:if="{{isShow}}"></view>
-    <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
+    <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
+    <view class="valDialog" wx:if="{{isShow}}">
       <repeat for="{{validateCon}}" item="item" index="index" key="item">
         <text class="val-text">{{item}}</text>
       </repeat>
