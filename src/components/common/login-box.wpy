@@ -2,7 +2,7 @@
   <view class="login-wrap" style="{{loginBoxVisual}}">
     <view class="window">
       <view class="title">请选择您的身份</view>
-      <button data-role='1'  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
+      <button data-role='1' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
       <button data-role='2' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
     </view>
   </view>
@@ -19,7 +19,6 @@
     // setLoginBoxVisual
   } from '../../store/actions/user-info'
   import login from '../../api/login'
-
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -33,7 +32,9 @@
     async onLoad() {
       const self = this
       try {
-        const user = await wepy.getStorage({key: 'userInfo'})
+        const user = await wepy.getStorage({
+          key: 'userInfo'
+        })
         const userInfo = user.data
         await self.store.dispatch(setUserInfo(userInfo))
         // await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
@@ -57,6 +58,7 @@
             const code = loginCode.code
             console.log(code)
             try {
+              console.log({ ...res.detail.userInfo })
               const result = await login.login(code, { ...res.detail.userInfo })
               console.log(result.data.jwt)
               wepy.setStorage({
@@ -93,7 +95,7 @@
 
 <style lang="less">
   .login-wrap {
-    visibility:hidden;
+    visibility: hidden;
     display: flex;
     height: 100%;
     width: 100%;
