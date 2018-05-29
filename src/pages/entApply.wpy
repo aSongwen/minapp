@@ -3,29 +3,28 @@
   <repeat for="{{iptName}}" key="item" index="index" item="item">
     <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
   </repeat>
-    <view class="apply-name focus">关注领域</view>
-    <focusarea :ckbName.sync="ckbName"></focusarea>
+  <view class="apply-name focus">关注领域</view>
+  <focusarea :ckbName.sync="ckbName"></focusarea>
 
-    <view class="apply-name focus">所投轮次</view>
-    <repeat for="{{roundName}}" item="item" index="index" key="key">
-      <view class="focus-area">
-        <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
-          <label>{{item.name}}</label>
-          <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
-        </checkbox-group>
-      </view>
+  <view class="apply-name focus">所投轮次</view>
+  <repeat for="{{roundName}}" item="item" index="index" key="key">
+    <view class="focus-area">
+      <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+        <label>{{item.name}}</label>
+        <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
+      </checkbox-group>
+    </view>
+  </repeat>
+
+  <view class="submit">
+    <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
+  </view>
+  
+  <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
+  <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
+    <repeat for="{{validateCon}}" item="item" index="index" key="item">
+      <text class="val-text">{{item}}</text>
     </repeat>
-
-    <view class="submit">
-      <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
-    </view>
-    
-    <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
-    <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
-      <repeat for="{{validateCon}}" item="item" index="index" key="item">
-        <text class="val-text">{{item}}</text>
-      </repeat>
-    </view>
   </view>
 </template>
 <script>

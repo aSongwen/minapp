@@ -147,10 +147,9 @@
         }
       })
     }
-    async onShow() {
+    async onLoad() {
       try {
         const result = await vcRequest.getInfo()
-        console.log(result)
         if (result.code === 20000) {
           this.iptName = this.iptName.map(val => {
             val.value = result.data[val.engName]
@@ -163,6 +162,7 @@
             }
             return val
           })
+          this.$apply()
         }
       } catch (err) {
         console.log(err)
