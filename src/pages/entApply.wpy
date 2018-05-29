@@ -209,6 +209,10 @@
             }
             return val
           })
+          for (let key in this.jsonData) {
+            this.jsonData[key] = result.data[key]
+          }
+          this.$apply()
         }
       } catch (err) {
         console.log(err)
@@ -228,7 +232,12 @@
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         if (!this.isShow) {
           try {
-            const result = await Request.apply(data)
+            let result
+            if (!this.role) {
+              result = await Request.apply(data)
+            } else {
+              result = await Request.update(data)
+            }
             if (result.code === 20000) {
               // 报名成功后设置
               this.store.dispatch(setRole(2))
