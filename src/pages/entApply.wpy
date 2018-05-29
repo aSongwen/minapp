@@ -1,11 +1,8 @@
 <template>
-  <view>
-    <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
-
-    <repeat for="{{iptName}}" key="item" index="index" item="item">
-      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
-    </repeat>
-
+  <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+  <repeat for="{{iptName}}" key="item" index="index" item="item">
+    <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+  </repeat>
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName"></focusarea>
 
@@ -190,6 +187,33 @@
           }
         }
       })
+    }
+    async onLoad() {
+      try {
+        const result = await Request.getInfo()
+        if (result.code === 20000) {
+          this.iptName = this.iptName.map(val => {
+            val.value = result.data[val.engName]
+            return val
+          })
+          const focusArea = result.data['focus_area'].split(',')
+          this.ckbName = this.ckbName.map(val => {
+            if (focusArea.indexOf(val.name) !== -1) {
+              val.checked = true
+            }
+            return val
+          })
+          const roundName = result.data['rounds'].split(',')
+          this.roundName = this.roundName.map(val => {
+            if (roundName.indexOf(val.name) !== -1) {
+              val.checked = true
+            }
+            return val
+          })
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
     methods = {
       isChecked(e) {

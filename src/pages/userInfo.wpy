@@ -53,7 +53,7 @@
         communicated: './communicated',
         introduced: './vcIntroduced',
         vc: './vcApply',
-        startup: './startup'
+        startup: './entApply'
       }
     }
     components = {
