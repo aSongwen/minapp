@@ -210,6 +210,10 @@
             }
             return val
           })
+          for (let key in this.jsonData) {
+            this.jsonData[key] = result.data[key]
+          }
+          this.$apply()
         }
       } catch (err) {
         console.log(err)

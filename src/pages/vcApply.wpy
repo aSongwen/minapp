@@ -147,7 +147,7 @@
         }
       })
     }
-    async onShow() {
+    async onload() {
       try {
         const result = await vcRequest.getInfo()
         console.log(result)
@@ -163,6 +163,10 @@
             }
             return val
           })
+          for (let key in this.jsonData) {
+            this.jsonData[key] = result.data[key]
+          }
+          this.$apply()
         }
       } catch (err) {
         console.log(err)
