@@ -1,10 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <view>
-    <view class="apply-name">信息注册</view>
-    <repeat for="{{iptName}}" key="item" index="index" item="item">
-      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
-=======
   <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
   <repeat for="{{iptName}}" key="item" index="index" item="item">
     <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName" :iptVal.sync="item.value"></inforeg>
@@ -18,7 +12,6 @@
   <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
     <repeat for="{{validateCon}}" item="item" index="index" key="item">
       <text class="val-text">{{item}}</text>
->>>>>>> shine
     </repeat>
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName"></focusarea>

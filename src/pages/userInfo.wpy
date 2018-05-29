@@ -1,33 +1,5 @@
 <template>
   <view>
-<<<<<<< HEAD
-    <loginBox></loginBox>
-    <view>
-      <view class="userinfo">
-        <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar" />
-        <view>{{userInfo.nickName}}</view>
-      </view>
-      <view class="per-navigation">
-        <navigator url="{{url.userInfo}}">
-          <userItem>
-            <view slot="personalInfo">个人信息</view>
-          </userItem>
-        </navigator>
-        <navigator url="{{url.communicated}}">
-          <userItem>
-            <view slot="personalInfo">面谈记录</view>
-          </userItem>
-        </navigator>
-        <navigator url="{{url.introduced}}">
-          <userItem class="border-none">
-            <view slot="personalInfo">动点创投介绍</view>
-          </userItem>
-        </navigator>
-      </view>
-      <view class="qr-code">
-        <image class="code-img" src="{{codeImg}}" />
-      </view>
-=======
     <view class="userinfo">
       <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar"></image>
       <view>{{userInfo.nickName}}</view>
@@ -51,7 +23,6 @@
     </view>
     <view class="qr-code">
       <image class="code-img" src="{{codeImg}}"></image>
->>>>>>> shine
     </view>
   </view>
 </template>

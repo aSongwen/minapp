@@ -2,11 +2,7 @@
   <view wx:if='{{!role}}' class="login-wrap">
     <view class="window">
       <view class="title">请选择您的身份</view>
-<<<<<<< HEAD
-      <button data-role='1' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
-=======
       <button data-role='1'  bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="">投资人</button>
->>>>>>> shine
       <button data-role='2' bindgetuserinfo='getUserInfo' open-type='getUserInfo' style="border-radius: 0 0 10rpx 10rpx;">创业者</button>
     </view>
   </view>
@@ -133,11 +129,7 @@
 
 <style lang="less">
   .login-wrap {
-<<<<<<< HEAD
-    visibility: hidden;
-=======
     // visibility:hidden;
->>>>>>> shine
     display: flex;
     height: 100%;
     width: 100%;

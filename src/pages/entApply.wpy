@@ -1,10 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <view>
-    <view class="apply-name">信息注册</view>
-    <repeat for="{{iptName}}" key="item" index="index" item="item">
-      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
-=======
   <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
   <repeat for="{{iptName}}" key="item" index="index" item="item">
     <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
@@ -30,7 +24,6 @@
   <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
     <repeat for="{{validateCon}}" item="item" index="index" key="item">
       <text class="val-text">{{item}}</text>
->>>>>>> shine
     </repeat>
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName"></focusarea>
@@ -207,17 +200,9 @@
       thisArr.forEach((val, key, arr) => {
         val.checked && saveArr.push(val.name)
         if (Bool) {
-<<<<<<< HEAD
-          if (thisArr[thisArr.length - 1].checked) {
-            if (key === arr.length - 1) {
-              saveArr.pop()
-              saveArr.push(_this.otherFocusVal)
-            }
-=======
           if (key === arr.length - 1 && _this.otherFocusVal !== '') {
             saveArr.pop()
             saveArr.push(_this.otherFocusVal)
->>>>>>> shine
           }
         }
       })
@@ -232,14 +217,6 @@
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-<<<<<<< HEAD
-        console.log('infoData', this.jsonData)
-        console.log('areaData', this.areaData)
-        console.log('roundData', this.roundData)
-        // 报名成功后设置role
-        await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
-        this.store.dispatch(setRole(2))
-=======
         const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         if (!this.isShow) {
@@ -280,7 +257,6 @@
             })
           }
         }
->>>>>>> shine
       },
       perfectInfo() {
         this.isShow = false
