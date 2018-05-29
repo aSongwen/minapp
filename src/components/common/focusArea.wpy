@@ -7,25 +7,26 @@
       </checkbox-group>
     </view>
   </repeat>
-  <view class="ipt-box" wx:if="{{show}}">
+  <view class="ipt-box" wx:if="{{ckbName[7].checked}}">
     <input bindinput="inputData" class="focus-ipt" type="text" placeholder="请输入其他领域" value="{{value}}"></input>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class extends wepy.component {
-    data = {
-      show: false,
-      value: ''
-    }
     props = {
-      ckbName: Array,
-      twoWay: true
+      ckbName: {
+        type: Array,
+        twoWay: true
+      },
+      value: {
+        type: String,
+        twoWay: true
+      }
     }
     methods = {
       isChecked(e) {
         this.ckbName[e.target.dataset.id].checked = !this.ckbName[e.target.dataset.id].checked
-        this.ckbName[7].checked ? (this.show = true) : (this.show = false)
       },
       inputData(e) {
         // console.log('old:', this.value, 'new', e.detail.value)

@@ -4,7 +4,7 @@
     <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
   </repeat>
     <view class="apply-name focus">关注领域</view>
-    <focusarea :ckbName.sync="ckbName"></focusarea>
+    <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
 
     <view class="apply-name focus">所投轮次</view>
     <repeat for="{{roundName}}" item="item" index="index" key="key">
@@ -178,10 +178,11 @@
     }
     getData(thisArr, saveArr, Bool = false) {
       let _this = this
+      console.log(`thisArr`, thisArr)
       thisArr.forEach((val, key, arr) => {
         val.checked && saveArr.push(val.name)
         if (Bool) {
-          if (key === arr.length - 1 && _this.otherFocusVal !== '') {
+          if (key === arr.length - 1 && _this.otherFocusVal !== '' && val.checked) {
             saveArr.pop()
             saveArr.push(_this.otherFocusVal)
           }
@@ -197,12 +198,25 @@
             return val
           })
           const focusArea = result.data['focus_area'].split(',')
+          let ckbName = []
           this.ckbName = this.ckbName.map(val => {
+            ckbName.push(val.name)
             if (focusArea.indexOf(val.name) !== -1) {
               val.checked = true
             }
             return val
           })
+          let other = ''
+          // 获取其他
+          focusArea.map(val => {
+            if (ckbName.indexOf(val) === -1) {
+              other = val
+            }
+          })
+          if (other !== '') {
+            this.ckbName[7].checked = true
+            this.otherFocusVal = other
+          }
           const roundName = result.data['rounds'].split(',')
           this.roundName = this.roundName.map(val => {
             if (roundName.indexOf(val.name) !== -1) {

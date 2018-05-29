@@ -7,7 +7,7 @@
     </repeat>
 
     <view class="apply-name focus">关注领域</view>
-    <focusarea :ckbName.sync="ckbName"></focusarea>
+    <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
 
     <view class="submit">
       <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
@@ -141,13 +141,13 @@
       this.areaData = []
       this.ckbName.forEach((val, key, arr) => {
         val.checked && _this.areaData.push(val.name)
-        if (key === arr.length - 1 && _this.otherFocusVal !== '') {
+        if (key === arr.length - 1 && _this.otherFocusVal !== '' && val.checked) {
           _this.areaData.pop()
           _this.areaData.push(_this.otherFocusVal)
         }
       })
     }
-    async onload() {
+    async onLoad() {
       try {
         const result = await vcRequest.getInfo()
         console.log(result)
@@ -157,12 +157,25 @@
             return val
           })
           const focusArea = result.data['focus_area'].split(',')
+          let ckbName = []
           this.ckbName = this.ckbName.map(val => {
+            ckbName.push(val.name)
             if (focusArea.indexOf(val.name) !== -1) {
               val.checked = true
             }
             return val
           })
+          let other = ''
+          // 获取其他
+          focusArea.map(val => {
+            if (ckbName.indexOf(val) === -1) {
+              other = val
+            }
+          })
+          if (other !== '') {
+            this.ckbName[7].checked = true
+            this.otherFocusVal = other
+          }
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
