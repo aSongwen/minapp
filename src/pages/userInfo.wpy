@@ -1,4 +1,5 @@
 <template>
+<loginBox></loginBox>
   <view>
     <view class="userinfo">
       <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar"></image>

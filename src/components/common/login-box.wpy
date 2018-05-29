@@ -64,7 +64,6 @@
         const role = res.currentTarget.dataset.role
         if (res.detail.errMsg === 'getUserInfo:ok') {
           const loginCode = await wepy.login()
-          console.log(loginCode)
           await this.store.dispatch(setUserInfo(res.detail.userInfo))
           // if (this.role) {
           //   console.log(`role`, this.role)
@@ -76,7 +75,6 @@
           })
           if (loginCode.code) {
             const code = loginCode.code
-            console.log(code)
             try {
               console.log({ ...res.detail.userInfo })
               const result = await login.login(code, { ...res.detail.userInfo })

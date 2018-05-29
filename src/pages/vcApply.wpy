@@ -154,18 +154,19 @@
     async onLoad() {
       try {
         const result = await vcRequest.getInfo()
-        this.iptName = this.iptName.map(val => {
-          val.value = result.data[val.engName]
-          return val
-        })
-        // 这里出错咯～～～～～～
-        const focusArea = result.data['focus_area'].split(',')
-        this.ckbName = this.ckbName.map(val => {
-          if (focusArea.indexOf(val.name) !== -1) {
-            val.checked = true
-          }
-          return val
-        })
+        if (result.code === 20000) {
+          this.iptName = this.iptName.map(val => {
+            val.value = result.data[val.engName]
+            return val
+          })
+          const focusArea = result.data['focus_area'].split(',')
+          this.ckbName = this.ckbName.map(val => {
+            if (focusArea.indexOf(val.name) !== -1) {
+              val.checked = true
+            }
+            return val
+          })
+        }
       } catch (err) {
         console.log(err)
       }
