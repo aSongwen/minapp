@@ -12,4 +12,8 @@ export default class startup extends base {
     const _url = url.startup
     return this.post(_url, param)
   }
+  static update(param) {
+    const _url = url.startup
+    return this.put(_url, param)
+  }
 }
