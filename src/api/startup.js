@@ -4,8 +4,8 @@
 import base from './base'
 import url from './url'
 export default class startup extends base {
-  static getInfo(id) {
-    const _url = `${url.startup}/${id}`
+  static getInfo() {
+    const _url = `${url.startup}`
     return this.get(_url).then(data => data)
   }
   static apply(param) {

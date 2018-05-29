@@ -13,10 +13,7 @@
       iptId: Number,
       engName: String,
       iptType: String,
-      iptVal: {
-        twoWay: true,
-        type: String
-      },
+      iptVal: String,
       twoWay: true
     }
     methods = {
