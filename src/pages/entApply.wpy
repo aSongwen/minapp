@@ -1,5 +1,5 @@
 <template>
-  <view class="apply-name">信息注册</view>
+  <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
   <repeat for="{{iptName}}" key="item" index="index" item="item">
     <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
   </repeat>
@@ -18,7 +18,7 @@
   </repeat>
 
   <view class="submit">
-    <button @tap="submit">确定报名</button>
+    <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
   </view>
   <view class="mask" wx:if="{{isShow}}"></view>
   <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
@@ -38,9 +38,13 @@
     setRole
     // setLoginBoxVisual
   } from '../store/actions/user-info'
+  import Request from '../api/startup'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
+    },
+    role(state) {
+      return state.userInfo.role
     }
   })
   export default class extends wepy.page {
@@ -196,18 +200,46 @@
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-        console.log('ifoData', this.jsonData)
-        console.log('areaData', this.areaData)
-        console.log('roundData', this.roundData)
-        // 报名成功后设置role
+        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
-        this.store.dispatch(setRole(2))
-        const userInfo = this.userInfo
-        userInfo.role = 2
-        wepy.setStorage({
-          key: 'userInfo',
-          data: userInfo
-        })
+        if (!this.isShow) {
+          try {
+            const result = await Request.apply(data)
+            if (result.code === 20000) {
+              // 报名成功后设置
+              this.store.dispatch(setRole(2))
+              const userInfo = this.userInfo
+              userInfo.role = 2
+              wepy.setStorage({
+                key: 'userInfo',
+                data: userInfo
+              })
+              wepy.showModal({
+                title: '提示',
+                content: result.msg,
+                showCancel: false
+              }).then(res => {
+                console.log(`用户点击确定`)
+                wepy.navigateBack({
+                  delta: 1
+                })
+              })
+              // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+            } else {
+              wepy.showModal({
+                title: '提示',
+                content: result.msg || '未知错误',
+                showCancel: false
+              })
+            }
+          } catch (err) {
+            wepy.showModal({
+              title: '提示',
+              content: err,
+              showCancel: false
+            })
+          }
+        }
       },
       perfectInfo() {
         this.isShow = false

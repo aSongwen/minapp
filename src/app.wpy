@@ -76,6 +76,8 @@
       const store = getStore()
       try {
         await wepy.checkSession()
+        const token = await wepy.getStorage({key: 'token'})
+        await store.dispatch(asyncToken(token.data))
         // throw new Error('error')
       } catch (err) {
         console.log(err)

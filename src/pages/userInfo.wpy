@@ -7,9 +7,11 @@
       <view>{{userInfo.nickName}}</view>
     </view>
     <view class="per-navigation">
-      <userItem>
-        <view slot="personalInfo">个人信息</view>
-      </userItem>
+      <navigator url="{{role === 1 ? url.vc : url.startup}}">
+        <userItem>
+          <view slot="personalInfo">个人信息</view>
+        </userItem>
+      </navigator>
       <navigator url="{{url.communicated}}">
         <userItem>
           <view slot="personalInfo">面谈记录</view>
@@ -37,6 +39,9 @@
   @connect({
     userInfo(state) {
       return state.userInfo.detail
+    },
+    role(state) {
+      return state.userInfo.role
     }
   })
   export default class extends wepy.page {
@@ -46,7 +51,9 @@
     data = {
       url: {
         communicated: './communicated',
-        introduced: './vcIntroduced'
+        introduced: './vcIntroduced',
+        vc: './vcApply',
+        startup: './startup'
       }
     }
     components = {
