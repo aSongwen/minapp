@@ -1,8 +1,36 @@
 <template>
+<<<<<<< HEAD
   <view>
     <view class="apply-name">信息注册</view>
     <repeat for="{{iptName}}" key="item" index="index" item="item">
       <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+=======
+  <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+  <repeat for="{{iptName}}" key="item" index="index" item="item">
+    <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+  </repeat>
+
+  <view class="apply-name focus">关注领域</view>
+  <focusarea :ckbName.sync="ckbName"></focusarea>
+
+  <view class="apply-name focus">所投轮次</view>
+  <repeat for="{{roundName}}" item="item" index="index" key="key">
+    <view class="focus-area">
+      <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+        <label>{{item.name}}</label>
+        <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
+      </checkbox-group>
+    </view>
+  </repeat>
+
+  <view class="submit">
+    <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
+  </view>
+  <view class="mask" wx:if="{{isShow}}"></view>
+  <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
+    <repeat for="{{validateCon}}" item="item" index="index" key="item">
+      <text class="val-text">{{item}}</text>
+>>>>>>> shine
     </repeat>
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName"></focusarea>
@@ -29,12 +57,23 @@
 <script>
   import wepy from 'wepy'
   // import // 引入redux setRole
-  import { getStore } from 'wepy-redux'
+  import { getStore, connect } from 'wepy-redux'
   // 报名接口返回setRole角色
   import infoReg from '../components/common/infoRegister'
   import focusArea from '../components/common/focusArea'
-  import { setRole, setLoginBoxVisual } from '../store/actions/user-info'
-
+  import {
+    setRole
+    // setLoginBoxVisual
+  } from '../store/actions/user-info'
+  import Request from '../api/startup'
+  @connect({
+    userInfo(state) {
+      return state.userInfo.detail
+    },
+    role(state) {
+      return state.userInfo.role
+    }
+  })
   export default class extends wepy.page {
     store = getStore()
     config = {
@@ -168,11 +207,17 @@
       thisArr.forEach((val, key, arr) => {
         val.checked && saveArr.push(val.name)
         if (Bool) {
+<<<<<<< HEAD
           if (thisArr[thisArr.length - 1].checked) {
             if (key === arr.length - 1) {
               saveArr.pop()
               saveArr.push(_this.otherFocusVal)
             }
+=======
+          if (key === arr.length - 1 && _this.otherFocusVal !== '') {
+            saveArr.pop()
+            saveArr.push(_this.otherFocusVal)
+>>>>>>> shine
           }
         }
       })
@@ -187,12 +232,55 @@
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
+<<<<<<< HEAD
         console.log('infoData', this.jsonData)
         console.log('areaData', this.areaData)
         console.log('roundData', this.roundData)
         // 报名成功后设置role
         await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         this.store.dispatch(setRole(2))
+=======
+        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData })
+        // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        if (!this.isShow) {
+          try {
+            const result = await Request.apply(data)
+            if (result.code === 20000) {
+              // 报名成功后设置
+              this.store.dispatch(setRole(2))
+              const userInfo = this.userInfo
+              userInfo.role = 2
+              wepy.setStorage({
+                key: 'userInfo',
+                data: userInfo
+              })
+              wepy.showModal({
+                title: '提示',
+                content: result.msg,
+                showCancel: false
+              }).then(res => {
+                console.log(`用户点击确定`)
+                wepy.navigateBack({
+                  delta: 1
+                })
+              })
+              // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+            } else {
+              wepy.showModal({
+                title: '提示',
+                content: result.msg || '未知错误',
+                showCancel: false
+              })
+            }
+          } catch (err) {
+            wepy.showModal({
+              title: '提示',
+              content: err,
+              showCancel: false
+            })
+          }
+        }
+>>>>>>> shine
       },
       perfectInfo() {
         this.isShow = false

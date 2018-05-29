@@ -1,9 +1,9 @@
 import base from './base'
-// import Url from './url'
+import url from './url'
 export default class login extends base {
   static login(code, user) {
-    const url = `https://vcmeetup.technode.com/api/login`
-    return this.post(url, {
+    const loginurl = url.login
+    return this.post(loginurl, {
       code,
       user
     })

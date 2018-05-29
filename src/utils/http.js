@@ -19,11 +19,12 @@ export default class http {
     }
     console.info(`[http]request url=${url}`)
     const res = await wepy.request(param)
-    if (this.isSuccess(res)) {
-      return res.data
-    } else {
-      throw this.requestException(res)
-    }
+    return res.data
+    // if (this.isSuccess(res)) {
+    //   return res.data
+    // } else {
+    //   throw this.requestException(res)
+    // }
   }
 
   /**

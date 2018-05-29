@@ -1,8 +1,24 @@
 <template>
+<<<<<<< HEAD
   <view>
     <view class="apply-name">信息注册</view>
     <repeat for="{{iptName}}" key="item" index="index" item="item">
       <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+=======
+  <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+  <repeat for="{{iptName}}" key="item" index="index" item="item">
+    <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName" :iptVal.sync="item.value"></inforeg>
+  </repeat>
+  <view class="apply-name focus">关注领域</view>
+  <focusarea :ckbName.sync="ckbName"></focusarea>
+  <view class="submit">
+    <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
+  </view>
+  <view class="mask" wx:if="{{isShow}}"></view>
+  <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
+    <repeat for="{{validateCon}}" item="item" index="index" key="item">
+      <text class="val-text">{{item}}</text>
+>>>>>>> shine
     </repeat>
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName"></focusarea>
@@ -22,8 +38,21 @@
   import wepy from 'wepy'
   import infoReg from '../components/common/infoRegister'
   import focusArea from '../components/common/focusArea'
-  import { getStore } from 'wepy-redux'
-  import { setRole, setLoginBoxVisual } from '../store/actions/user-info'
+  import vcRequest from '../api/vc'
+  import { getStore, connect } from 'wepy-redux'
+  import {
+    setRole
+  // setLoginBoxVisual
+  } from '../store/actions/user-info'
+
+  @connect({
+    userInfo(state) {
+      return state.userInfo.detail
+    },
+    role(state) {
+      return state.userInfo.role
+    }
+  })
   export default class extends wepy.page {
     store = getStore()
     config = {
@@ -123,21 +152,79 @@
       this.areaData = []
       this.ckbName.forEach((val, key, arr) => {
         val.checked && _this.areaData.push(val.name)
-        if (key === arr.length - 1) {
+        if (key === arr.length - 1 && _this.otherFocusVal !== '') {
           _this.areaData.pop()
           _this.areaData.push(_this.otherFocusVal)
         }
       })
     }
+    async onLoad() {
+      try {
+        const result = await vcRequest.getInfo()
+        this.iptName = this.iptName.map(val => {
+          val.value = result.data[val.engName]
+          return val
+        })
+        // 这里出错咯～～～～～～
+        const focusArea = result.data['focus_area'].split(',')
+        this.ckbName = this.ckbName.map(val => {
+          if (focusArea.indexOf(val.name) !== -1) {
+            val.checked = true
+          }
+          return val
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
     methods = {
       async submit() {
         this.getAreaData()
         this.validateForm()
-        console.log(this.jsonData)
-        console.log(this.areaData)
-        // 报名成功后设置
-        this.store.dispatch(setRole(1))
-        await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        if (!this.isShow) {
+          const data = Object.assign({}, this.jsonData, {focusArea: this.areaData})
+          try {
+            let result
+            if (!this.role) {
+              result = await vcRequest.apply(data)
+            } else {
+              result = await vcRequest.update(data)
+            }
+            if (result.code === 20000) {
+              // 报名成功后设置
+              this.store.dispatch(setRole(1))
+              const userInfo = this.userInfo
+              userInfo.role = 1
+              wepy.setStorage({
+                key: 'userInfo',
+                data: userInfo
+              })
+              wepy.showModal({
+                title: '提示',
+                content: result.msg,
+                showCancel: false
+              }).then(res => {
+                console.log(`用户点击确定`)
+                wepy.navigateBack({
+                  delta: 1
+                })
+              })
+              // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+            } else {
+              wepy.showModal({
+                title: '提示',
+                content: result.msg || '未知错误',
+                showCancel: false
+              })
+            }
+          } catch (err) {
+            wepy.showModal({
+              title: '提示',
+              content: err,
+              showCancel: false
+            })
+          }
+        }
       },
       perfectInfo() {
         this.isShow = false

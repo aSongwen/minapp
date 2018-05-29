@@ -1,5 +1,6 @@
 <template>
   <view>
+<<<<<<< HEAD
     <loginBox></loginBox>
     <view>
       <view class="userinfo">
@@ -26,6 +27,31 @@
       <view class="qr-code">
         <image class="code-img" src="{{codeImg}}" />
       </view>
+=======
+    <view class="userinfo">
+      <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar"></image>
+      <view>{{userInfo.nickName}}</view>
+    </view>
+    <view class="per-navigation">
+      <navigator url="{{role === 1 ? url.vc : url.startup}}">
+        <userItem>
+          <view slot="personalInfo">个人信息</view>
+        </userItem>
+      </navigator>
+      <navigator url="{{url.communicated}}">
+        <userItem>
+          <view slot="personalInfo">面谈记录</view>
+        </userItem>
+      </navigator>
+      <navigator url="{{url.introduced}}">
+        <userItem class="border-none">
+          <view slot="personalInfo">动点创投介绍</view>
+        </userItem>
+      </navigator>
+    </view>
+    <view class="qr-code">
+      <image class="code-img" src="{{codeImg}}"></image>
+>>>>>>> shine
     </view>
   </view>
 </template>
@@ -40,6 +66,9 @@
   @connect({
     userInfo(state) {
       return state.userInfo.detail
+    },
+    role(state) {
+      return state.userInfo.role
     }
   })
   export default class extends wepy.page {
@@ -50,7 +79,9 @@
       url: {
         userInfo: '',
         communicated: './communicated',
-        introduced: './vcIntroduced'
+        introduced: './vcIntroduced',
+        vc: './vcApply',
+        startup: './startup'
       }
     }
     components = {

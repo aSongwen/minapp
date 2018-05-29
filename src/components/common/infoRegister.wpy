@@ -1,7 +1,7 @@
 <template>
   <view class="item">
     <label class="ipt-name">{{iptName}}</label>
-    <input bindinput="iptData" id="{{iptId}}" type="{{iptType}}" class="ipt" data-engName="{{engName}}"></input>
+    <input value="{{iptVal}}" bindinput="iptData" id="{{iptId}}" type="{{iptType}}" class="ipt" data-engName="{{engName}}"></input>
   </view>
 </template>
 <script>
@@ -13,6 +13,10 @@
       iptId: Number,
       engName: String,
       iptType: String,
+      iptVal: {
+        twoWay: true,
+        type: String
+      },
       twoWay: true
     }
     methods = {
