@@ -1,8 +1,9 @@
 <template>
-  <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
-  <repeat for="{{iptName}}" key="item" index="index" item="item">
-    <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
-  </repeat>
+  <view>
+    <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+    <repeat for="{{iptName}}" key="item" index="index" item="item">
+      <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+    </repeat>
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
 
@@ -15,6 +16,8 @@
         </checkbox-group>
       </view>
     </repeat>
+
+    <fileupload></fileupload>
 
     <view class="submit">
       <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
@@ -40,6 +43,7 @@
     // setLoginBoxVisual
   } from '../store/actions/user-info'
   import Request from '../api/startup'
+  import fileUpload from '../components/common/fileUpload'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -165,7 +169,8 @@
     }
     components = {
       inforeg: infoReg,
-      focusarea: focusArea
+      focusarea: focusArea,
+      fileupload: fileUpload
     }
     validateForm() {
       this.validateCon = []
@@ -190,7 +195,11 @@
       })
     }
     async onLoad() {
+      if (!this.role) return
       try {
+        wepy.showLoading({
+          title: 'loading...'
+        })
         const result = await Request.getInfo()
         if (result.code === 20000) {
           this.iptName = this.iptName.map(val => {
@@ -227,6 +236,7 @@
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
+          wepy.hideLoading()
           this.$apply()
         }
       } catch (err) {
