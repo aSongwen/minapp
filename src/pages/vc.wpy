@@ -2,7 +2,7 @@
   <loginBox></loginBox>
   <vc-popup :show.sync="vcPopupCss" :detail.sync="vcPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
   </vc-popup>
-  <classify :rootcateList.sync="vcCateList" :testData.sync="vcDetailList">
+  <classify :cateList.sync="vcCateList" :detailList.sync="vcDetailList">
   </classify>
 </template>
 
@@ -13,6 +13,7 @@
   import classify from '../components/common/classify'
   import popup from '../components/common/popup'
   import loginBox from '../components/common/login-box'
+  import Request from '../api/vc'
   @connect({
     vcDetailList(state) {
       return state.vcPage.vcDetailList
@@ -34,20 +35,55 @@
       vcPopupCss: 'visibility:hidden;',
       vcPopupDetail: {},
       dataType: 'vcPage',
-      btnShow: 'display:block;'
+      btnShow: 'display:block;',
+      vcCateListDefault: [
+        {
+          id: 0,
+          name: '人工智能',
+          active: true
+        }, {
+          id: 1,
+          name: '金融行业',
+          active: false
+        }, {
+          id: 2,
+          name: '区块链',
+          active: false
+        }, {
+          id: 3,
+          name: '文化娱乐',
+          active: false
+        }, {
+          id: 4,
+          name: '医药行业',
+          active: false
+        }, {
+          id: 5,
+          name: '高端制造',
+          active: false
+        }, {
+          id: 6,
+          name: '企业服务',
+          active: false
+        }, {
+          id: 7,
+          name: '其他',
+          active: false
+        }
+      ]
     }
-    onLoad() {
+    async onLoad() {
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
       })
       // 获取全部vc信息
-      Promise.all([store.dispatch(asyncVcCateList()), store.dispatch(asyncDetailList())]).then(res => {
+      const vcAllData = (await Request.getInfoAll()).data
+      Promise.all([store.dispatch(asyncVcCateList(this.vcCateListDefault)), store.dispatch(asyncDetailList(vcAllData))]).then(res => {
         wepy.hideLoading()
         this.$broadcast('EdataCate')
       })
     }
-    onShow() {}
     vcDetailById(index) {
       return this.vcDetailList.filter(({id}) => id === index)
     }

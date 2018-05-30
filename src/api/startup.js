@@ -8,6 +8,10 @@ export default class startup extends base {
     const _url = `${url.startup}`
     return this.get(_url).then(data => data)
   }
+  static getInfoAll() {
+    const _url = `${url.startupAll}`
+    return this.get(_url)
+  }
   static apply(param) {
     const _url = url.startup
     return this.post(_url, param)

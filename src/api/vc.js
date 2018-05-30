@@ -5,8 +5,12 @@ import base from './base'
 import url from './url'
 export default class vc extends base {
   static getInfo() {
-    const vcurl = `${url.vc}`
-    return this.get(vcurl)
+    const _url = `${url.vc}`
+    return this.get(_url)
+  }
+  static getInfoAll() {
+    const _url = `${url.vcAll}`
+    return this.get(_url)
   }
   static apply(param) {
     const _url = url.vc

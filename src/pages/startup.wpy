@@ -2,7 +2,7 @@
 <loginBox></loginBox>
   <startup-popup :show.sync="startupPopupCss" :detail.sync="startupPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
   </startup-popup>
-  <classify :rootcateList.sync="startupCateList" :testData.sync="startupDetailList">
+  <classify :cateList.sync="startupCateList" :detailList.sync="startupDetailList">
   </classify>
 </template>
 
@@ -13,7 +13,7 @@
   import classify from '../components/common/classify'
   import loginBox from '../components/common/login-box'
   import popup from '../components/common/popup'
-  
+  import Request from '../api/startup'
   @connect({
     startupDetailList(state) {
       return state.startupPage.startupDetailList
@@ -35,14 +35,51 @@
       startupPopupCss: 'visibility:hidden;',
       startupPopupDetail: {},
       dataType: 'startupPage',
-      btnShow: 'display:block;'
+      btnShow: 'display:block;',
+      startupCateListDefault: [
+        {
+          id: 0,
+          name: '人工智能',
+          active: true
+        }, {
+          id: 1,
+          name: '金融行业',
+          active: false
+        }, {
+          id: 2,
+          name: '区块链',
+          active: false
+        }, {
+          id: 3,
+          name: '文化娱乐',
+          active: false
+        }, {
+          id: 4,
+          name: '医药行业',
+          active: false
+        }, {
+          id: 5,
+          name: '高端制造',
+          active: false
+        }, {
+          id: 6,
+          name: '企业服务',
+          active: false
+        }, {
+          id: 7,
+          name: '其他',
+          active: false
+        }
+      ]
     }
-    onLoad() {
+    async onLoad() {
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
       })
-      Promise.all([store.dispatch(asyncStartupCateList()), store.dispatch(asyncStartupDetailList())]).then(res => {
+      // 获取全部startup信息
+      const startupAllData = (await Request.getInfoAll()).data
+      Promise.all([store.dispatch(asyncStartupCateList(this.startupCateListDefault)), store.dispatch(asyncStartupDetailList(startupAllData))]).then(res => {
         wepy.hideLoading()
         this.$broadcast('EdataCate')
       })

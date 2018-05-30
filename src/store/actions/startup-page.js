@@ -1,43 +1,8 @@
 import { ASYNC_STARTUP_DETAILLIST, ASYNC_STARTUP_CATELIST } from '../types/index'
 import { createAction } from 'redux-actions'
 export const asyncStartupCateList = createAction(ASYNC_STARTUP_CATELIST, (res) => {
-  const startupCateList = [
-    {
-      id: 0,
-      name: '人工智能',
-      active: true
-    }, {
-      id: 1,
-      name: '金融行业',
-      active: false
-    }, {
-      id: 2,
-      name: '区块链',
-      active: false
-    }, {
-      id: 3,
-      name: '文化娱乐',
-      active: false
-    }, {
-      id: 4,
-      name: '医药行业',
-      active: false
-    }, {
-      id: 5,
-      name: '高端制造',
-      active: false
-    }, {
-      id: 6,
-      name: '企业服务',
-      active: false
-    }, {
-      id: 7,
-      name: '其他',
-      active: false
-    }
-  ]
   return new Promise(resolve => {
-    resolve(startupCateList)
+    resolve(res)
   })
 })
 

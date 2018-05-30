@@ -188,8 +188,9 @@
         val.checked && saveArr.push(val.name)
         if (Bool) {
           if (key === arr.length - 1 && _this.otherFocusVal !== '' && val.checked) {
-            saveArr.pop()
-            saveArr.push(_this.otherFocusVal)
+            // saveArr.pop()
+            // saveArr.push(_this.otherFocusVal)
+            saveArr = saveArr[saveArr.length - 1] + _this.otherFocusVal
           }
         }
       })

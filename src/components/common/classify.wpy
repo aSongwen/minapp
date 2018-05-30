@@ -1,17 +1,17 @@
 <template>
   <view class="classify" style="height:{{windowHeight-25}}px">
     <scroll-view class="classify_catetory" scroll-y scroll-with-animation="true" style="height:100%">
-      <repeat for="{{rootcateList}}" key="item" index="index">
-        <view class="name {{item.active? 'active':''}}" @tap="changeCate" data-id="{{item.id}}" data-index="{{index}}">
+      <repeat for="{{cateList}}" key="item" index="index">
+        <view class="name {{item.active? 'active':''}}" @tap="changeCate" data-id="{{item.id}}" data-index="{{index}}" data-name="{{item.name}}">
           {{item.name}}
         </view>
       </repeat>
     </scroll-view>
     <scroll-view class="classify_detail"  scroll-with-animation="true" style="height:100%">
       <view class="children">
-        <repeat for="{{childcateList}}" key="item" index="index">
+        <repeat for="{{childCateList}}" key="item" index="index">
           <view hover-class="none" class="children_item" url="" data-index="{{item.id}}" @tap="showDetail">
-            <view class="child_name">{{item.name}}</view>
+            <view class="child_name">{{item.company}}</view>
           </view>
         </repeat>
       </view>
@@ -25,12 +25,12 @@
     data = {
       scrollTop: 100,
       windowHeight: 0,
-      childcateList: [],
+      childCateList: [],
       statusBarHeight: 0
     }
     props = {
-      rootcateList: Array,
-      testData: Array
+      cateList: Array,
+      detailList: Array
     }
     cateIndex = 0
     async onLoad() {
@@ -43,18 +43,18 @@
         // console.log(err)
       }
     }
-    dataCate(parentId) {
-      this.childcateList = this.testData.filter((value) => value.parentId === parentId)
+    dataCate(cateName) {
+      this.childCateList = this.detailList.filter(({ focus_area }) => focus_area.indexOf(cateName) !== -1)
     }
     upStatus(index, newIndex) {
-      this.rootcateList[index].active = false
-      this.rootcateList[newIndex].active = true
+      this.cateList[index].active = false
+      this.cateList[newIndex].active = true
     }
     methods = {
       changeCate(e) {
-        const id = e.currentTarget.dataset.id
+        const name = e.currentTarget.dataset.name
         const index = e.currentTarget.dataset.index
-        this.dataCate(id)
+        this.dataCate(name)
         this.upStatus(this.cateIndex, index)
         this.cateIndex = index
       },
@@ -65,10 +65,8 @@
     }
     events = {
       EdataCate() {
-        if (this.rootcateList.length > 0) {
-          this.dataCate(this.rootcateList[0].id)
-        } else {
-          console.log(this.rootcateList.length)
+        if (this.cateList.length > 0) {
+          this.dataCate(this.cateList[0].name)
         }
       }
     }
