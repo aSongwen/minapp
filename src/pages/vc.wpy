@@ -23,7 +23,7 @@
   })
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: '分类'
+      navigationBarTitleText: '投资机构'
     }
     components = {
       classify,
@@ -41,6 +41,7 @@
       wepy.showLoading({
         title: 'loading...'
       })
+      // 获取全部vc信息
       Promise.all([store.dispatch(asyncVcCateList()), store.dispatch(asyncDetailList())]).then(res => {
         wepy.hideLoading()
         this.$broadcast('EdataCate')

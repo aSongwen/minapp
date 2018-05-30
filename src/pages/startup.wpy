@@ -24,7 +24,7 @@
   })
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: '分类'
+      navigationBarTitleText: '创业项目'
     }
     components = {
       classify,

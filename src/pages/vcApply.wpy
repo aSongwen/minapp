@@ -45,7 +45,7 @@
   export default class extends wepy.page {
     store = getStore()
     config = {
-      navigationBarTitleText: '投资人报名'
+      navigationBarTitleText: '投资机构'
     }
     data = {
       iptName: [
