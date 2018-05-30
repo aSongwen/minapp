@@ -1,30 +1,34 @@
 <template>
-  <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
-  <repeat for="{{iptName}}" key="item" index="index" item="item">
-    <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
-  </repeat>
-  <view class="apply-name focus">关注领域</view>
-  <focusarea :ckbName.sync="ckbName"></focusarea>
-
-  <view class="apply-name focus">所投轮次</view>
-  <repeat for="{{roundName}}" item="item" index="index" key="key">
-    <view class="focus-area">
-      <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
-        <label>{{item.name}}</label>
-        <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
-      </checkbox-group>
-    </view>
-  </repeat>
-
-  <view class="submit">
-    <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
-  </view>
-  
-  <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
-  <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
-    <repeat for="{{validateCon}}" item="item" index="index" key="item">
-      <text class="val-text">{{item}}</text>
+  <view>
+    <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+    <repeat for="{{iptName}}" key="item" index="index" item="item">
+      <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
     </repeat>
+    <view class="apply-name focus">关注领域</view>
+    <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
+
+    <view class="apply-name focus">所投轮次</view>
+    <repeat for="{{roundName}}" item="item" index="index" key="key">
+      <view class="focus-area">
+        <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+          <label>{{item.name}}</label>
+          <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
+        </checkbox-group>
+      </view>
+    </repeat>
+
+    <fileupload></fileupload>
+
+    <view class="submit">
+      <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
+    </view>
+    
+    <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
+    <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
+      <repeat for="{{validateCon}}" item="item" index="index" key="item">
+        <text class="val-text">{{item}}</text>
+      </repeat>
+    </view>
   </view>
 </template>
 <script>
@@ -39,6 +43,7 @@
     // setLoginBoxVisual
   } from '../store/actions/user-info'
   import Request from '../api/startup'
+  import fileUpload from '../components/common/fileUpload'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -164,7 +169,8 @@
     }
     components = {
       inforeg: infoReg,
-      focusarea: focusArea
+      focusarea: focusArea,
+      fileupload: fileUpload
     }
     validateForm() {
       this.validateCon = []
@@ -177,10 +183,11 @@
     }
     getData(thisArr, saveArr, Bool = false) {
       let _this = this
+      console.log(`thisArr`, thisArr)
       thisArr.forEach((val, key, arr) => {
         val.checked && saveArr.push(val.name)
         if (Bool) {
-          if (key === arr.length - 1 && _this.otherFocusVal !== '') {
+          if (key === arr.length - 1 && _this.otherFocusVal !== '' && val.checked) {
             saveArr.pop()
             saveArr.push(_this.otherFocusVal)
           }
@@ -188,7 +195,11 @@
       })
     }
     async onLoad() {
+      if (!this.role) return
       try {
+        wepy.showLoading({
+          title: 'loading...'
+        })
         const result = await Request.getInfo()
         if (result.code === 20000) {
           this.iptName = this.iptName.map(val => {
@@ -196,12 +207,25 @@
             return val
           })
           const focusArea = result.data['focus_area'].split(',')
+          let ckbName = []
           this.ckbName = this.ckbName.map(val => {
+            ckbName.push(val.name)
             if (focusArea.indexOf(val.name) !== -1) {
               val.checked = true
             }
             return val
           })
+          let other = ''
+          // 获取其他
+          focusArea.map(val => {
+            if (ckbName.indexOf(val) === -1) {
+              other = val
+            }
+          })
+          if (other !== '') {
+            this.ckbName[7].checked = true
+            this.otherFocusVal = other
+          }
           const roundName = result.data['rounds'].split(',')
           this.roundName = this.roundName.map(val => {
             if (roundName.indexOf(val.name) !== -1) {
@@ -212,6 +236,7 @@
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
+          wepy.hideLoading()
           this.$apply()
         }
       } catch (err) {

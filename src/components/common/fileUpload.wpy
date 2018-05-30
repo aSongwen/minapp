@@ -1,0 +1,44 @@
+<template>
+  <view class="upload">
+    <label>{{msg}}</label>
+    <button @tap="upload">上传文件</button>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class extends wepy.component {
+    data = {
+      msg: '未选择任何文件'
+    }
+    methods = {
+      upload () {
+        wepy.chooseImage({
+          success (res) {
+            let tempFilePaths = res.tempFilePaths
+            wepy.uploadFile({
+              url: 'https://vcmeetup.technode.com/api/upload',
+              filePath: tempFilePaths[0],
+              name: 'file',
+              success (res) {
+                console.log(res)
+              },
+              fail (err) {
+                console.log(err)
+              }
+            })
+          }
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .upload{
+    padding: 20rpx 40rpx 0;
+    button {
+      background: #f5f5f5;
+    }
+  }
+</style>

@@ -7,7 +7,17 @@
     </repeat>
 
     <view class="apply-name focus">关注领域</view>
-    <focusarea :ckbName.sync="ckbName"></focusarea>
+    <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
+
+    <view class="apply-name focus">所投轮次</view>
+    <repeat for="{{roundName}}" item="item" index="index" key="key">
+      <view class="focus-area">
+        <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+          <label>{{item.name}}</label>
+          <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
+        </checkbox-group>
+      </view>
+    </repeat>
 
     <view class="submit">
       <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
@@ -111,6 +121,33 @@
           checked: false
         }
       ],
+      roundName: [
+        {
+          id: 0,
+          name: '种子轮',
+          checked: false
+        }, {
+          id: 1,
+          name: '天使轮',
+          checked: false
+        }, {
+          id: 2,
+          name: 'A轮',
+          checked: false
+        }, {
+          id: 3,
+          name: 'B轮',
+          checked: false
+        }, {
+          id: 4,
+          name: 'C轮',
+          checked: false
+        }, {
+          id: 5,
+          name: '不限',
+          checked: false
+        }
+      ],
       isShow: false,
       validateCon: [],
       otherFocusVal: '',
@@ -121,7 +158,8 @@
         'email': '',
         'position': ''
       },
-      areaData: []
+      areaData: [],
+      roundData: []
     }
     components = {
       inforeg: infoReg,
@@ -136,19 +174,25 @@
       Object.values(this.jsonData).some(val => val === '') && this.validateCon.push('*信息请输入完整')
       this.validateCon.length === 0 ? (this.isShow = false) : (this.isShow = true)
     }
-    getAreaData() {
+    getData(thisArr, saveArr, Bool = false) {
       let _this = this
-      this.areaData = []
-      this.ckbName.forEach((val, key, arr) => {
-        val.checked && _this.areaData.push(val.name)
-        if (key === arr.length - 1 && _this.otherFocusVal !== '') {
-          _this.areaData.pop()
-          _this.areaData.push(_this.otherFocusVal)
+      console.log(`thisArr`, thisArr)
+      thisArr.forEach((val, key, arr) => {
+        val.checked && saveArr.push(val.name)
+        if (Bool) {
+          if (key === arr.length - 1 && _this.otherFocusVal !== '' && val.checked) {
+            saveArr.pop()
+            saveArr.push(_this.otherFocusVal)
+          }
         }
       })
     }
     async onLoad() {
+      if (!this.role) return
       try {
+        wepy.showLoading({
+          title: 'loading...'
+        })
         const result = await vcRequest.getInfo()
         if (result.code === 20000) {
           this.iptName = this.iptName.map(val => {
@@ -156,15 +200,29 @@
             return val
           })
           const focusArea = result.data['focus_area'].split(',')
-          this.ckbName = this.ckbName.map((val, index, arr) => {
+          let ckbName = []
+          this.ckbName = this.ckbName.map(val => {
+            ckbName.push(val.name)
             if (focusArea.indexOf(val.name) !== -1) {
               val.checked = true
             }
             return val
           })
+          let other = ''
+          // 获取其他
+          focusArea.map(val => {
+            if (ckbName.indexOf(val) === -1) {
+              other = val
+            }
+          })
+          if (other !== '') {
+            this.ckbName[7].checked = true
+            this.otherFocusVal = other
+          }
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
+          wepy.hideLoading()
           this.$apply()
         }
       } catch (err) {
@@ -173,10 +231,13 @@
     }
     methods = {
       async submit() {
-        this.getAreaData()
+        this.areaData = []
+        this.roundData = []
+        this.getData(this.ckbName, this.areaData, true)
+        this.getData(this.roundName, this.roundData)
         this.validateForm()
         if (!this.isShow) {
-          const data = Object.assign({}, this.jsonData, {focusArea: this.areaData})
+          const data = Object.assign({}, this.jsonData, {focusArea: this.areaData}, { rounds: this.roundData })
           try {
             let result
             if (!this.role) {
