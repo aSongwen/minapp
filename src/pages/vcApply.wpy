@@ -230,14 +230,17 @@
       }
     }
     methods = {
+      isChecked(e) {
+        this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
+      },
       async submit() {
         this.areaData = []
         this.roundData = []
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
+        const data = Object.assign({}, this.jsonData, {focusArea: this.areaData}, { rounds: this.roundData })
         if (!this.isShow) {
-          const data = Object.assign({}, this.jsonData, {focusArea: this.areaData}, { rounds: this.roundData })
           try {
             let result
             if (!this.role) {
