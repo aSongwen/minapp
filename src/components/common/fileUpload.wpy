@@ -12,6 +12,9 @@
       msg: '未选择任何文件'
     }
     methods = {
+      tel (e) {
+        console.log(123)
+      },
       upload () {
         wepy.chooseImage({
           success (res) {

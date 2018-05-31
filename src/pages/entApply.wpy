@@ -17,7 +17,13 @@
       </view>
     </repeat>
 
-    <fileupload></fileupload>
+    <view class="apply-name focus">产品介绍</view>
+    <view class="proIntArea">
+      <textarea bindinput="getTextArea" name="proint" id="proInt" cols="30" rows="50"></textarea>
+    </view>
+
+    <!-- <view class="apply-name focus">上传商业计划</view>
+    <fileupload></fileupload> -->
 
     <view class="submit">
       <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
@@ -165,7 +171,8 @@
         'position': ''
       },
       areaData: [],
-      roundData: []
+      roundData: [],
+      productDetail: ''
     }
     components = {
       inforeg: infoReg,
@@ -248,13 +255,16 @@
       isChecked(e) {
         this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
       },
+      getTextArea (e) {
+        this.productDetail = e.detail.value
+      },
       async submit() {
         this.areaData = []
         this.roundData = []
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData })
+        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { productDetail: this.productDetail })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         if (!this.isShow) {
           try {

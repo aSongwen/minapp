@@ -1,5 +1,6 @@
 <template>
-  <repeat for="{{ckbName}}" item="item" index="index" key="key">
+  <view>
+    <repeat for="{{ckbName}}" item="item" index="index" key="key">
     <view class="focus-area">
       <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
         <label>{{item.name}}</label>
@@ -9,6 +10,7 @@
   </repeat>
   <view class="ipt-box" wx:if="{{ckbName[7].checked}}">
     <input bindinput="inputData" class="focus-ipt" type="text" placeholder="请输入其他领域" value="{{value}}"></input>
+  </view>
   </view>
 </template>
 <script>
