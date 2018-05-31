@@ -1,11 +1,11 @@
 <template>
   <view class="popupwrap" style="{{show}}">
     <view class="window">
-      <view style="font-size:40rpx; color:#000;">{{detail.name}}</view>
+      <view style="font-size:40rpx; color:#000;">{{detail.company}}</view>
       <view wx:if="{{dataType === 'vcPage'}}">
         <view class="focusArea">关注领域：</view>
         <view class="focusArea-wrap">
-          <repeat for="{{detail.foucsArea}}" key="item" index="index">
+          <repeat for="{{detail.focus_area}}" key="item" index="index">
             <text class="focusArea-item">{{item}}</text>
           </repeat>
         </view>
@@ -19,7 +19,7 @@
       <view wx:elif="{{dataType === 'startupPage'}}">
         <view class="focusArea">创业领域：</view>
         <view class="focusArea-wrap">
-          <repeat for="{{detail.foucsArea}}" key="item" index="index">
+          <repeat for="{{detail.focus_area}}" key="item" index="index">
             <text class="focusArea-item">{{item}}</text>
           </repeat>
         </view>

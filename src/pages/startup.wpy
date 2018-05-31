@@ -72,7 +72,10 @@
         }
       ]
     }
-    async onLoad() {
+    onShow() {
+      this.getList()
+    }
+    async getList() {
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
@@ -84,7 +87,6 @@
         this.$broadcast('EdataCate')
       })
     }
-    onShow() {}
     startupDetailById(index) {
       return this.startupDetailList.filter(({id}) => id === index)
     }
@@ -95,6 +97,10 @@
         this.startupPopupCss = 'visibility:visible;'
         this.btnShow = 'display:block;'
         const startupDetail = this.startupDetailById(index)
+        if (typeof startupDetail[0].focus_area === 'string') {
+          startupDetail[0].focus_area = startupDetail[0].focus_area.split(',')
+          startupDetail[0].rounds = startupDetail[0].rounds.split(',')
+        }
         if (startupDetail.length > 0) this.startupPopupDetail = startupDetail[0]
       }
     }

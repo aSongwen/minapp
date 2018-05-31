@@ -72,13 +72,17 @@
         }
       ]
     }
-    async onLoad() {
+    onShow() {
+      this.getList()
+    }
+    async getList() {
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
       })
       // 获取全部vc信息
       const vcAllData = (await Request.getInfoAll()).data
+      console.log(`vcAllData`, vcAllData)
       Promise.all([store.dispatch(asyncVcCateList(this.vcCateListDefault)), store.dispatch(asyncDetailList(vcAllData))]).then(res => {
         wepy.hideLoading()
         this.$broadcast('EdataCate')
@@ -91,10 +95,13 @@
     methods = {}
     events = {
       showDetail(index) {
-        console.log('EshowDetail')
         this.vcPopupCss = 'visibility:visible;'
         this.btnShow = 'display:block;'
         const vcDetail = this.vcDetailById(index)
+        if (typeof vcDetail[0].focus_area === 'string') {
+          vcDetail[0].focus_area = vcDetail[0].focus_area.split(',')
+          vcDetail[0].rounds = vcDetail[0].rounds.split(',')
+        }
         if (vcDetail.length > 0) this.vcPopupDetail = vcDetail[0]
       }
     }

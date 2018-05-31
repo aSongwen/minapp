@@ -190,7 +190,7 @@
           if (key === arr.length - 1 && _this.otherFocusVal !== '' && val.checked) {
             // saveArr.pop()
             // saveArr.push(_this.otherFocusVal)
-            saveArr = saveArr[saveArr.length - 1] + _this.otherFocusVal
+            saveArr[saveArr.length - 1] += _this.otherFocusVal
           }
         }
       })
@@ -225,7 +225,7 @@
           })
           if (other !== '') {
             this.ckbName[7].checked = true
-            this.otherFocusVal = other
+            this.otherFocusVal = other.replace('其他', '')
           }
           const roundName = result.data['rounds'].split(',')
           this.roundName = this.roundName.map(val => {
