@@ -19,7 +19,7 @@
 
     <view class="apply-name focus">产品介绍</view>
     <view class="proIntArea">
-      <textarea bindinput="getTextArea" name="proint" id="proInt" cols="30" rows="50"></textarea>
+      <textarea bindinput="getTextArea" name="proint" id="proInt" cols="30" rows="50" value="{{product_detail}}"></textarea>
     </view>
 
     <!-- <view class="apply-name focus">上传商业计划</view>
@@ -172,7 +172,7 @@
       },
       areaData: [],
       roundData: [],
-      productDetail: ''
+      product_detail: ''
     }
     components = {
       inforeg: infoReg,
@@ -244,6 +244,8 @@
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
+          // 获取产品介绍
+          this.product_detail = result.data['product_detail']
           wepy.hideLoading()
           this.$apply()
         }
@@ -256,7 +258,7 @@
         this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
       },
       getTextArea (e) {
-        this.productDetail = e.detail.value
+        this.product_detail = e.detail.value
       },
       async submit() {
         this.areaData = []
@@ -264,7 +266,7 @@
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { productDetail: this.productDetail })
+        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { product_detaill: this.product_detail })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         if (!this.isShow) {
           try {
