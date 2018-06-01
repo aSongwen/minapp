@@ -321,7 +321,7 @@
       sendInfoVal(value, curIdx, engName) {
         this.iptName.forEach((val) => {
           if (val.id === curIdx) {
-            this.jsonData[engName] = value
+            this.jsonData[engName] = value.trim()
           }
         })
       }

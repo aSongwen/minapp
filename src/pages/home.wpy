@@ -3,16 +3,17 @@
     <swiper class="slider-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
-          <swiper-item>
+          <swiper-item class="slider-item">
             <image src="{{item}}" class="slide-image" mode="scaleToFill" />
           </swiper-item>
+          <view class="slider-txt">文字文字文字文字文字</view>
         </block>
       </repeat>
     </swiper>
     <view class="vc-article">
       <repeat for="{{vcImg}}" key="item" index="index" item="item">
         <view class="vc">
-          <image src="{{item.src}}" class="vc-image"></image>
+          <image src="{{item.src}}" class="vc-image" />
           <view class="vc-tit">
             <text class="vc-text">{{item.text}}</text>
             <view class="vc-describe">{{item.describe}}</view>
@@ -48,8 +49,8 @@
     data = {
       indicatorDots: true,
       autoplay: true,
-      interval: 1000,
-      duration: 1000,
+      interval: 3000,
+      duration: 2000,
       time: '',
       url: {
         article: './techArticle'
@@ -79,6 +80,9 @@
     .slide-image {
       width: 100vw;
       height: 100%;
+    }
+    .slider-txt {
+      width: 100%;
     }
   }
   .vc-article{
