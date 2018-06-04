@@ -19,7 +19,7 @@
 
     <view class="apply-name focus">产品介绍</view>
     <view class="proIntArea">
-      <textarea bindinput="getTextArea" name="proint" id="proInt" cols="30" rows="50"></textarea>
+      <textarea bindinput="getTextArea" name="proint" id="proInt" cols="30" rows="50" value="{{product_detail}}"></textarea>
     </view>
 
     <!-- <view class="apply-name focus">上传商业计划</view>
@@ -50,6 +50,7 @@
   } from '../store/actions/user-info'
   import Request from '../api/startup'
   import fileUpload from '../components/common/fileUpload'
+  import handErr from '../utils/handleError'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -172,7 +173,7 @@
       },
       areaData: [],
       roundData: [],
-      productDetail: ''
+      product_detail: ''
     }
     components = {
       inforeg: infoReg,
@@ -244,8 +245,18 @@
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
+          // 获取产品介绍
+          this.product_detail = result.data['product_detail']
           wepy.hideLoading()
           this.$apply()
+        } else {
+          wepy.hideLoading()
+          wepy.showModal({
+            title: '提示',
+            content: result.msg || '未知错误',
+            showCancel: false
+          })
+          handErr.handErr(result.code)
         }
       } catch (err) {
         console.log(err)
@@ -256,7 +267,7 @@
         this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
       },
       getTextArea (e) {
-        this.productDetail = e.detail.value
+        this.product_detail = e.detail.value
       },
       async submit() {
         this.areaData = []
@@ -264,7 +275,7 @@
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { productDetail: this.productDetail })
+        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { product_detaill: this.product_detail })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         if (!this.isShow) {
           try {
@@ -300,6 +311,7 @@
                 content: result.msg || '未知错误',
                 showCancel: false
               })
+              handErr(result.code)
             }
           } catch (err) {
             wepy.showModal({

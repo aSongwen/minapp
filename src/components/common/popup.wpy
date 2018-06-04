@@ -30,9 +30,7 @@
           </repeat>
         </view>
         <view style="margin-top:20rpx">产品介绍：</view>
-        <text class="product-info">我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
-  我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok我觉得还ok
-          </text>
+        <text class="product-info">{{detail.product_detail}}</text>
       </view>
       <view class="btn-ok" @tap="hidePopup" style="{{btnShow}}">好的</view>
     </view>
