@@ -275,7 +275,7 @@
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { product_detaill: this.product_detail })
+        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { product_detail: this.product_detail })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
         if (!this.isShow) {
           try {
