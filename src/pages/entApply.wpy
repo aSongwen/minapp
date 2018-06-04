@@ -50,6 +50,7 @@
   } from '../store/actions/user-info'
   import Request from '../api/startup'
   import fileUpload from '../components/common/fileUpload'
+  import handErr from '../utils/handleError'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -246,6 +247,14 @@
           }
           wepy.hideLoading()
           this.$apply()
+        } else {
+          wepy.hideLoading()
+          wepy.showModal({
+            title: '提示',
+            content: result.msg || '未知错误',
+            showCancel: false
+          })
+          handErr.handErr(result.code)
         }
       } catch (err) {
         console.log(err)
@@ -300,6 +309,7 @@
                 content: result.msg || '未知错误',
                 showCancel: false
               })
+              handErr(result.code)
             }
           } catch (err) {
             wepy.showModal({
