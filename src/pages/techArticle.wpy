@@ -1,6 +1,6 @@
 <template>
   <view>
-    <image src="{{articleData.src}}" class="tech-img"></image>
+    <image src="{{articleData.src}}" class="tech-img" />
     <view class="tech-title">{{articleData.title}}</view>
     <view class="tech-content">{{articleData.content}}</view>
   </view>

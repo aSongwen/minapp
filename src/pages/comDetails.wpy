@@ -20,7 +20,7 @@
           </view>
           <view class="details-item">
             <label class="details-name">项目BP</label>
-            <label class="details-txt">{{}}</label>
+            <!-- <label class="details-txt">{{}}</label> -->
           </view>
         </repeat>
       </view>

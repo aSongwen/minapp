@@ -1,12 +1,12 @@
 <template>
   <view class="vc" style="margin-top: 30rpx;">
-    <image src="{{articleData.src}}" class="vc-image-article"></image>
+    <image src="{{articleData.src}}" class="vc-image-article" />
     <text class="vc-text-article">{{articleData.title}}</text>
-    <view class="vc-describe">{{articleData.describe}}</view>
     <view class="vc-time">{{time}}</view>
   </view>
 </template>
 <script>
+//  style="height:{{imgHeight}}}rpx"
   import wepy from 'wepy'
   import { connect, getStore } from 'wepy-redux'
   import { article } from '../../store/actions'
@@ -23,14 +23,14 @@
     onLoad() {
       const store = getStore()
       store.dispatch(article())
-      this.time = formatMsgTime(new Date('2018/04/28 10:26'))
+      this.time = formatMsgTime(new Date())
     }
   }
 </script>
 <style lang="less">
   .vc{
     flex-wrap: wrap;
-    .vc-image-article{
+    .vc-image-article {
       width: 100vw;
       height: 270rpx;
     }
