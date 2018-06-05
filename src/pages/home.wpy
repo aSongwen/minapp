@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <swiper class="slider-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <swiper class="slider-box" indicator-dots="{{indicatorDots}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
           <swiper-item class="slider-item">
@@ -12,14 +12,7 @@
     </swiper>
     <view class="vc-article">
       <repeat for="{{vcImg}}" key="item" index="index" item="item">
-        <view class="vc" @tap="viewDetails" data-id="{{item.id}}">
-          <image src="{{item.src}}" class="vc-image" />
-          <view class="vc-tit">
-            <text class="vc-text">{{item.text}}</text>
-            <view class="vc-describe">{{item.describe}}</view>
-            <view class="vc-time">{{time}}</view>
-          </view>
-        </view>
+        <homeVc :vc.sync="item"></homeVc>
         <navigator wx:if='{{index===1}}' hover-class="none" url="{{url.article}}">
           <article></article>
         </navigator>
@@ -30,6 +23,7 @@
 
 <script>
   import wepy from 'wepy'
+  import homeVc from '../components/common/homeVc'
   import article from '../components/common/article'
   import { connect, getStore } from 'wepy-redux'
   import { asyncHomeSliderImg, asyncHomeVcImg } from '../store/actions'
@@ -39,6 +33,11 @@
       return state.homePage.sliderImg
     },
     vcImg(state) {
+      // state.homePage.vcImg.pubDate = formatMsgTime(new Date())
+      const arr = state.homePage.vcImg
+      arr.forEach(val => {
+        val.pubDate = formatMsgTime(val.pubDate)
+      })
       return state.homePage.vcImg
     }
   })
@@ -51,15 +50,18 @@
       autoplay: true,
       interval: 3000,
       duration: 2000,
-      time: '',
+      indicatorColor: 'rgba(0, 0, 0, .8)',
+      indicatorActiveColor: '#FF6A3C',
       url: {
         article: './techArticle'
       }
     }
     components = {
+      homeVc,
       article
     }
     onLoad() {
+      console.log(new Date())
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
@@ -69,13 +71,12 @@
       Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg())]).then(() => {
         wepy.hideLoading()
       })
-      this.time = formatMsgTime(new Date())
+      // this.time = formatMsgTime(new Date())
     }
     methods = {
-      viewDetails (e) {
-        let id = e.currentTarget.dataset.id
+      viewDetails () {
         wepy.navigateTo({
-          url: `./techArticle?id=${id}`
+          url: `./techArticle`
         })
       }
     }
@@ -101,45 +102,6 @@
     }
   }
   .vc-article{
-    padding: 30rpx 0;
-  }
-  .vc {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 30rpx;
-    padding: 0 30rpx;
-    .vc-image {
-      width: 300rpx;
-      height: 200rpx;
-    }
-    .vc-tit {
-      width: 390rpx;
-      height: 200rpx;
-      box-sizing: border-box;
-      padding-left: 20rpx;
-      position: relative;
-      .vc-text {
-        font-size: 35rpx;
-        width: 100%;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-      }
-      .vc-describe {
-        width: 100%;
-        top: 35rpx;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-      }
-      .vc-time {
-        top: 70rpx;
-      }
-    }
-  }
-  .vc:nth-child(1){
-    margin-top: 0;
+    padding: 0 0 30rpx;
   }
 </style>

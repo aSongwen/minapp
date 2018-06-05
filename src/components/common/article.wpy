@@ -6,7 +6,6 @@
   </view>
 </template>
 <script>
-//  style="height:{{imgHeight}}}rpx"
   import wepy from 'wepy'
   import { connect, getStore } from 'wepy-redux'
   import { article } from '../../store/actions'
