@@ -5,4 +5,6 @@ export default class url {
   static startup = `${base.baseUrl}/startup`
   static startupAll = `${base.baseUrl}/startup/all`
   static login = `${base.baseUrl}/login`
+  // 投资人专栏
+  static homeVc = `https://cn.technode.com/post/category/vc-column/feed/`
 }

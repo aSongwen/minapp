@@ -31,9 +31,19 @@
 <script>
   import wepy from 'wepy'
   import article from '../components/common/article'
-  import { connect, getStore } from 'wepy-redux'
-  import { asyncHomeSliderImg, asyncHomeVcImg } from '../store/actions'
-  import { formatMsgTime } from '../utils/format'
+  import {
+    connect,
+    getStore
+  } from 'wepy-redux'
+  import {
+    asyncHomeSliderImg,
+    asyncHomeVcImg
+  } from '../store/actions'
+  import {
+    formatMsgTime
+  } from '../utils/format'
+  import Request from '../api/home'
+  import { DOMParser } from '../utils/xml2json/dom-parser'
   @connect({
     silderImg(state) {
       return state.homePage.sliderImg
@@ -59,7 +69,15 @@
     components = {
       article
     }
-    onLoad() {
+    async onLoad() {
+      const homeData = await Request.getInfo()
+      const xmlParser = new DOMParser()
+      const doc = xmlParser.parseFromString(homeData)
+      console.log(`doc.getElementsByTagName('item')`, doc.getElementsByTagName('item'))
+      console.log(`title`, doc.getElementsByTagName('item')[0].getElementsByTagName('title')[0].childNodes[0].data)
+      console.log(`link`, doc.getElementsByTagName('item')[0].getElementsByTagName('link')[0].childNodes[0].data)
+      console.log(`pubDate`, doc.getElementsByTagName('item')[0].getElementsByTagName('pubDate')[0].childNodes[0].data)
+      console.log(`guid`, doc.getElementsByTagName('item')[0].getElementsByTagName('guid')[0].childNodes[0].data)
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
@@ -72,7 +90,7 @@
       this.time = formatMsgTime(new Date())
     }
     methods = {
-      viewDetails (e) {
+      viewDetails(e) {
         let id = e.currentTarget.dataset.id
         wepy.navigateTo({
           url: `./techArticle?id=${id}`
@@ -100,7 +118,7 @@
       }
     }
   }
-  .vc-article{
+  .vc-article {
     padding: 30rpx 0;
   }
   .vc {
@@ -139,7 +157,7 @@
       }
     }
   }
-  .vc:nth-child(1){
+  .vc:nth-child(1) {
     margin-top: 0;
   }
 </style>
