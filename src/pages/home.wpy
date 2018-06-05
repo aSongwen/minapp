@@ -91,12 +91,7 @@
       // this.time = formatMsgTime(new Date())
     }
     methods = {
-<<<<<<< HEAD
       viewDetails () {
-=======
-      viewDetails(e) {
-        let id = e.currentTarget.dataset.id
->>>>>>> shine
         wepy.navigateTo({
           url: `./techArticle`
         })
