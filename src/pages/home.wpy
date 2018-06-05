@@ -25,9 +25,19 @@
   import wepy from 'wepy'
   import homeVc from '../components/common/homeVc'
   import article from '../components/common/article'
-  import { connect, getStore } from 'wepy-redux'
-  import { asyncHomeSliderImg, asyncHomeVcImg } from '../store/actions'
-  import { formatMsgTime } from '../utils/format'
+  import {
+    connect,
+    getStore
+  } from 'wepy-redux'
+  import {
+    asyncHomeSliderImg,
+    asyncHomeVcImg
+  } from '../store/actions'
+  import {
+    formatMsgTime
+  } from '../utils/format'
+  import Request from '../api/home'
+  import { DOMParser } from '../utils/xml2json/dom-parser'
   @connect({
     silderImg(state) {
       return state.homePage.sliderImg
@@ -60,8 +70,15 @@
       homeVc,
       article
     }
-    onLoad() {
-      console.log(new Date())
+    async onLoad() {
+      const homeData = await Request.getInfo()
+      const xmlParser = new DOMParser()
+      const doc = xmlParser.parseFromString(homeData)
+      console.log(`doc.getElementsByTagName('item')`, doc.getElementsByTagName('item'))
+      console.log(`title`, doc.getElementsByTagName('item')[0].getElementsByTagName('title')[0].childNodes[0].data)
+      console.log(`link`, doc.getElementsByTagName('item')[0].getElementsByTagName('link')[0].childNodes[0].data)
+      console.log(`pubDate`, doc.getElementsByTagName('item')[0].getElementsByTagName('pubDate')[0].childNodes[0].data)
+      console.log(`guid`, doc.getElementsByTagName('item')[0].getElementsByTagName('guid')[0].childNodes[0].data)
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
@@ -74,7 +91,12 @@
       // this.time = formatMsgTime(new Date())
     }
     methods = {
+<<<<<<< HEAD
       viewDetails () {
+=======
+      viewDetails(e) {
+        let id = e.currentTarget.dataset.id
+>>>>>>> shine
         wepy.navigateTo({
           url: `./techArticle`
         })
@@ -103,5 +125,43 @@
   }
   .vc-article{
     padding: 0 0 30rpx;
+  .vc {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30rpx;
+    padding: 0 30rpx;
+    .vc-image {
+      width: 300rpx;
+      height: 200rpx;
+    }
+    .vc-tit {
+      width: 390rpx;
+      height: 200rpx;
+      box-sizing: border-box;
+      padding-left: 20rpx;
+      position: relative;
+      .vc-text {
+        font-size: 35rpx;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+      }
+      .vc-describe {
+        width: 100%;
+        top: 35rpx;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+      }
+      .vc-time {
+        top: 70rpx;
+      }
+    }
+  }
+  .vc:nth-child(1) {
+    margin-top: 0;
   }
 </style>
