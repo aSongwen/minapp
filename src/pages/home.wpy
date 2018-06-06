@@ -79,11 +79,15 @@
         const link = item.getElementsByTagName('link')[0].childNodes[0].data
         const pubDate = formatMsgTime(item.getElementsByTagName('pubDate')[0].childNodes[0].data)
         const cover = reg.exec(item.getElementsByTagName('content:encoded')[0].firstChild.data)[1]
+        console.log(`cover`, cover)
+        const miniCover = cover.replace(/^(https.*?\.)(jpg|gif|png)$/i, function(a, b, c) {
+          return `${b.substr(0, b.length - 1)}-326x235.${c}`
+        })
         return {
           title,
           link,
           pubDate,
-          cover
+          cover: miniCover
         }
       })
       Promise.all([store.dispatch(asyncHomeSliderImg(item.slice(0, 3))), store.dispatch(asyncHomeVcImg(item.slice(3)))]).then(() => {
