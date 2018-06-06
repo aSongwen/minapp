@@ -1,6 +1,6 @@
 <template>
   <view class="vc" @tap="viewDetails">
-    <image src="{{vc.cover}}" class="vc-image" />
+    <image lazy-load="true" src="{{vc.cover}}" class="vc-image" />
     <view class="vc-tit">
       <text class="vc-text">{{vc.title}}</text>
       <view class="vc-time">{{vc.pubDate}}</view>

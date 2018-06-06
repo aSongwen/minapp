@@ -4,7 +4,7 @@
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
           <swiper-item class="slider-item" @tap="spiderJump" data-link="{{item.link}}">
-            <image src="{{item.cover}}" class="slide-image" mode="scaleToFill" />
+            <image lazy-load="true" src="{{item.cover}}" class="slide-image" mode="scaleToFill" />
             <text class="slider-txt">{{item.title}}</text>
           </swiper-item>
         </block>
@@ -133,6 +133,10 @@
         top: 0;
         left: 0;
         width: 100vw;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
       }
     }
   }
