@@ -123,8 +123,8 @@
         height: 100%;
       }
       .slider-txt {
-        color: rgba(255, 255, 255, .5);
-        background: rgba(0, 0, 0, .5);
+        color: white;
+        background: rgb(255, 106, 60);
         position: absolute;
         top: 0;
         left: 0;
