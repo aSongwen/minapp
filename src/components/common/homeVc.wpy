@@ -1,13 +1,11 @@
 <template>
-  <navigator url="{{vc.link}}">
-    <view class="vc">
-      <image src="{{vc.cover}}" class="vc-image" />
-      <view class="vc-tit">
-        <text class="vc-text">{{vc.title}}</text>
-        <view class="vc-time">{{vc.pubDate}}</view>
-      </view>
+  <view class="vc" @tap="viewDetails">
+    <image src="{{vc.cover}}" class="vc-image" />
+    <view class="vc-tit">
+      <text class="vc-text">{{vc.title}}</text>
+      <view class="vc-time">{{vc.pubDate}}</view>
     </view>
-  </navigator>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
@@ -17,6 +15,14 @@
       vc: Object,
       twoWay: true
     }
+    methods = {
+      viewDetails() {
+        wepy.navigateTo({
+          url: `techArticle?link=${this.vc.link}`
+        })
+      }
+    }
+    // techArticle?link={{vc.link}}
   }
 </script>
 <style lang="less">

@@ -1,45 +1,23 @@
 <template>
-  <view>
-    <image src="{{articleData.src}}" class="tech-img" />
-    <view class="tech-title">{{articleData.title}}</view>
-    <view class="tech-content">{{articleData.content}}</view>
-  </view>
+  <web-view src="{{path}}"></web-view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  import { connect, getStore } from 'wepy-redux'
-  import { article } from '../store/actions'
-  @connect({
-    articleData(state) {
-      return state.actionsCom.articleData
-    }
-  })
   export default class extends wepy.page {
     config = {
       navigationBarTitleText: '十分之约'
     }
-    data = {}
-    onLoad() {
-      const store = getStore()
-      store.dispatch(article())
+    data = {
+      path: 'https://cn.technode.com/post/category/vc-column/feed/',
+      link: ''
+    }
+    onLoad(option) {
+      this.link = +option.link
+      console.log(this.link)
     }
   }
 </script>
 
 <style lang="less">
-  .tech-img{
-    width: 100vw;
-    height: 300rpx;
-  }
-  .tech-title{
-    font-size: 35rpx;
-    padding: 20rpx 40rpx;
-    box-sizing: border-box;
-  }
-  .tech-content{
-    padding: 10rpx 40rpx;
-    box-sizing: border-box;
-    text-indent: 62rpx;
-  }
 </style>
