@@ -14,7 +14,9 @@
       <repeat for="{{vcImg}}" key="item" index="index" item="item">
         <homeVc :vc.sync="item"></homeVc>
       </repeat>
-      <article></article>
+      <repeat for="{{vcImg}}" key="item" index="index" item="item">
+        <article :item.sync="item"></article>
+      </repeat>
     </view>
   </view>
 </template>
