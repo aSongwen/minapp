@@ -44,10 +44,6 @@
     },
     vcImg(state) {
       // state.homePage.vcImg.pubDate = formatMsgTime(new Date())
-      const arr = state.homePage.vcImg
-      arr.forEach(val => {
-        val.pubDate = formatMsgTime(val.pubDate)
-      })
       return state.homePage.vcImg
     }
   })
@@ -70,24 +66,43 @@
       homeVc,
       article
     }
-    async onLoad() {
-      const homeData = await Request.getInfo()
-      const xmlParser = new DOMParser()
-      const doc = xmlParser.parseFromString(homeData)
-      console.log(`doc.getElementsByTagName('item')`, doc.getElementsByTagName('item'))
-      console.log(`title`, doc.getElementsByTagName('item')[0].getElementsByTagName('title')[0].childNodes[0].data)
-      console.log(`link`, doc.getElementsByTagName('item')[0].getElementsByTagName('link')[0].childNodes[0].data)
-      console.log(`pubDate`, doc.getElementsByTagName('item')[0].getElementsByTagName('pubDate')[0].childNodes[0].data)
-      console.log(`guid`, doc.getElementsByTagName('item')[0].getElementsByTagName('guid')[0].childNodes[0].data)
+    setGridData(data) {
       const store = getStore()
       wepy.showLoading({
         title: 'loading...'
       })
-      store.dispatch(asyncHomeSliderImg())
-      store.dispatch(asyncHomeVcImg())
-      Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg())]).then(() => {
+      const xmlParser = new DOMParser()
+      const doc = xmlParser.parseFromString(data)
+      const item = [...doc.getElementsByTagName('item')].map(item => {
+        const reg = /(?:<img[^]+?src=")(.*?\.jpg|gif|png)(?:"[^]+?\/>)/i
+        const title = item.getElementsByTagName('title')[0].childNodes[0].data
+        const link = item.getElementsByTagName('link')[0].childNodes[0].data
+        const pubDate = formatMsgTime(item.getElementsByTagName('pubDate')[0].childNodes[0].data)
+        const cover = reg.exec(item.getElementsByTagName('content:encoded')[0].firstChild.data)[1]
+        return {
+          title,
+          link,
+          pubDate,
+          cover
+        }
+      })
+      // console.log(`title`, doc.getElementsByTagName('item')[0].getElementsByTagName('title')[0].childNodes[0].data)
+      // console.log(`link`, doc.getElementsByTagName('item')[0].getElementsByTagName('link')[0].childNodes[0].data)
+      // console.log(`pubDate`, doc.getElementsByTagName('item')[0].getElementsByTagName('pubDate')[0].childNodes[0].data)
+      // console.log(`guid`, doc.getElementsByTagName('item')[0].getElementsByTagName('guid')[0].childNodes[0].data)
+      // const reg = /(?:<img[^]+?src=")(.*?\.jpg|gif|png)(?:"[^]+?\/>)/i
+      // console.log(`cover`, reg.exec(doc.getElementsByTagName('item')[0].getElementsByTagName('content:encoded')[0].firstChild.data)[0])
+      Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg(item))]).then(() => {
         wepy.hideLoading()
       })
+    }
+    async onLoad() {
+      const homeData = await Request.getInfo()
+      this.setGridData(homeData)
+      // arr.forEach(val => {
+      //   console.log(`Date`, new Date(+new Date(val.pubDate)))
+      //   val.pubDate = formatMsgTime()
+      // })
       // this.time = formatMsgTime(new Date())
     }
     methods = {
