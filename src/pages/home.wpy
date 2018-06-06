@@ -3,9 +3,9 @@
     <swiper class="slider-box" indicator-dots="{{indicatorDots}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
-          <swiper-item class="slider-item">
-            <image src="{{item.img}}" class="slide-image" mode="scaleToFill" />
-            <text class="slider-txt">{{item.content}}</text>
+          <swiper-item class="slider-item" @tap="spiderJump" data-link="{{item.link}}">
+            <image src="{{item.cover}}" class="slide-image" mode="scaleToFill" />
+            <text class="slider-txt">{{item.title}}</text>
           </swiper-item>
         </block>
       </repeat>
@@ -14,7 +14,9 @@
       <repeat for="{{vcImg}}" key="item" index="index" item="item">
         <homeVc :vc.sync="item"></homeVc>
       </repeat>
-      <article></article>
+      <repeat for="{{vcImg}}" key="item" index="index" item="item">
+        <article :item.sync="item"></article>
+      </repeat>
     </view>
   </view>
 </template>
@@ -84,13 +86,7 @@
           cover
         }
       })
-      // console.log(`title`, doc.getElementsByTagName('item')[0].getElementsByTagName('title')[0].childNodes[0].data)
-      // console.log(`link`, doc.getElementsByTagName('item')[0].getElementsByTagName('link')[0].childNodes[0].data)
-      // console.log(`pubDate`, doc.getElementsByTagName('item')[0].getElementsByTagName('pubDate')[0].childNodes[0].data)
-      // console.log(`guid`, doc.getElementsByTagName('item')[0].getElementsByTagName('guid')[0].childNodes[0].data)
-      // const reg = /(?:<img[^]+?src=")(.*?\.jpg|gif|png)(?:"[^]+?\/>)/i
-      // console.log(`cover`, reg.exec(doc.getElementsByTagName('item')[0].getElementsByTagName('content:encoded')[0].firstChild.data)[0])
-      Promise.all([store.dispatch(asyncHomeSliderImg()), store.dispatch(asyncHomeVcImg(item))]).then(() => {
+      Promise.all([store.dispatch(asyncHomeSliderImg(item.slice(0, 3))), store.dispatch(asyncHomeVcImg(item.slice(3)))]).then(() => {
         wepy.hideLoading()
       })
     }
@@ -107,6 +103,11 @@
       viewDetails () {
         wepy.navigateTo({
           url: `./techArticle`
+        })
+      },
+      spiderJump(e) {
+        wepy.navigateTo({
+          url: `techArticle?link=${e.currentTarget.dataset.link}`
         })
       }
     }

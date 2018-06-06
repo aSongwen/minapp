@@ -1,28 +1,8 @@
 import { ASYNC_HOME_SLIDERIMG, ASYNC_HOME_VCIMG } from '../types/index'
 import { createAction } from 'redux-actions'
 export const asyncHomeSliderImg = createAction(ASYNC_HOME_SLIDERIMG, (res) => {
-  const silderImg = [
-    {
-      img: 'https://static.technode.com/wp-content/blogs.dir/18/files/2018/05/6401.jpg',
-      content: '文字文字文字文字文字文字文字'
-    },
-    {
-      img: 'https://static.technode.com/wp-content/blogs.dir/18/files/2018/05/cyanhill1.jpg',
-      content: '文字文字文字文字文字文字文字'
-    },
-    {
-      img: 'https://static.technode.com/wp-content/blogs.dir/18/files/2018/03/投资人1.jpg',
-      content: '文字文字文字文字文字文字文字'
-    },
-    {
-      img: 'https://static.technode.com/wp-content/blogs.dir/18/files/2016/07/rongzi.jpg',
-      content: '文字文字文字文字文字文字文字'
-    }
-  ]
   return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(silderImg)
-    }, 0)
+    resolve(res)
   })
 })
 

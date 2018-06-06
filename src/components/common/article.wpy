@@ -1,28 +1,23 @@
 <template>
-  <repeat for="{{articleData}}" key="item" index="index" item="item">
-    <view class="vc" style="margin-top: 30rpx;">
-      <image src="{{item.cover}}" class="vc-image-article" />
-      <text class="vc-text-article">{{item.title}}</text>
-      <view class="vc-time">{{item.pubDate}}</view>
-    </view>
-  </repeat>
+  <view class="vc" style="margin-top: 30rpx;" @tap="viewDetails" >
+    <image src="{{item.cover}}" class="vc-image-article" />
+    <text class="vc-text-article">{{item.title}}</text>
+    <view class="vc-time">{{item.pubDate}}</view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
-  import { connect, getStore } from 'wepy-redux'
-  import { article } from '../../store/actions'
-  import { formatMsgTime } from '../../utils/format'
-  @connect({
-    articleData(state) {
-      return state.actionsCom.articleData
-    }
-  })
   export default class extends wepy.component {
-    data = {}
-    onLoad() {
-      const store = getStore()
-      store.dispatch(article())
-      this.time = formatMsgTime(new Date())
+    props = {
+      item: Object,
+      twoWay: true
+    }
+    methods = {
+      viewDetails() {
+        wepy.navigateTo({
+          url: `techArticle?link=${this.item.link}`
+        })
+      }
     }
   }
 </script>
