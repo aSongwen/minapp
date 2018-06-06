@@ -31,7 +31,7 @@ export const asyncHomeVcImg = createAction(ASYNC_HOME_VCIMG, (res) => {
     {
       title: '滴滴外卖登陆南京',
       link: '',
-      pubDate: 'Tue, 22 May 2018 04:10:27 +0000',
+      pubDate: 'Tue, 05 Jun 2018 06:26:19 +0000',
       cover: 'https://static.technode.com/wp-content/blogs.dir/18/files/2018/06/didi_nanjing-326x235.jpg'
 
     },

@@ -1,7 +1,7 @@
 <template>
   <view>
     <comheader>
-      <view slot="comHeader">创业项目详情（有待改进）</view>
+      <view slot="comHeader">{{title}}</view>
     </comheader>
     <view class="details">
       <view class="details-box">
@@ -34,19 +34,31 @@
   @connect({
     getData(state) {
       return state.communicatedPage.comData
+    },
+    role(state) {
+      return state.userInfo.role
     }
   })
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: '创业项目详情（有待改进）'
+      navigationBarTitleText: ''
     }
     data = {
-      detailsData: {}
+      detailsData: {},
+      title: ''
     }
     components = {
       comheader: comHeader
     }
     onLoad(option) {
+      if (this.role === 1) {
+        this.config.navigationBarTitleText = '以交流项目'
+        this.title = '创业项目详情'
+      }
+      if (this.role === 2) {
+        this.config.navigationBarTitleText = '以交流VC'
+        this.title = '投资机构详情'
+      }
       this.detailsData = this.getData.filter(({ id }) => id === +option.id)
     }
   }
