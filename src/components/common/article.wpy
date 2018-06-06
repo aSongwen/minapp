@@ -14,7 +14,6 @@
   import { formatMsgTime } from '../../utils/format'
   @connect({
     articleData(state) {
-      console.log(state.actionsCom.articleData)
       return state.actionsCom.articleData
     }
   })
