@@ -1,5 +1,5 @@
 <template>
-  <web-view src="{{path}}"></web-view>
+  <web-view src="{{link}}"></web-view>
 </template>
 
 <script>
@@ -9,12 +9,10 @@
       navigationBarTitleText: '十分之约'
     }
     data = {
-      path: 'https://cn.technode.com/post/category/vc-column/feed/',
       link: ''
     }
     onLoad(option) {
-      this.link = +option.link
-      console.log(this.link)
+      this.link = option.link
     }
   }
 </script>
