@@ -1,5 +1,5 @@
 <template>
-  <web-view src="{{path}}"></web-view>
+  <web-view src="{{link}}"></web-view>
 </template>
 
 <script>

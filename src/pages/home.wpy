@@ -13,10 +13,8 @@
     <view class="vc-article">
       <repeat for="{{vcImg}}" key="item" index="index" item="item">
         <homeVc :vc.sync="item"></homeVc>
-        <navigator wx:if='{{index===1}}' hover-class="none" url="{{url.article}}">
-          <article></article>
-        </navigator>
       </repeat>
+      <article></article>
     </view>
   </view>
 </template>

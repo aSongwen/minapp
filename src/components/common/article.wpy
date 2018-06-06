@@ -1,9 +1,11 @@
 <template>
-  <view class="vc" style="margin-top: 30rpx;">
-    <image src="{{articleData.src}}" class="vc-image-article" />
-    <text class="vc-text-article">{{articleData.title}}</text>
-    <view class="vc-time">{{time}}</view>
-  </view>
+  <repeat for="{{articleData}}" key="item" index="index" item="item">
+    <view class="vc" style="margin-top: 30rpx;">
+      <image src="{{item.cover}}" class="vc-image-article" />
+      <text class="vc-text-article">{{item.title}}</text>
+      <view class="vc-time">{{item.pubDate}}</view>
+    </view>
+  </repeat>
 </template>
 <script>
   import wepy from 'wepy'
@@ -12,6 +14,7 @@
   import { formatMsgTime } from '../../utils/format'
   @connect({
     articleData(state) {
+      console.log(state.actionsCom.articleData)
       return state.actionsCom.articleData
     }
   })
