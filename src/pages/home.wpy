@@ -96,14 +96,9 @@
           cover: miniCover || cover
         }
       })
-      Promise.all([store.dispatch(asyncHomeSliderImg(item.slice(0, 3))), store.dispatch(asyncHomeVcImg(item.slice(3)))]).then(() => {
-        wepy.hideLoading()
-      })
+      return Promise.all([store.dispatch(asyncHomeSliderImg(item.slice(0, 3))), store.dispatch(asyncHomeVcImg(item.slice(3)))])
     }
     setTechGridData(data) {
-      wepy.showLoading({
-        title: 'loading...'
-      })
       const xmlParser = new DOMParser()
       const doc = xmlParser.parseFromString(data)
       const item = [...doc.getElementsByTagName('item')].map(item => {
@@ -123,17 +118,19 @@
         }
       })
       console.log(`item`, item)
-      store.dispatch(asyncArticle(item)).then(() => {
-        wepy.hideLoading()
-      })
+      return store.dispatch(asyncArticle(item))
     }
     async onLoad() {
+      wepy.showLoading({
+        title: 'loading...'
+      })
       // 加载投资专栏数据
       const homeVcData = await Request.getVcInfo()
-      this.setVcGridData(homeVcData)
+      await this.setVcGridData(homeVcData)
       // 加载cn.technode官网数据
       const homeTechData = await Request.getTechInfo()
-      this.setTechGridData(homeTechData)
+      await this.setTechGridData(homeTechData)
+      wepy.hideLoading()
     }
     methods = {
       spiderJump(e) {
