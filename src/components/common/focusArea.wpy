@@ -9,7 +9,7 @@
     </view>
   </repeat>
   <view class="ipt-box" wx:if="{{ckbName[7].checked}}">
-    <input bindinput="inputData" class="focus-ipt" type="text" placeholder="请输入其他领域" value="{{value}}"></input>
+    <input bindinput="inputData" class="focus-ipt" type="text" placeholder="请输入其他领域" value="{{value}}" />
   </view>
   </view>
 </template>
@@ -54,7 +54,7 @@
     padding: 20rpx 40rpx;
   }
   .focus-ipt{
-    border: 2rpx solid #BBBBBB;
+    border: 2rpx solid #D1D1D1;
     padding: 0 10rpx;
   }
 </style>

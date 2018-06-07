@@ -32,7 +32,7 @@
       width: 30%;
     }
     .ipt{
-      border: 2rpx solid #BBBBBB;
+      border: 2rpx solid #D1D1D1;
       width: 70%;
       height: 55rpx;
       padding: 0 10rpx;
