@@ -1,8 +1,8 @@
 <template>
   <view class="vc" style="margin-top: 30rpx;" @tap="viewDetails" >
-    <view class="vc-time">{{item.pubDate}}</view>
     <image lazy-load="true" mode="aspectFill" src="{{item.miniCover}}" class="vc-image-article" binderror="handleError" />
     <text class="vc-text-article">{{item.title}}</text>
+    <view class="vc-time">{{item.pubDate}}</view>
   </view>
 </template>
 <script>
@@ -46,7 +46,8 @@
       top: 10rpx;
     }
     .vc-time{
-      top: -8rpx;
+      top: 2rpx;
+      font-size: 24rpx;
     }
   }
 </style>
