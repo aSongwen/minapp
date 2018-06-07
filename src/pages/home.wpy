@@ -18,7 +18,7 @@
         <homeVc :vc.sync="item"></homeVc>
       </repeat>
       <repeat for="{{techData}}" key="item" index="index" item="item">
-        <article :item.sync="item"></article>
+        <article :item.sync="item" class="article"></article>
       </repeat>
     </view>
   </view>
@@ -174,5 +174,8 @@
   }
   .vc-article{
     padding: 0 0 30rpx;
+  }
+  .article{
+    margin-bottom: 30rpx;
   }
 </style>
