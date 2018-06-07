@@ -5,7 +5,10 @@
         <block>
           <swiper-item class="slider-item" @tap="spiderJump" data-link="{{item.link}}">
             <image lazy-load="true" src="{{item.cover}}" class="slide-image" mode="scaleToFill" />
-            <text class="slider-txt">{{item.title}}</text>
+            <view class="slider-content">
+              <text class="slider-txt">{{item.title}}</text>
+              <text class="slider-time">{{item.pubDate}}</text>
+            </view>
           </swiper-item>
         </block>
       </repeat>
@@ -54,9 +57,9 @@
     data = {
       indicatorDots: true,
       autoplay: true,
-      interval: 3000,
-      duration: 2000,
-      indicatorColor: 'rgba(0, 0, 0, .8)',
+      interval: 5000,
+      duration: 500,
+      indicatorColor: 'rgba(255, 255, 255, .8)',
       indicatorActiveColor: '#FF6A3C',
       url: {
         article: './techArticle'
@@ -100,11 +103,6 @@
       // this.time = formatMsgTime(new Date())
     }
     methods = {
-      viewDetails () {
-        wepy.navigateTo({
-          url: `./techArticle`
-        })
-      },
       spiderJump(e) {
         wepy.navigateTo({
           url: `techArticle?link=${e.currentTarget.dataset.link}`
@@ -122,17 +120,22 @@
         width: 100vw;
         height: 100%;
       }
-      .slider-txt {
-        color: white;
-        background: rgb(255, 106, 60);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
+      .slider-content{
+        position:absolute;
+        left: 30rpx;
+        right: 30rpx;
+        bottom: 30rpx;
+        margin:auto;
+        text-shadow: 1px 1px 1px #888888;
+        .slider-txt {
+          color:white;
+          font-size: 36rpx;
+          font-weight: bold;
+        }
+        .slider-time{
+          display: flex;
+          color: #ffffff;
+        }
       }
     }
   }
