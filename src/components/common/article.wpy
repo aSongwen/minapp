@@ -24,7 +24,6 @@
 <style lang="less">
   .vc{
     flex-wrap: wrap;
-    margin-bottom: 30rpx;
     .vc-image-article {
       width: 100vw;
       height: 270rpx;
