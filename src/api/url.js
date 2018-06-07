@@ -7,4 +7,6 @@ export default class url {
   static login = `${base.baseUrl}/login`
   // 投资人专栏
   static homeVc = `https://cn.technode.com/post/category/vc-column/feed/`
+  // cn.technode主页
+  static homeTech = `https://cn.technode.com/feed/`
 }

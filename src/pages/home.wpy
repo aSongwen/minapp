@@ -14,7 +14,7 @@
       <repeat for="{{vcImg}}" key="item" index="index" item="item">
         <homeVc :vc.sync="item"></homeVc>
       </repeat>
-      <repeat for="{{vcImg}}" key="item" index="index" item="item">
+      <repeat for="{{techData}}" key="item" index="index" item="item">
         <article :item.sync="item"></article>
       </repeat>
     </view>
@@ -31,13 +31,15 @@
   } from 'wepy-redux'
   import {
     asyncHomeSliderImg,
-    asyncHomeVcImg
+    asyncHomeVcImg,
+    asyncArticle
   } from '../store/actions'
   import {
     formatMsgTime
   } from '../utils/format'
   import Request from '../api/home'
   import { DOMParser } from '../utils/xml2json/dom-parser'
+  const store = getStore()
   @connect({
     silderImg(state) {
       return state.homePage.sliderImg
@@ -45,6 +47,9 @@
     vcImg(state) {
       // state.homePage.vcImg.pubDate = formatMsgTime(new Date())
       return state.homePage.vcImg
+    },
+    techData(state) {
+      return state.actionsCom.articleData
     }
   })
   export default class extends wepy.page {
@@ -66,42 +71,66 @@
       homeVc,
       article
     }
-    setGridData(data) {
-      const store = getStore()
+    setVcGridData(data, type) {
       wepy.showLoading({
         title: 'loading...'
       })
       const xmlParser = new DOMParser()
       const doc = xmlParser.parseFromString(data)
       const item = [...doc.getElementsByTagName('item')].map(item => {
-        const reg = /(?:<img[^]+?src=")(.*?\.jpg|gif|png)(?:"[^]+?\/>)/i
+        const reg = /(?:<img[^]+?src=")(.*?\.(?:jpg|gif|png|jpeg))(?:"[^]+?\/>)/i
         const title = item.getElementsByTagName('title')[0].childNodes[0].data
         const link = item.getElementsByTagName('link')[0].childNodes[0].data
-        const pubDate = formatMsgTime(item.getElementsByTagName('pubDate')[0].childNodes[0].data)
+        const pubDate = formatMsgTime(new Date(item.getElementsByTagName('pubDate')[0].childNodes[0].data))
         const cover = reg.exec(item.getElementsByTagName('content:encoded')[0].firstChild.data)[1]
-        console.log(`cover`, cover)
-        const miniCover = cover.replace(/^(https.*?\.)(jpg|gif|png)$/i, function(a, b, c) {
-          return `${b.substr(0, b.length - 1)}-326x235.${c}`
-        })
+        // const miniCover = cover.replace(/^(https.*?\.)(jpg|gif|png|jpeg)$/i, function(a, b, c) {
+        //   return `${b.substr(0, b.length - 1)}-326x235.${c}`
+        // })
         return {
           title,
           link,
           pubDate,
-          cover: miniCover
+          cover
         }
       })
       Promise.all([store.dispatch(asyncHomeSliderImg(item.slice(0, 3))), store.dispatch(asyncHomeVcImg(item.slice(3)))]).then(() => {
         wepy.hideLoading()
       })
     }
+    setTechGridData(data) { // 图片获取还有问题
+      wepy.showLoading({
+        title: 'loading...'
+      })
+      const xmlParser = new DOMParser()
+      const doc = xmlParser.parseFromString(data)
+      const item = [...doc.getElementsByTagName('item')].map(item => {
+        const reg = /(?:<img[^]+?src=")(.*?\.(?:jpg|gif|png|jpeg))(?:"[^]+?\/>)/i
+        const title = item.getElementsByTagName('title')[0].childNodes[0].data
+        const link = item.getElementsByTagName('link')[0].childNodes[0].data
+        const pubDate = formatMsgTime(new Date(item.getElementsByTagName('pubDate')[0].childNodes[0].data))
+        const cover = reg.exec(item.getElementsByTagName('content:encoded')[0].firstChild.data)[1]
+        // const miniCover = cover.replace(/^(https.*?\.)(jpg|gif|png|jpeg)$/i, function(a, b, c) {
+        //   return `${b.substr(0, b.length - 1)}-326x235.${c}`
+        // })
+        return {
+          title,
+          link,
+          pubDate,
+          cover
+        }
+      })
+      console.log(`item`, item)
+      store.dispatch(asyncArticle(item)).then(() => {
+        wepy.hideLoading()
+      })
+    }
     async onLoad() {
-      const homeData = await Request.getInfo()
-      this.setGridData(homeData)
-      // arr.forEach(val => {
-      //   console.log(`Date`, new Date(+new Date(val.pubDate)))
-      //   val.pubDate = formatMsgTime()
-      // })
-      // this.time = formatMsgTime(new Date())
+      // 加载投资专栏数据
+      const homeVcData = await Request.getVcInfo()
+      this.setVcGridData(homeVcData)
+      // 加载cn.technode官网数据
+      const homeTechData = await Request.getTechInfo()
+      this.setTechGridData(homeTechData)
     }
     methods = {
       viewDetails () {
