@@ -4,7 +4,7 @@
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
           <swiper-item class="slider-item" @tap="spiderJump" data-link="{{item.link}}">
-            <image lazy-load="true" src="{{item.cover}}" class="slide-image" mode="scaleToFill" />
+            <image lazy-load="true" src="{{item.miniCover}}" class="slide-image" mode="scaleToFill" binderror="handleError" />
             <view class="slider-content">
               <text class="slider-txt">{{item.title}}</text>
               <text class="slider-time">{{item.pubDate}}</text>
@@ -41,6 +41,7 @@
     formatMsgTime
   } from '../utils/format'
   import Request from '../api/home'
+  // import urlTest from '../api/urlTest'
   import { DOMParser } from '../utils/xml2json/dom-parser'
   const store = getStore()
   @connect({
@@ -74,7 +75,7 @@
       homeVc,
       article
     }
-    setVcGridData(data, type) {
+    async setVcGridData(data, type) {
       wepy.showLoading({
         title: 'loading...'
       })
@@ -89,16 +90,18 @@
         const miniCover = cover.replace(/^(https.*?\.)(jpg|gif|png|jpeg)$/i, function(a, b, c) {
           return `${b.substr(0, b.length - 1)}-326x235.${c}`
         })
+        // const testUrl = 1 // await urlTest.test(miniCover)
         return {
           title,
           link,
           pubDate,
-          cover: miniCover || cover
+          cover,
+          miniCover
         }
       })
       return Promise.all([store.dispatch(asyncHomeSliderImg(item.slice(0, 3))), store.dispatch(asyncHomeVcImg(item.slice(3)))])
     }
-    setTechGridData(data) {
+    async setTechGridData(data) {
       const xmlParser = new DOMParser()
       const doc = xmlParser.parseFromString(data)
       const item = [...doc.getElementsByTagName('item')].map(item => {
@@ -110,14 +113,15 @@
         const miniCover = cover.replace(/^(https.*?\.)(jpg|gif|png|jpeg)$/i, function(a, b, c) {
           return `${b.substr(0, b.length - 1)}-326x235.${c}`
         })
+        // const testUrl = 0 // await urlTest.test(miniCover)
         return {
           title,
           link,
           pubDate,
-          cover: miniCover || cover
+          cover,
+          miniCover
         }
       })
-      console.log(`item`, item)
       return store.dispatch(asyncArticle(item))
     }
     async onLoad() {
@@ -137,6 +141,9 @@
         wepy.navigateTo({
           url: `techArticle?link=${e.currentTarget.dataset.link}`
         })
+      },
+      handleError() {
+        if (this.silderImg.miniCover !== this.silderImg.item.cover) this.silderImg.miniCover = this.silderImg.item.cover
       }
     }
   }

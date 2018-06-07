@@ -1,6 +1,6 @@
 <template>
-  <view class="vc" style="margin-top: 30rpx;" @tap="viewDetails" >
-    <image lazy-load="true" mode="aspectFill" src="{{item.cover}}" class="vc-image-article" />
+  <view class="vc" @tap="viewDetails" >
+    <image lazy-load="true" mode="aspectFill" src="{{item.miniCover}}" class="vc-image-article" binderror="handleError" />
     <text class="vc-text-article">{{item.title}}</text>
     <view class="vc-time">{{item.pubDate}}</view>
   </view>
@@ -17,6 +17,9 @@
         wepy.navigateTo({
           url: `techArticle?link=${this.item.link}`
         })
+      },
+      handleError() {
+        if (this.item.miniCover !== this.item.cover) this.item.miniCover = this.item.cover
       }
     }
   }
@@ -35,6 +38,7 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
       margin-top: 10rpx;
+      line-height: 45rpx;
     }
     .vc-describe, .vc-time {
       text-align: left;
@@ -43,8 +47,8 @@
       top: 10rpx;
     }
     .vc-time{
-      top: 2rpx;
-      font-size: 24rpx;
+      top: 0rpx;
+      font-size: 28rpx;
     }
   }
 </style>
