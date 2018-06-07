@@ -1,7 +1,7 @@
 <template>
   <view class="vc" style="margin-top: 30rpx;" @tap="viewDetails" >
     <view class="vc-time">{{item.pubDate}}</view>
-    <image lazy-load="true" mode="aspectFill" src="{{item.cover}}" class="vc-image-article" />
+    <image lazy-load="true" mode="aspectFill" src="{{item.miniCover}}" class="vc-image-article" binderror="handleError" />
     <text class="vc-text-article">{{item.title}}</text>
   </view>
 </template>
@@ -17,6 +17,9 @@
         wepy.navigateTo({
           url: `techArticle?link=${this.item.link}`
         })
+      },
+      handleError() {
+        if (this.item.miniCover !== this.item.cover) this.item.miniCover = this.item.cover
       }
     }
   }

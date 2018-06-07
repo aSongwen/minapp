@@ -1,6 +1,6 @@
 <template>
   <view class="vc" @tap="viewDetails">
-    <image lazy-load="true" src="{{vc.cover}}" class="vc-image" />
+    <image lazy-load="true" src="{{vc.cover}}" class="vc-image" binderror="handleError" />
     <view class="vc-tit">
       <text class="vc-text">{{vc.title}}</text>
       <view class="vc-time">{{vc.pubDate}}</view>
@@ -20,6 +20,9 @@
         wepy.navigateTo({
           url: `techArticle?link=${this.vc.link}`
         })
+      },
+      handleError() {
+        if (this.item.miniCover !== this.item.cover) this.item.miniCover = this.item.cover
       }
     }
     // techArticle?link={{vc.link}}
@@ -32,11 +35,11 @@
     margin-top: 30rpx;
     padding: 0 30rpx;
     .vc-image {
-      width: 300rpx;
+      width: 277.446808510638298rpx;
       height: 200rpx;
     }
     .vc-tit {
-      width: 390rpx;
+      width: 412.553191489361702rpx;
       height: 200rpx;
       box-sizing: border-box;
       padding-left: 20rpx;
