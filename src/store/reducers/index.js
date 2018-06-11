@@ -6,8 +6,9 @@ import homePage from './home-page'
 import startupPage from './startup-page'
 import actionsCom from './article'
 import userInfo from './user-info'
-import communicatedPage from './communicated'
+import myAttentionPage from './myAttention'
 import token from './token'
+import attentionToMyPage from './attentionToMy'
 
 export default combineReducers({
   counter,
@@ -17,6 +18,7 @@ export default combineReducers({
   homePage,
   startupPage,
   userInfo,
-  communicatedPage,
-  token
+  myAttentionPage,
+  token,
+  attentionToMyPage
 })

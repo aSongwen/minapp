@@ -7,6 +7,10 @@
   import wepy from 'wepy'
   export default class extends wepy.component {
     data = {}
+    props = {
+      id: Number,
+      twoWay: true
+    }
   }
 </script>
 <style lang="less">

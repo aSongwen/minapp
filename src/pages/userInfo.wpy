@@ -3,7 +3,7 @@
     <loginBox></loginBox>
     <view>
       <view class="userinfo">
-        <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar"></image>
+        <image src="{{userInfo.avatarUrl}}" class="userinfo-avatar" />
         <view>{{userInfo.nickName}}</view>
       </view>
       <view class="per-navigation">
@@ -12,11 +12,13 @@
             <view slot="personalInfo">个人信息</view>
           </userItem>
         </navigator>
-        <navigator url="{{url.communicated}}">
-          <userItem>
-            <view slot="personalInfo">面谈记录</view>
-          </userItem>
-        </navigator>
+        <repeat for="{{attention}}" key="index" index="index" item="item">
+          <navigator url="{{item.list}}"> 
+            <userItem>
+              <view slot="personalInfo">{{item.title}}</view>
+            </userItem>
+          </navigator>
+        </repeat>
         <navigator url="{{url.introduced}}">
           <userItem class="border-none">
             <view slot="personalInfo">动点创投介绍</view>
@@ -24,7 +26,7 @@
         </navigator>
       </view>
       <view class="qr-code">
-        <image class="code-img" src="{{codeImg}}"></image>
+        <image class="code-img" src="{{codeImg}}" />
       </view>
     </view>
   </view>
@@ -52,23 +54,26 @@
     data = {
       url: {
         userInfo: '',
-        communicated: './communicated',
         introduced: './vcIntroduced',
         vc: './vcApply',
         startup: './entApply'
-      }
+      },
+      attention: [
+        {
+          id: 0,
+          title: '我的关注',
+          list: `./communicated?id=${0}`
+        },
+        {
+          id: 1,
+          title: '关注我的',
+          list: `./communicated?id=${1}`
+        }
+      ]
     }
     components = {
       userItem,
       loginBox
-    }
-    onLoad() {
-      this.getRole()
-    }
-    getRole() {
-      console.log(this)
-    }
-    methods = {
     }
   }
 </script>

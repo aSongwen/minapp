@@ -1,9 +1,9 @@
 <template>
   <view>
     <comheader>
-      <view slot="comHeader">项目列表</view>
+      <view slot="comHeader">关注列表</view>
     </comheader>
-    <comitem :comData.sync="communicatedData"></comitem>
+    <comitem :comData.sync="attentionData"></comitem>
   </view>
 </template>
 <script>
@@ -11,24 +11,35 @@
   import comItem from '../components/common/communicatedItem'
   import comHeader from '../components/common/header'
   import { connect, getStore } from 'wepy-redux'
-  import { communicatedData } from '../store/actions'
+  import { myAttentionData, attentionToMyData } from '../store/actions'
   @connect({
-    communicatedData(state) {
-      return state.communicatedPage.comData
+    attentionData(state) {
+      if (this.attention) {
+        return state.myAttentionPage.comData
+      } else {
+        return state.attentionToMyPage.comData
+      }
     }
   })
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: '已交流项目'
+      navigationBarTitleText: '我的关注'
     }
-    data = {}
+    data = {
+      attention: true
+    }
     components = {
       comitem: comItem,
       comheader: comHeader
     }
-    onLoad() {
+    onLoad(option) {
+      if (+option.id === 0) {
+        this.attention = true
+      } else if (+option.id === 1) {
+        this.attention = false
+      }
       const store = getStore()
-      store.dispatch(communicatedData())
+      return Promise.all([store.dispatch(myAttentionData()), store.dispatch(attentionToMyData())])
     }
   }
 </script>

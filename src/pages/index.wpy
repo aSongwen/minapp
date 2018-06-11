@@ -3,11 +3,13 @@
 </style>
 
 <template>
-  <view class="container">
-    {{userInfo}}
-  </view>
   <view>
-    <button @tap="navigate()">跳转</button>
+    <view class="container">
+      {{userInfo}}
+    </view>
+    <view>
+      <button @tap="navigate()">跳转</button>
+    </view>
   </view>
 </template>
 

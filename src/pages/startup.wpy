@@ -1,9 +1,11 @@
 <template>
-<loginBox></loginBox>
-  <startup-popup :show.sync="startupPopupCss" :detail.sync="startupPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
-  </startup-popup>
-  <classify :cateList.sync="startupCateList" :detailList.sync="startupDetailList">
-  </classify>
+  <view>
+    <loginBox></loginBox>
+    <startup-popup :show.sync="startupPopupCss" :detail.sync="startupPopupDetail" :dataType.sync="dataType" :btnShow.sync="btnShow">
+    </startup-popup>
+    <classify :cateList.sync="startupCateList" :detailList.sync="startupDetailList">
+    </classify>
+  </view>
 </template>
 
 <script>

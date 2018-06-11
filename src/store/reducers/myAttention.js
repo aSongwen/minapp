@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions'
-import { COMMUNICATED_DATA } from '../types/index'
+import { MYAttention } from '../types/index'
 export default handleActions({
-  [COMMUNICATED_DATA] (state, action) {
+  [MYAttention] (state, action) {
     return {
       ...state,
       comData: action.payload
@@ -11,7 +11,7 @@ export default handleActions({
   comData: [
     {
       id: 0,
-      mid: 0,
+      uid: 0,
       name: '',
       company: '嗯哈xxxxxx嗯哈xxxxxx',
       focusArea: ['TMT', 'TMT', 'TMT', 'TMT', 'TMT', 'TMT'],
@@ -20,7 +20,7 @@ export default handleActions({
     },
     {
       id: 1,
-      mid: 1,
+      uid: 1,
       name: '',
       company: '嗯哈xxxxxx',
       focusArea: ['TMT', 'TMT', 'TMT'],
@@ -28,7 +28,7 @@ export default handleActions({
     },
     {
       id: 2,
-      mid: 2,
+      uid: 2,
       name: '',
       company: '嗯哈xxxxxx',
       focusArea: ['TMT', 'TMT', 'TMT'],
@@ -36,7 +36,7 @@ export default handleActions({
     },
     {
       id: 3,
-      mid: 3,
+      uid: 3,
       name: '',
       company: '嗯哈xxxxxx',
       focusArea: ['TMT', 'TMT', 'TMT'],

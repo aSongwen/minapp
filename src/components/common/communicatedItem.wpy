@@ -19,10 +19,9 @@
     }
     methods = {
       getIdxData(e) {
-        const id = e.currentTarget.dataset.id
-        console.log(id)
+        const uid = e.currentTarget.dataset.id
         wepy.navigateTo({
-          url: `../pages/comDetails?id=${id}`
+          url: `comDetails?uid=${uid}`
         })
       }
     }

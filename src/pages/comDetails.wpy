@@ -7,11 +7,31 @@
       <view class="details-box">
         <repeat for="{{detailsData}}" key="item" index="index" item="item">
           <view class="details-item">
-            <label class="details-name">项目名称</label>
+            <label class="details-name">公司名称</label>
             <label class="details-txt">{{item.company}}</label>
           </view>
           <view class="details-item">
-            <label class="details-name">创业领域</label>
+            <label class="details-name">产品名称</label>
+            <label class="details-txt">{{item.projectName}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">姓名</label>
+            <label class="details-txt">{{item.name}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">电话</label>
+            <label class="details-txt">{{item.tel}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">邮箱</label>
+            <label class="details-txt">{{item.email}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">职位</label>
+            <label class="details-txt">{{item.job}}</label>
+          </view>
+          <view class="details-item">
+            <label class="details-name">关注领域</label>
             <label class="details-txt">{{item.focusArea}}</label>
           </view>
           <view class="details-item">
@@ -19,8 +39,9 @@
             <label class="details-txt">{{item.rounds}}</label>
           </view>
           <view class="details-item">
-            <label class="details-name">项目BP</label>
-            <!-- <label class="details-txt">{{}}</label> -->
+            <label class="details-name">产品介绍</label>
+            <!-- <label class="details-txt">{{item.introduce}}</label> -->
+            <view class="details-txt introduce">{{item.introduce}}</view>
           </view>
         </repeat>
       </view>
@@ -33,7 +54,7 @@
   import { connect } from 'wepy-redux'
   @connect({
     getData(state) {
-      return state.communicatedPage.comData
+      return state.myAttentionPage.comData
     },
     role(state) {
       return state.userInfo.role
@@ -41,7 +62,7 @@
   })
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: ''
+      navigationBarTitleText: '我的关注'
     }
     data = {
       detailsData: {},
@@ -52,28 +73,22 @@
     }
     onLoad(option) {
       if (this.role === 1) {
-        this.config.navigationBarTitleText = '以交流项目'
-        this.title = '创业项目详情'
+        this.title = '关注项目'
       }
       if (this.role === 2) {
-        this.config.navigationBarTitleText = '以交流VC'
-        this.title = '投资机构详情'
+        this.title = '关注机构'
       }
-      this.detailsData = this.getData.filter(({ id }) => id === +option.id)
+      this.detailsData = this.getData.filter(({ uid }) => uid === +option.uid)
     }
   }
 </script>
 <style lang="less">
-  page{
-    background-color: #f5f5f5;
-  }
   .details{
     box-sizing: border-box;
     width: 100vw;
     padding: 40rpx;
-    background-color: #fff;
     .details-box{
-      width: 400rpx;
+      width: 100%;
       margin: 0 auto;
     }
     .details-item{
@@ -81,7 +96,7 @@
     }
     .details-name{
       display:inline-block;
-      width: 150rpx;
+      width: 30%;
       position: relative;
       float: left;
     }
@@ -95,8 +110,12 @@
       position: relative;
       left: 10rpx;
       display: inline-block;
-      width: 250rpx;
+      width: 70%;
       word-wrap: break-word;
+    }
+    .introduce {
+      height: 200rpx;
+      overflow: scroll;
     }
   }
 </style>
