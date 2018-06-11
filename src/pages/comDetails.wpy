@@ -73,10 +73,10 @@
     }
     onLoad(option) {
       if (this.role === 1) {
-        this.title = '关注项目'
+        this.title = '项目详情'
       }
       if (this.role === 2) {
-        this.title = '关注机构'
+        this.title = '机构详情'
       }
       this.detailsData = this.getData.filter(({ uid }) => uid === +option.uid)
     }
