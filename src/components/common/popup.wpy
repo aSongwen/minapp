@@ -121,8 +121,9 @@
     }
   }
   .product-info {
-    display: inline-block;
+    display: block;
     max-height: 250rpx;
     overflow-y: auto;
+    word-wrap:break-word;
   }
 </style>
