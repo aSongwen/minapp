@@ -54,7 +54,6 @@
   import wepy from 'wepy'
   import comHeader from '../components/common/header'
   import { connect } from 'wepy-redux'
-  // import { myAttentionData, attentionToMyData } from '../store/actions'
   @connect({
     role(state) {
       return state.userInfo.role
