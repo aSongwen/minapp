@@ -60,14 +60,12 @@
       },
       attention: [
         {
-          id: 0,
           title: '我的关注',
-          list: `./communicated?id=${0}`
+          list: `./communicated?aid=${0}`
         },
         {
-          id: 1,
           title: '关注我的',
-          list: `./communicated?id=${1}`
+          list: `./communicated?aid=${1}`
         }
       ]
     }

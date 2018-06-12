@@ -56,9 +56,5 @@ export const myAttentionData = createAction(MYAttention, (res) => {
       introduce: '这是一个赚钱的项目这是一个赚钱的项目这是一个赚钱的项目这是一个赚钱的项目这是一个赚钱的项目这是一个赚钱的项目这是一个赚钱的项目这是一个赚钱的项目'
     }
   ]
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(comData)
-    }, 1000)
-  })
+  return new Promise(resolve => resolve(comData))
 })

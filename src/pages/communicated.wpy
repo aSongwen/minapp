@@ -3,7 +3,7 @@
     <comheader>
       <view slot="comHeader">关注列表</view>
     </comheader>
-    <comitem :comData.sync="attentionData"></comitem>
+    <comitem :comData.sync="attentionData" :aid.sync="aid"></comitem>
   </view>
 </template>
 <script>
@@ -24,23 +24,26 @@
   export default class extends wepy.page {
     config = {}
     data = {
-      attention: true
+      attention: true,
+      aid: null
     }
     components = {
       comitem: comItem,
       comheader: comHeader
     }
     onLoad(option) {
-      if (+option.id === 0) {
+      if (+option.aid === 0) {
         wepy.setNavigationBarTitle({
           title: '我的关注'
         })
         this.attention = true
-      } else if (+option.id === 1) {
+        this.aid = 0
+      } else if (+option.aid === 1) {
         wepy.setNavigationBarTitle({
           title: '关注我的'
         })
         this.attention = false
+        this.aid = 1
       }
       const store = getStore()
       return Promise.all([store.dispatch(myAttentionData()), store.dispatch(attentionToMyData())])

@@ -20,11 +20,13 @@
           </view>
           <view class="details-item">
             <label class="details-name">电话</label>
-            <label class="details-txt">{{item.tel}}</label>
+            <label class="details-txt">{{vcAcceptTel ? item.tel : '***********'}}</label>
+            <image wx:if="{{!vcAcceptTel}}" src="../images/lock.jpg" class="lock-img" />
           </view>
           <view class="details-item">
             <label class="details-name">邮箱</label>
-            <label class="details-txt">{{item.email}}</label>
+            <label class="details-txt">{{vcAcceptEmail ? item.email : '***********'}}</label>
+            <image wx:if="{{!vcAcceptEmail}}" src="../images/lock.jpg" class="lock-img" />
           </view>
           <view class="details-item">
             <label class="details-name">职位</label>
@@ -52,33 +54,47 @@
   import wepy from 'wepy'
   import comHeader from '../components/common/header'
   import { connect } from 'wepy-redux'
+  // import { myAttentionData, attentionToMyData } from '../store/actions'
   @connect({
-    getData(state) {
-      return state.myAttentionPage.comData
-    },
     role(state) {
       return state.userInfo.role
+    },
+    myAttentionData(state) {
+      return state.myAttentionPage.comData
+    },
+    attentionToMyData(state) {
+      return state.attentionToMyPage.comData
     }
   })
   export default class extends wepy.page {
-    config = {
-      navigationBarTitleText: '我的关注'
-    }
+    config = {}
     data = {
       detailsData: {},
-      title: ''
+      title: '',
+      vcAcceptTel: false,
+      vcAcceptEmail: false,
+      attention: true
     }
     components = {
       comheader: comHeader
     }
     onLoad(option) {
       if (this.role === 1) {
+        wepy.setNavigationBarTitle({
+          title: '项目详情'
+        })
         this.title = '项目详情'
+        this.vcAcceptTel = true
+        this.vcAcceptEmail = true
       }
       if (this.role === 2) {
+        wepy.setNavigationBarTitle({
+          title: '机构详情'
+        })
         this.title = '机构详情'
       }
-      this.detailsData = this.getData.filter(({ uid }) => uid === +option.uid)
+      (+option.aid === 0) ? (this.detailsData = this.myAttentionData.filter(({ id }) => id === +option.rid)) : (this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid))
+      console.log(option)
     }
   }
 </script>
@@ -93,6 +109,7 @@
     }
     .details-item{
       margin-top: 20rpx;
+      position: relative;
     }
     .details-name{
       display:inline-block;
@@ -110,8 +127,16 @@
       position: relative;
       left: 10rpx;
       display: inline-block;
-      width: 70%;
+      width: 60%;
       word-wrap: break-word;
+    }
+    .lock-img{
+      display: inline-block;
+      width: 32rpx;
+      height: 32rpx;
+      position: absolute;
+      top: 4rpx;
+      right: 0;
     }
     .introduce {
       height: 200rpx;

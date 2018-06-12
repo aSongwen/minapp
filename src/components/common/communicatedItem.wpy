@@ -1,6 +1,6 @@
 <template>
   <repeat for="{{comData}}" key="index" index="index" item="item">
-    <view class="comItem" @tap='getIdxData' data-id="{{item.id}}">
+    <view @tap="viewDetails" class="comItem" data-uid="{{item.uid}}" data-rid="{{item.id}}" data-aid="{{aid}}">
       <view class="comItem-name">{{item.company}}</view>
       <view class="comIte-msg">
         <label class="focusArea">领域</label>
@@ -15,13 +15,16 @@
     data = {}
     props = {
       comData: Array,
+      aid: Number,
       twoWay: true
     }
     methods = {
-      getIdxData(e) {
-        const uid = e.currentTarget.dataset.id
+      viewDetails(e) {
+        const uid = e.currentTarget.dataset.uid
+        const rid = e.currentTarget.dataset.rid
+        const aid = e.currentTarget.dataset.aid
         wepy.navigateTo({
-          url: `comDetails?uid=${uid}`
+          url: `comDetails?uid=${uid}&rid=${rid}&aid=${aid}`
         })
       }
     }
@@ -37,10 +40,18 @@
     .comItem-name{
       font-size: 38rpx;
       font-weight: 400;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
     }
     .comIte-msg{
       font-size: 25rpx;
       margin-top: 10rpx;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
       .focusArea:after{
         display: inline-block;
         content: ':';

@@ -8,15 +8,5 @@ export default handleActions({
     }
   }
 }, {
-  comData: [
-    {
-      id: 0,
-      uid: 0,
-      name: '',
-      company: '嗯哈xxxxxx嗯哈xxxxxx',
-      focusArea: ['TMT', 'TMT', 'TMT', 'TMT', 'TMT', 'TMT'],
-      rounds: ['种子轮', 'D轮', 'D轮']
-      // 面谈记录id，面谈人id，面谈人详情
-    }
-  ]
+  comData: []
 })

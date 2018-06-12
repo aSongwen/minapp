@@ -4,7 +4,7 @@ export const attentionToMyData = createAction(ATTENTION_TO_MY, (res) => {
   const comData = [
     {
       id: 0,
-      uid: 0,
+      uid: 4,
       company: '嗯哈xxxxxx嗯哈xxxxxx',
       projectName: 'ofo',
       name: 'awen',
@@ -17,9 +17,5 @@ export const attentionToMyData = createAction(ATTENTION_TO_MY, (res) => {
       // 面谈记录id，面谈人id，面谈人详情
     }
   ]
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(comData)
-    }, 1000)
-  })
+  return new Promise(resolve => resolve(comData))
 })
