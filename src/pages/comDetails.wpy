@@ -54,6 +54,7 @@
   import wepy from 'wepy'
   import comHeader from '../components/common/header'
   import { connect } from 'wepy-redux'
+  // import Request from '../api/user'
   @connect({
     role(state) {
       return state.userInfo.role
@@ -92,7 +93,12 @@
         })
         this.title = '机构详情'
       }
-      (+option.aid === 0) ? (this.detailsData = this.myAttentionData.filter(({ id }) => id === +option.rid)) : (this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid))
+      // rid：记录id，aid：0：我的关注 1:关注我的
+      if (+option.aid === 0) {
+        this.detailsData = this.myAttentionData.filter(({ id }) => id === +option.rid)
+      } else {
+        this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid)
+      }
       console.log(option)
     }
   }
