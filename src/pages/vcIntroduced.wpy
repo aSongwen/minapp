@@ -31,5 +31,7 @@
 <style lang="less">
   .content{
     padding: 0 80rpx;
+    line-height: 50rpx;
+    word-wrap:break-word;
   }
 </style>

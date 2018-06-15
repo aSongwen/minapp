@@ -99,7 +99,7 @@
       } else {
         this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid)
       }
-      // option.sccene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
+      // option.scene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
     }
   }
 </script>
