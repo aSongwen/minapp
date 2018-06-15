@@ -101,11 +101,7 @@
       } else {
         this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid)
       }
-<<<<<<< HEAD
-      // option.scene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
-=======
-      option.sccene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
->>>>>>> 1c2152cbfceb098e09148b1d12cd9850e5e6708a
+      option.scene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
     }
   }
 </script>
