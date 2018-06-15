@@ -10,7 +10,7 @@
             <label class="details-name">公司名称</label>
             <label class="details-txt">{{item.company}}</label>
           </view>
-          <view class="details-item">
+          <view wx:if="{{vcAcceptTel}}" class="details-item">
             <label class="details-name">产品名称</label>
             <label class="details-txt">{{item.projectName}}</label>
           </view>
@@ -40,7 +40,7 @@
             <label class="details-name">所处轮次</label>
             <label class="details-txt">{{item.rounds}}</label>
           </view>
-          <view class="details-item">
+          <view wx:if="{{vcAcceptTel}}" class="details-item">
             <label class="details-name">产品介绍</label>
             <!-- <label class="details-txt">{{item.introduce}}</label> -->
             <view class="details-txt introduce">{{item.introduce}}</view>
@@ -48,6 +48,7 @@
         </repeat>
       </view>
     </view>
+    <view wx:if="{{isShowBtn}}" class="confirm-attention">确认关注对方</view>
   </view>
 </template>
 <script>
@@ -72,7 +73,8 @@
       title: '',
       vcAcceptTel: false,
       vcAcceptEmail: false,
-      attention: true
+      attention: true,
+      isShowBtn: true
     }
     components = {
       comheader: comHeader
@@ -92,8 +94,12 @@
         })
         this.title = '机构详情'
       }
-      (+option.aid === 0) ? (this.detailsData = this.myAttentionData.filter(({ id }) => id === +option.rid)) : (this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid))
-      console.log(option)
+      if (+option.aid === 0) {
+        this.detailsData = this.myAttentionData.filter(({ id }) => id === +option.rid)
+      } else {
+        this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid)
+      }
+      // option.sccene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
     }
   }
 </script>
@@ -141,5 +147,15 @@
       height: 200rpx;
       overflow: scroll;
     }
+  }
+  .confirm-attention {
+    width: 100vw;
+    padding: 30rpx 0;
+    text-align: center;
+    background: #FF6A3C;
+    border-top: 1px solid #f5f5f5;
+    color: #ffffff;
+    position: fixed;
+    bottom: 0;
   }
 </style>
