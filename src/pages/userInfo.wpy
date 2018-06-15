@@ -13,7 +13,7 @@
           </userItem>
         </navigator>
         <repeat for="{{attention}}" key="index" index="index" item="item">
-          <navigator url="{{item.list}}"> 
+          <navigator url="{{item.list}}">
             <userItem>
               <view slot="personalInfo">{{item.title}}</view>
             </userItem>
@@ -26,7 +26,10 @@
         </navigator>
       </view>
       <view class="qr-code">
-        <image class="code-img" src="{{codeImg}}" />
+        <image wx:if="{{codeImg}}" class="code-img" src="{{codeImg}}" />
+      </view>
+      <view class='nav'>
+        <button bindtap='scanCode' class="navigator-text">扫码关注对方</button>
       </view>
     </view>
   </view>
@@ -39,9 +42,21 @@
   } from 'wepy-redux'
   import userItem from '../components/common/userItem'
   import loginBox from '../components/common/login-box'
+  import {
+    Buffer
+  } from 'buffer'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
+    },
+    codeImg(state) {
+      if (state.token.token) {
+        const payload = state.token.token.split('.')[1]
+        const url = 'https://vcmeetup.technode.com/api/user/code?uid='
+        const uid = JSON.parse(Buffer.from(payload, 'base64').toString('ascii')).uid
+        return url + uid
+      }
+      return state.token.token
     },
     role(state) {
       return state.userInfo.role
@@ -58,20 +73,34 @@
         vc: './vcApply',
         startup: './entApply'
       },
-      attention: [
-        {
-          title: '我的关注',
-          list: `./communicated?aid=${0}`
-        },
-        {
-          title: '关注我的',
-          list: `./communicated?aid=${1}`
-        }
-      ]
+      attention: [{
+        title: '我的关注',
+        list: `./communicated?aid=${0}`
+      }, {
+        title: '关注我的',
+        list: `./communicated?aid=${1}`
+      }]
     }
     components = {
       userItem,
       loginBox
+    }
+    methods = {
+      async scanCode() {
+        try {
+          const res = await wepy.scanCode({ onlyFromCamera: true })
+          console.log(`获取到路径${res.path}`)
+          wepy.reLaunch({
+            url: res.path
+          })
+        } catch (err) {
+          wepy.showToast({
+            title: '小程序码识别失败',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      }
     }
   }
 </script>
@@ -107,8 +136,8 @@
     padding: 40rpx 0;
     text-align: center;
     .code-img {
-      width: 320rpx;
-      height: 320rpx;
+      width: 450rpx;
+      height: 450rpx;
     }
   }
 </style>

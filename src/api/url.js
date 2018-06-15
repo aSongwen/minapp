@@ -9,4 +9,6 @@ export default class url {
   static homeVc = `https://cn.technode.com/post/category/vc-column/feed/`
   // cn.technode主页
   static homeTech = `https://cn.technode.com/feed/`
+  // 关注
+  static focusUser = `${base.baseUrl}/user/foucs`
 }
