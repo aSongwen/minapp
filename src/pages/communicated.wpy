@@ -12,6 +12,11 @@
   import comHeader from '../components/common/header'
   import { connect, getStore } from 'wepy-redux'
   import { myAttentionData, attentionToMyData } from '../store/actions'
+  import Request from '../api/user'
+  import {
+    refreshToken
+  } from '../utils/refreshToken'
+  const store = getStore()
   @connect({
     attentionData(state) {
       if (this.attention) {
@@ -31,22 +36,61 @@
       comitem: comItem,
       comheader: comHeader
     }
-    onLoad(option) {
+    async onLoad(option) {
       if (+option.aid === 0) {
         wepy.setNavigationBarTitle({
           title: '我的关注'
         })
         this.attention = true
         this.aid = 0
+        const _myFocus = await Request.myFocus()
+        // 获取失败的处理
+        const res = this.statusCom(_myFocus)
+        if (res) {
+          store.dispatch(myAttentionData(res.data))
+          console.log(`我的关注`, res)
+        }
       } else if (+option.aid === 1) {
         wepy.setNavigationBarTitle({
           title: '关注我的'
         })
         this.attention = false
         this.aid = 1
+        const _focus = await Request.focus()
+        // 获取失败的处理
+        const res = this.statusCom(_focus)
+        if (res) {
+          store.dispatch(attentionToMyData(res.data))
+          console.log(`关注我的`, res)
+        }
       }
-      const store = getStore()
-      return Promise.all([store.dispatch(myAttentionData()), store.dispatch(attentionToMyData())])
+      // 获取关注我的，和我的关注数据
+      // return Promise.all([store.dispatch(myAttentionData()), store.dispatch(attentionToMyData())])
+    }
+    // 状态处理
+    statusCom(res) { // 还没封装这个方法
+      if (res.code === 20000) {
+        return res
+      } else if (res.code === 50001 || res.code === 50002) {
+        // wepy.clearStorageSync()
+        // 刷新token
+        refreshToken()
+        wepy.showModal({
+          title: '提示',
+          content: res.msg,
+          showCancel: false
+        }).then(res => {
+          wepy.reLaunch({
+            url: 'userInfo'
+          })
+        })
+      } else {
+        wepy.showModal({
+          title: '提示',
+          content: res.msg || '未知错误',
+          showCancel: false
+        })
+      }
     }
   }
 </script>

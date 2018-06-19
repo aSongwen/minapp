@@ -10,5 +10,9 @@ export default class url {
   // cn.technode主页
   static homeTech = `https://cn.technode.com/feed/`
   // 关注
-  static focusUser = `${base.baseUrl}/user/foucs`
+  static focusUser = `${base.baseUrl}/user/focus`
+  // 用户详情
+  static userDetail = `${base.baseUrl}/user/detail`
+  // 我的关注
+  static myFocus = `${base.baseUrl}/user/myfocus`
 }

@@ -4,58 +4,63 @@
       <view slot="comHeader">{{title}}</view>
     </comheader>
     <view class="details">
-      <view class="details-box">
-        <repeat for="{{detailsData}}" key="item" index="index" item="item">
-          <view class="details-item">
-            <label class="details-name">公司名称</label>
-            <label class="details-txt">{{item.company}}</label>
-          </view>
-          <view wx:if="{{vcAcceptTel}}" class="details-item">
-            <label class="details-name">产品名称</label>
-            <label class="details-txt">{{item.projectName}}</label>
-          </view>
-          <view class="details-item">
-            <label class="details-name">姓名</label>
-            <label class="details-txt">{{item.name}}</label>
-          </view>
-          <view class="details-item">
-            <label class="details-name">电话</label>
-            <label class="details-txt">{{vcAcceptTel ? item.tel : '***********'}}</label>
-            <image wx:if="{{!vcAcceptTel}}" src="../images/lock.jpg" class="lock-img" />
-          </view>
-          <view class="details-item">
-            <label class="details-name">邮箱</label>
-            <label class="details-txt">{{vcAcceptEmail ? item.email : '***********'}}</label>
-            <image wx:if="{{!vcAcceptEmail}}" src="../images/lock.jpg" class="lock-img" />
-          </view>
-          <view class="details-item">
-            <label class="details-name">职位</label>
-            <label class="details-txt">{{item.job}}</label>
-          </view>
-          <view class="details-item">
-            <label class="details-name">关注领域</label>
-            <label class="details-txt">{{item.focusArea}}</label>
-          </view>
-          <view class="details-item">
-            <label class="details-name">所处轮次</label>
-            <label class="details-txt">{{item.rounds}}</label>
-          </view>
-          <view wx:if="{{vcAcceptTel}}" class="details-item">
-            <label class="details-name">产品介绍</label>
-            <!-- <label class="details-txt">{{item.introduce}}</label> -->
-            <view class="details-txt introduce">{{item.introduce}}</view>
-          </view>
-        </repeat>
+      <view  class="details-box">
+        <view class="details-item">
+          <label class="details-name">公司名称</label>
+          <label class="details-txt">{{detailsData.company}}</label>
+        </view>
+        <view wx:if="{{vcAcceptTel}}" class="details-item">
+          <label class="details-name">产品名称</label>
+          <label class="details-txt">{{detailsData.product}}</label>
+        </view>
+        <view class="details-item">
+          <label class="details-name">姓名</label>
+          <label class="details-txt">{{detailsData.name}}</label>
+        </view>
+        <view class="details-item">
+          <label class="details-name">电话</label>
+          <label class="details-txt">{{vcAcceptTel ? detailsData.tel : '***********'}}</label>
+          <image wx:if="{{!vcAcceptTel}}" src="../images/lock.jpg" class="lock-img" />
+        </view>
+        <view class="details-item">
+          <label class="details-name">邮箱</label>
+          <label class="details-txt">{{vcAcceptEmail ? detailsData.email : '***********'}}</label>
+          <image wx:if="{{!vcAcceptEmail}}" src="../images/lock.jpg" class="lock-img" />
+        </view>
+        <view class="details-item">
+          <label class="details-name">职位</label>
+          <label class="details-txt">{{detailsData.position}}</label>
+        </view>
+        <view class="details-item">
+          <label class="details-name">关注领域</label>
+          <label class="details-txt">{{detailsData.focus_area}}</label>
+        </view>
+        <view class="details-item">
+          <label class="details-name">所处轮次</label>
+          <label class="details-txt">{{detailsData.rounds}}</label>
+        </view>
+        <view wx:if="{{vcAcceptTel}}" class="details-item">
+          <label class="details-name">产品介绍</label>
+          <!-- <label class="details-txt">{{item.introduce}}</label> -->
+          <view class="details-txt introduce">{{detailsData.product_detail}}</view>
+        </view>
       </view>
     </view>
-    <view wx:if="{{isShowBtn}}" class="confirm-attention">确认关注对方</view>
+    <view wx:if="{{isShowBtn}}" @tap="focusUser" class="confirm-attention">关注对方</view>
+    <view @tap="back" class="confirm-attention back">返回</view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
   import comHeader from '../components/common/header'
-  import { connect } from 'wepy-redux'
-  // import Request from '../api/user'
+  import {
+    connect
+  } from 'wepy-redux'
+  import Request from '../api/user'
+  import {
+    refreshToken
+  } from '../utils/refreshToken'
   @connect({
     role(state) {
       return state.userInfo.role
@@ -75,12 +80,13 @@
       vcAcceptTel: false,
       vcAcceptEmail: false,
       attention: true,
-      isShowBtn: true
+      isShowBtn: true,
+      scene: ''
     }
     components = {
       comheader: comHeader
     }
-    onLoad(option) {
+    async onLoad(option) {
       if (this.role === 1) {
         wepy.setNavigationBarTitle({
           title: '项目详情'
@@ -95,49 +101,108 @@
         })
         this.title = '机构详情'
       }
+      // 扫码进来的
+      if (option.scene !== undefined) {
+        console.log(`scene`, option.scene)
+        this.scene = option.scene
+        this.isShowBtn = true
+        const detail = await Request.detailForUser(option.scene)
+        console.log(detail.data)
+        this.detailsData = detail.data
+        this.$apply()
+        return
+      } else {
+        this.isShowBtn = false
+      }
       // rid：记录id，aid：0：我的关注 1:关注我的
       if (+option.aid === 0) {
-        this.detailsData = this.myAttentionData.filter(({ id }) => id === +option.rid)
+        this.detailsData = this.myAttentionData.filter(({
+          id
+        }) => id === +option.rid)[0]
       } else {
-        this.detailsData = this.attentionToMyData.filter(({ id }) => id === +option.rid)
+        this.detailsData = this.attentionToMyData.filter(({
+          id
+        }) => id === +option.rid)[0]
       }
-      option.sccene !== undefined ? this.isShowBtn = true : this.isShowBtn = false
+    }
+    methods = {
+      async focusUser() {
+        const res = await Request.focusUser(this.scene)
+        if (res.code === 20000) {
+          wepy.showModal({
+            title: '提示',
+            content: res.msg,
+            showCancel: false
+          }).then(res => {
+            console.log(`用户点击确定`)
+            wepy.navigateBack({
+              delta: 1
+            })
+          })
+        } else if (res.code === 50001 || res.code === 50002) {
+          // wepy.clearStorageSync()
+          // 刷新token
+          refreshToken()
+          wepy.showModal({
+            title: '提示',
+            content: res.msg,
+            showCancel: false
+          }).then(res => {
+            wepy.reLaunch({
+              url: 'userInfo'
+            })
+          })
+        } else {
+          wepy.showModal({
+            title: '提示',
+            content: res.msg || '未知错误',
+            showCancel: false
+          })
+        }
+      },
+      async back() {
+        wepy.navigateBack({
+          delta: 1
+        })
+        console.log(`status`, status)
+      }
     }
   }
 </script>
+
 <style lang="less">
-  .details{
+  .details {
     box-sizing: border-box;
     width: 100vw;
     padding: 40rpx;
-    .details-box{
+    .details-box {
       width: 100%;
       margin: 0 auto;
     }
-    .details-item{
+    .details-item {
       margin-top: 20rpx;
       position: relative;
     }
-    .details-name{
-      display:inline-block;
+    .details-name {
+      display: inline-block;
       width: 30%;
       position: relative;
       float: left;
     }
-    .details-name:after{
+    .details-name:after {
       display: inline-block;
       content: ":";
       position: absolute;
       right: 10rpx;
     }
-    .details-txt{
+    .details-txt {
       position: relative;
       left: 10rpx;
       display: inline-block;
       width: 60%;
       word-wrap: break-word;
     }
-    .lock-img{
+    .lock-img {
       display: inline-block;
       width: 32rpx;
       height: 32rpx;
@@ -158,6 +223,11 @@
     border-top: 1px solid #f5f5f5;
     color: #ffffff;
     position: fixed;
+    bottom: 100rpx;
+  }
+  .back {
+    background: #f5f5f5;
+    color: #666;
     bottom: 0;
   }
 </style>

@@ -4,7 +4,7 @@
       <view class="comItem-name">{{item.company}}</view>
       <view class="comIte-msg">
         <label class="focusArea">领域</label>
-        <label class="focusArea-txt">{{item.focusArea}}</label>
+        <label class="focusArea-txt">{{item.focus_area}}</label>
       </view>
     </view>
   </repeat>

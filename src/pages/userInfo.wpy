@@ -90,7 +90,7 @@
         try {
           const res = await wepy.scanCode({ onlyFromCamera: true })
           console.log(`获取到路径${res.path}`)
-          wepy.reLaunch({
+          wepy.navigateTo({
             url: res.path
           })
         } catch (err) {

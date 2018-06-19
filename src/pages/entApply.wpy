@@ -51,6 +51,9 @@
   import Request from '../api/startup'
   import fileUpload from '../components/common/fileUpload'
   import handErr from '../utils/handleError'
+  import {
+    refreshToken
+  } from '../utils/refreshToken'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -249,6 +252,17 @@
           this.product_detail = result.data['product_detail']
           wepy.hideLoading()
           this.$apply()
+        } else if (result.code === 50001 || result.code === 50002) {
+          // wepy.clearStorageSync()
+          // 刷新token
+          refreshToken()
+          wepy.showModal({
+            title: '提示',
+            content: result.msg,
+            showCancel: false
+          }).then(res => {
+            wepy.reLaunch({ url: 'userInfo' })
+          })
         } else {
           wepy.hideLoading()
           wepy.showModal({
@@ -305,6 +319,17 @@
                 })
               })
               // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+            } else if (result.code === 50001 || result.code === 50002) {
+              // wepy.clearStorageSync()
+              // 刷新token
+              refreshToken()
+              wepy.showModal({
+                title: '提示',
+                content: result.msg,
+                showCancel: false
+              }).then(res => {
+                wepy.reLaunch({ url: 'userInfo' })
+              })
             } else {
               wepy.showModal({
                 title: '提示',
