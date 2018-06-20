@@ -140,4 +140,13 @@
       height: 450rpx;
     }
   }
+  .nav{
+    width: 100vw;
+    padding: 20rpx;
+    box-sizing: border-box;
+    .navigator-text {
+      width: 100%;
+      background: #f5f5f5;
+    }
+  }
 </style>
