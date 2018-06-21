@@ -1,13 +1,15 @@
 <template>
   <view>
     <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+
     <repeat for="{{iptName}}" key="item" index="index" item="item">
-      <inforeg :iptVal.sync="item.value" :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName"></inforeg>
+      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName" :iptVal.sync="item.value"></inforeg>
     </repeat>
+
     <view class="apply-name focus">关注领域</view>
     <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
 
-    <view class="apply-name focus">所在轮次</view>
+    <view class="apply-name focus">所投轮次</view>
     <repeat for="{{roundName}}" item="item" index="index" key="key">
       <view class="focus-area">
         <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
@@ -17,18 +19,10 @@
       </view>
     </repeat>
 
-    <view class="apply-name focus">产品介绍</view>
-    <view class="proIntArea">
-      <textarea bindinput="getTextArea" name="proint" id="proInt" cols="30" rows="50" value="{{product_detail}}"></textarea>
-    </view>
-
-    <!-- <view class="apply-name focus">上传商业计划</view>
-    <fileupload></fileupload> -->
-
     <view class="submit">
       <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
     </view>
-    
+
     <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
     <view @tap="perfectInfo" class="valDialog" wx:if="{{isShow}}">
       <repeat for="{{validateCon}}" item="item" index="index" key="item">
@@ -37,19 +31,17 @@
     </view>
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
-  // import // 引入redux setRole
-  import { getStore, connect } from 'wepy-redux'
-  // 报名接口返回setRole角色
   import infoReg from '../components/common/infoRegister'
   import focusArea from '../components/common/focusArea'
+  import vcRequest from '../api/vc'
+  import { getStore, connect } from 'wepy-redux'
   import {
     setRole
-    // setLoginBoxVisual
+  // setLoginBoxVisual
   } from '../store/actions/user-info'
-  import Request from '../api/startup'
-  import fileUpload from '../components/common/fileUpload'
   import handErr from '../utils/handleError'
   import {
     refreshToken
@@ -62,10 +54,11 @@
       return state.userInfo.role
     }
   })
+
   export default class extends wepy.page {
     store = getStore()
     config = {
-      navigationBarTitleText: '创业者'
+      navigationBarTitleText: '投资机构'
     }
     data = {
       iptName: [
@@ -76,26 +69,21 @@
           engName: 'company'
         }, {
           id: 1,
-          name: '产品名称',
-          iptType: 'text',
-          engName: 'product'
-        }, {
-          id: 2,
           name: '姓名',
           iptType: 'text',
           engName: 'name'
         }, {
-          id: 3,
+          id: 2,
           name: '电话',
           iptType: 'number',
           engName: 'tel'
         }, {
-          id: 4,
+          id: 3,
           name: '邮箱',
           iptType: 'text',
           engName: 'email'
         }, {
-          id: 5,
+          id: 4,
           name: '职位',
           iptType: 'text',
           engName: 'position'
@@ -168,24 +156,21 @@
       otherFocusVal: '',
       jsonData: {
         'company': '',
-        'product': '',
         'name': '',
         'tel': '',
         'email': '',
         'position': ''
       },
       areaData: [],
-      roundData: [],
-      product_detail: ''
+      roundData: []
     }
     components = {
       inforeg: infoReg,
-      focusarea: focusArea,
-      fileupload: fileUpload
+      focusarea: focusArea
     }
     validateForm() {
       this.validateCon = []
-      const regTel = /^[1][3,4,5,7,8,9]\d{9}$/
+      const regTel = /^[1][3,4,5,7,8][0-9]{9}$/
       const regEmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
       !regTel.test(this.jsonData.tel) && this.validateCon.push('*请输入正确的手机号')
       !regEmail.test(this.jsonData.email) && this.validateCon.push('*请输入正确的邮箱地址')
@@ -194,7 +179,6 @@
     }
     getData(thisArr, saveArr, Bool = false) {
       let _this = this
-      console.log(`thisArr`, thisArr)
       thisArr.forEach((val, key, arr) => {
         val.checked && saveArr.push(val.name)
         if (Bool) {
@@ -212,7 +196,7 @@
         wepy.showLoading({
           title: 'loading...'
         })
-        const result = await Request.getInfo()
+        const result = await vcRequest.getInfo()
         if (result.code === 20000) {
           this.iptName = this.iptName.map(val => {
             val.value = result.data[val.engName]
@@ -248,8 +232,6 @@
           for (let key in this.jsonData) {
             this.jsonData[key] = result.data[key]
           }
-          // 获取产品介绍
-          this.product_detail = result.data['product_detail']
           wepy.hideLoading()
           this.$apply()
         } else if (result.code === 50001 || result.code === 50002) {
@@ -264,7 +246,6 @@
             wepy.reLaunch({ url: 'userInfo' })
           })
         } else {
-          wepy.hideLoading()
           wepy.showModal({
             title: '提示',
             content: result.msg || '未知错误',
@@ -280,30 +261,27 @@
       isChecked(e) {
         this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
       },
-      getTextArea (e) {
-        this.product_detail = e.detail.value
-      },
       async submit() {
         this.areaData = []
         this.roundData = []
         this.getData(this.ckbName, this.areaData, true)
         this.getData(this.roundName, this.roundData)
         this.validateForm()
-        const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { product_detail: this.product_detail })
-        // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        console.log(this.roundData)
+        const data = Object.assign({}, this.jsonData, {focusArea: this.areaData}, { rounds: this.roundData })
         if (!this.isShow) {
           try {
             let result
             if (!this.role) {
-              result = await Request.apply(data)
+              result = await vcRequest.apply(data)
             } else {
-              result = await Request.update(data)
+              result = await vcRequest.update(data)
             }
             if (result.code === 20000) {
               // 报名成功后设置
-              this.store.dispatch(setRole(2))
+              this.store.dispatch(setRole(1))
               const userInfo = this.userInfo
-              userInfo.role = 2
+              userInfo.role = 1
               wepy.setStorage({
                 key: 'userInfo',
                 data: userInfo
@@ -336,7 +314,6 @@
                 content: result.msg || '未知错误',
                 showCancel: false
               })
-              handErr(result.code)
             }
           } catch (err) {
             wepy.showModal({
@@ -358,7 +335,7 @@
       sendInfoVal(value, curIdx, engName) {
         this.iptName.forEach((val) => {
           if (val.id === curIdx) {
-            this.jsonData[engName] = value.trim()
+            this.jsonData[engName] = value
           }
         })
       }

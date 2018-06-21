@@ -91,7 +91,7 @@
           const res = await wepy.scanCode({ onlyFromCamera: true })
           console.log(`获取到路径${res.path}`)
           wepy.navigateTo({
-            url: res.path
+            url: res.path.replace('pages/', '')
           })
         } catch (err) {
           wepy.showToast({

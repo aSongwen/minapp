@@ -18,7 +18,7 @@
     }
     methods = {
       iptData(e) {
-        this.$emit('sendInfoVal', e.detail.value, e.currentTarget.dataset.comIndex, e.currentTarget.dataset.engname)
+        this.$emit('sendInfoVal', e.detail.value, e.currentTarget.id, e.currentTarget.dataset.engname)
       }
     }
   }
