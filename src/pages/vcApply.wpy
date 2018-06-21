@@ -1,26 +1,28 @@
 <template>
   <view>
-    <view class="apply-name">{{!role ? '信息注册' : '基本信息'}}</view>
+    <view class="apply-name">{{!role ? '身份认证' : '基本信息'}}</view>
 
     <repeat for="{{iptName}}" key="item" index="index" item="item">
-      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType="item.iptType" :engName.sync="item.engName" :iptVal.sync="item.value"></inforeg>
+      <inforeg :iptName.sync="item.name" :iptId.sync="item.id" :iptType.sync="item.iptType" :engName.sync="item.engName" :iptVal.sync="item.value"></inforeg>
     </repeat>
 
-    <view class="apply-name focus">关注领域</view>
-    <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
+    <view wx:if="{{role}}">
+      <view class="apply-name focus">关注领域</view>
+      <focusarea :ckbName.sync="ckbName" :value.sync="otherFocusVal"></focusarea>
 
-    <view class="apply-name focus">所投轮次</view>
-    <repeat for="{{roundName}}" item="item" index="index" key="key">
-      <view class="focus-area">
-        <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
-          <label>{{item.name}}</label>
-          <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
-        </checkbox-group>
-      </view>
-    </repeat>
+      <view class="apply-name focus">所投轮次</view>
+      <repeat for="{{roundName}}" item="item" index="index" key="key">
+        <view class="focus-area">
+          <checkbox-group data-id="{{item.id}}" bindchange="isChecked">
+            <label>{{item.name}}</label>
+            <checkbox class="ckb" color="#FF6A3C" checked="{{item.checked}}"></checkbox>
+          </checkbox-group>
+        </view>
+      </repeat>
+    </view>
 
     <view class="submit">
-      <button @tap="submit">{{!role ? '确定报名' : '保存'}}</button>
+      <button @tap="submit">{{!role ? '确定' : '保存'}}</button>
     </view>
 
     <view @tap="perfectInfo" class="mask" wx:if="{{isShow}}"></view>
@@ -191,7 +193,25 @@
       })
     }
     async onLoad() {
-      if (!this.role) return
+      if (!this.role) { // 未报名,删减表单
+        this.iptName = [{
+          id: 1,
+          name: '姓名',
+          iptType: 'text',
+          engName: 'name'
+        }, {
+          id: 2,
+          name: '电话',
+          iptType: 'number',
+          engName: 'tel'
+        }]
+        this.jsonData = {
+          'name': '',
+          'tel': ''
+        }
+        this.$apply()
+        return
+      }
       try {
         wepy.showLoading({
           title: 'loading...'
@@ -262,13 +282,22 @@
         this.roundName[e.target.dataset.id].checked = !this.roundName[e.target.dataset.id].checked
       },
       async submit() {
-        this.areaData = []
-        this.roundData = []
-        this.getData(this.ckbName, this.areaData, true)
-        this.getData(this.roundName, this.roundData)
-        this.validateForm()
-        console.log(this.roundData)
-        const data = Object.assign({}, this.jsonData, {focusArea: this.areaData}, { rounds: this.roundData })
+        let data
+        if (this.role) {
+          this.areaData = []
+          this.roundData = []
+          this.getData(this.ckbName, this.areaData, true)
+          this.getData(this.roundName, this.roundData)
+          this.validateForm()
+          console.log(this.roundData)
+          data = Object.assign({}, this.jsonData, {focusArea: this.areaData}, { rounds: this.roundData })
+        } else {
+          this.validateCon = []
+          this.jsonData.name === '' && this.validateCon.push('姓名不能为空')
+          this.validateCon.length === 0 ? (this.isShow = false) : (this.isShow = true)
+          data = Object.assign({}, this.jsonData)
+        }
+        console.log(`data`, data)
         if (!this.isShow) {
           try {
             let result
@@ -279,6 +308,7 @@
             }
             if (result.code === 20000) {
               // 报名成功后设置
+              refreshToken()
               this.store.dispatch(setRole(1))
               const userInfo = this.userInfo
               userInfo.role = 1
@@ -334,7 +364,7 @@
       },
       sendInfoVal(value, curIdx, engName) {
         this.iptName.forEach((val) => {
-          if (val.id === curIdx) {
+          if (val.id === +curIdx) {
             this.jsonData[engName] = value
           }
         })
