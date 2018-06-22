@@ -4,7 +4,7 @@
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
           <swiper-item class="slider-item" @tap="spiderJump" data-link="{{item.link}}">
-            <image lazy-load="true" src="{{item.miniCover}}" class="slide-image" mode="scaleToFill" binderror="handleError" />
+            <image lazy-load="true" mode="aspectFill" src="{{item.miniCover}}" class="slide-image" binderror="handleError" />
             <view class="slider-content">
               <text class="slider-txt">{{item.title}}</text>
               <text class="slider-time">{{item.pubDate}}</text>
