@@ -48,7 +48,8 @@
     }
     .vc-time{
       top: 0rpx;
-      font-size: 28rpx;
+      font-size: 25rpx;
+      color: #999999;
     }
   }
 </style>

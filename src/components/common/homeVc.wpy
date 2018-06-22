@@ -61,6 +61,8 @@
       }
       .vc-time {
         top: 70rpx;
+        font-size: 25rpx;
+        color: #999999;
       }
     }
   }
