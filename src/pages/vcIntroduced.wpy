@@ -1,7 +1,7 @@
 <template>
   <view>
     <comheader>
-      <view slot="comHeader">动点创投介绍</view>
+      <view slot="comHeader" class="comHeader">动点创投介绍</view>
     </comheader>
     <view class="content">
       动点创投聚焦亚洲创新，致力于打造亚洲范围内的国际创新、投资生态系统。业务包括从商业企划梳理到融资入账的全程顾问服务；以及国内创新企业出海、国外优质创新企业落地中国等业务。动点创投依托动点科技资源，与国内外千余家投资机构保持良好合作关系，并提供多元化全方位的投资标的。动点创投未来也将成立直投基金，寻找并挖掘高成长潜力的投资对象，并缩短创新企业处于萌芽与襁褓阶段的成长周期。
@@ -14,7 +14,7 @@
   import comHeader from '../components/common/header'
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: '十分之约'
+      navigationBarTitleText: '动点创投介绍'
     }
     components = {
       comheader: comHeader
@@ -23,9 +23,12 @@
 </script>
 
 <style lang="less">
+  .comHeader{
+    font-size: 60rpx;
+  }
   .content{
-    padding: 0 80rpx;
-    line-height: 50rpx;
+    padding: 0 50rpx;
+    line-height: 70rpx;
     word-wrap:break-word;
   }
 </style>
