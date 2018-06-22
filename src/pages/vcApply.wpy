@@ -364,6 +364,7 @@
       },
       sendInfoVal(value, curIdx, engName) {
         this.iptName.forEach((val) => {
+          console.log(val.id === +curIdx)
           if (val.id === +curIdx) {
             this.jsonData[engName] = value
           }

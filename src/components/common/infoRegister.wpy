@@ -1,7 +1,7 @@
 <template>
   <view class="item">
     <label class="ipt-name">{{iptName}}</label>
-    <input bindinput="iptData" value="{{iptVal}}" id="{{iptId}}" type="{{iptType}}" class="ipt" data-engName="{{engName}}" />
+    <input bindinput="iptData" bindblur="iptData" value="{{iptVal}}" id="{{iptId}}" type="{{iptType}}" class="ipt" data-engName="{{engName}}" />
   </view>
 </template>
 <script>
