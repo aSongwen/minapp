@@ -58,7 +58,12 @@
   })
   export default class extends wepy.page {
     config = {
-      navigationBarTitleText: '十分之约'
+      navigationBarTitleText: '十分之约',
+      enablePullDownRefresh: true
+    }
+    async onPullDownRefresh() {
+      await this.onLoad()
+      wepy.stopPullDownRefresh()
     }
     data = {
       indicatorDots: true,
