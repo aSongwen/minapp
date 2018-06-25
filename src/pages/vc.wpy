@@ -101,8 +101,16 @@
         this.btnShow = 'display:block;'
         const vcDetail = this.vcDetailById(index)
         if (typeof vcDetail[0].focus_area === 'string') {
-          vcDetail[0].focus_area = vcDetail[0].focus_area.split(',')
-          vcDetail[0].rounds = vcDetail[0].rounds.split(',')
+          if (vcDetail[0].focus_area) {
+            vcDetail[0].focus_area = vcDetail[0].focus_area.split(',')
+          } else {
+            vcDetail[0].focus_area = []
+          }
+          if (vcDetail[0].rounds) {
+            vcDetail[0].rounds = vcDetail[0].rounds.split(',')
+          } else {
+            vcDetail[0].rounds = []
+          }
         }
         if (vcDetail.length > 0) this.vcPopupDetail = vcDetail[0]
       }

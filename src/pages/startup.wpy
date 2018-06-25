@@ -100,8 +100,16 @@
         this.btnShow = 'display:block;'
         const startupDetail = this.startupDetailById(index)
         if (typeof startupDetail[0].focus_area === 'string') {
-          startupDetail[0].focus_area = startupDetail[0].focus_area.split(',')
-          startupDetail[0].rounds = startupDetail[0].rounds.split(',')
+          if (startupDetail[0].focus_area) {
+            startupDetail[0].focus_area = startupDetail[0].focus_area.split(',')
+          } else {
+            startupDetail[0].focus_area = []
+          }
+          if (startupDetail[0].rounds) {
+            startupDetail[0].rounds = startupDetail[0].rounds.split(',')
+          } else {
+            startupDetail[0].rounds = []
+          }
         }
         if (startupDetail.length > 0) this.startupPopupDetail = startupDetail[0]
       }
