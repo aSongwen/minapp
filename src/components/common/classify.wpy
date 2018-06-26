@@ -7,7 +7,7 @@
         </view>
       </repeat>
     </scroll-view>
-    <scroll-view class="classify_detail"  scroll-with-animation="true" style="height:100%">
+    <scroll-view class="classify_detail"  scroll-with-animation="true" scroll-y="true" style="height:100%">
       <view class="children">
         <repeat for="{{childCateList}}" key="item" index="index">
           <view hover-class="none" class="children_item" url="" data-index="{{item.id}}" @tap="showDetail">
@@ -66,7 +66,7 @@
     events = {
       EdataCate() {
         if (this.cateList.length > 0) {
-          this.dataCate(this.cateList[0].name)
+          this.dataCate(this.cateList[this.cateIndex].name)
         }
       }
     }
