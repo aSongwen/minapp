@@ -4,6 +4,8 @@ export default class url {
   static vcAll = `${base.baseUrl}/vc/all`
   static startup = `${base.baseUrl}/startup`
   static startupAll = `${base.baseUrl}/startup/all`
+  static startupAutoPatch = `${base.baseUrl}/startup/autopatch`
+  static startupQuickApply = `${base.baseUrl}/startup/quickapply`
   static login = `${base.baseUrl}/login`
   // 投资人专栏
   static homeVc = `https://cn.technode.com/post/category/vc-column/feed/`

@@ -20,4 +20,12 @@ export default class startup extends base {
     const _url = url.startup
     return this.put(_url, param)
   }
+  static autoPatch(param) {
+    const _url = url.startupAutoPatch
+    return this.post(_url, param)
+  }
+  static quickapply(param) {
+    const _url = url.startupQuickApply
+    return this.post(_url, param)
+  }
 }

@@ -176,7 +176,11 @@
       },
       areaData: [],
       roundData: [],
-      product_detail: ''
+      product_detail: '',
+      isNewData: {
+        index: -1,
+        data: ''
+      }
     }
     components = {
       inforeg: infoReg,
@@ -207,7 +211,14 @@
       })
     }
     async onLoad() {
-      if (!this.role) return
+      if (!this.role) {
+        wepy.showToast({
+          title: '输入电话和邮箱可快速匹配',
+          icon: 'none',
+          duration: 2500
+        })
+        return
+      }
       try {
         wepy.showLoading({
           title: 'loading...'
@@ -291,6 +302,7 @@
         this.validateForm()
         const data = Object.assign({}, this.jsonData, { focusArea: this.areaData }, { rounds: this.roundData }, { product_detail: this.product_detail })
         // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+        console.log(`data`, data)
         if (!this.isShow) {
           try {
             let result
@@ -299,45 +311,7 @@
             } else {
               result = await Request.update(data)
             }
-            if (result.code === 20000) {
-              // 报名成功后设置
-              this.store.dispatch(setRole(2))
-              const userInfo = this.userInfo
-              userInfo.role = 2
-              wepy.setStorage({
-                key: 'userInfo',
-                data: userInfo
-              })
-              wepy.showModal({
-                title: '提示',
-                content: result.msg,
-                showCancel: false
-              }).then(res => {
-                console.log(`用户点击确定`)
-                wepy.navigateBack({
-                  delta: 1
-                })
-              })
-              // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
-            } else if (result.code === 50001 || result.code === 50002) {
-              // wepy.clearStorageSync()
-              // 刷新token
-              refreshToken()
-              wepy.showModal({
-                title: '提示',
-                content: result.msg,
-                showCancel: false
-              }).then(res => {
-                wepy.reLaunch({ url: 'userInfo' })
-              })
-            } else {
-              wepy.showModal({
-                title: '提示',
-                content: result.msg || '未知错误',
-                showCancel: false
-              })
-              handErr(result.code)
-            }
+            this.statusHandle(result)
           } catch (err) {
             wepy.showModal({
               title: '提示',
@@ -351,16 +325,90 @@
         this.isShow = false
       }
     }
+    statusHandle(result, flag) { // 状态处理
+      if (result.code === 20000) {
+        // 报名成功后设置
+        this.store.dispatch(setRole(2))
+        const userInfo = this.userInfo
+        userInfo.role = 2
+        wepy.setStorage({
+          key: 'userInfo',
+          data: userInfo
+        })
+        wepy.showModal({
+          title: '提示',
+          content: result.msg,
+          showCancel: false
+        }).then(res => {
+          if (!flag) {
+            console.log(`用户点击确定`)
+            wepy.navigateBack({
+              delta: 1
+            })
+          } else if (flag === 1) {
+            this.onLoad()
+          }
+        })
+        // await this.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
+      } else if (result.code === 50001 || result.code === 50002) {
+        // wepy.clearStorageSync()
+        // 刷新token
+        refreshToken()
+        wepy.showModal({
+          title: '提示',
+          content: result.msg,
+          showCancel: false
+        }).then(res => {
+          wepy.reLaunch({ url: 'userInfo' })
+        })
+      } else {
+        wepy.showModal({
+          title: '提示',
+          content: result.msg || '未知错误',
+          showCancel: false
+        })
+        handErr.handErr(result.code)
+      }
+    }
     events = {
       sendOther(value) {
         this.otherFocusVal = value
       },
       sendInfoVal(value, curIdx, engName) {
+        if (this.isNewData.data === value && this.isNewData.index === curIdx) { // 因为触发两次事件条件使判断触发一次
+          return
+        } else {
+          this.isNewData.data = value
+          this.isNewData.index = curIdx
+        }
         this.iptName.forEach((val) => {
-          if (val.id === curIdx) {
+          if (val.id === +curIdx) {
             this.jsonData[engName] = value.trim()
           }
         })
+        if ((engName === 'tel' || engName === 'email') && value.trim().length > 5 && !this.role) {
+          // 去后台匹配数据
+          Request.autoPatch({
+            email: this.jsonData['email'],
+            tel: this.jsonData['tel']})
+            .then(async res => {
+              if (res.code === 20000) {
+                const btnStatus = await wepy.showModal({
+                  title: '认领',
+                  content: `匹配到后台公司：\r\n${res.data[0].company}`
+                })
+                if (btnStatus.confirm) {
+                  console.log(`点击确定`)
+                  // 电话、邮箱
+                  const res = await Request.quickapply({
+                    email: this.jsonData['email'],
+                    tel: this.jsonData['tel']
+                  })
+                  this.statusHandle(res, 1)
+                }
+              }
+            })
+        }
       }
     }
   }

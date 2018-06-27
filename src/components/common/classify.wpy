@@ -11,7 +11,7 @@
       <view class="children">
         <repeat for="{{childCateList}}" key="item" index="index">
           <view hover-class="none" class="children_item" url="" data-index="{{item.id}}" @tap="showDetail">
-            <view class="child_name">{{item.company}}</view>
+            <view class="child_name">{{item.product || item.company}}</view>
           </view>
         </repeat>
       </view>
