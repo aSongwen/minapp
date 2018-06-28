@@ -156,6 +156,7 @@
 
 <style lang="less">
   .slider-box {
+    height:360rpx;
     .slider-item {
       position: relative;
       .slide-image {

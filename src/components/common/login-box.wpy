@@ -22,7 +22,7 @@
   import login from '../../api/login'
   import { asyncToken } from '../../store/actions/token'
   import { Buffer } from 'buffer'
-
+  
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -39,17 +39,16 @@
     }
   })
   export default class extends wepy.component {
-    store = getStore()
     async onLoad() {
-      const self = this
+      const store = getStore()
       try {
         const user = await wepy.getStorage({
           key: 'userInfo'
         })
         const userInfo = user.data
-        await self.store.dispatch(setUserInfo(userInfo))
+        await store.dispatch(setUserInfo(userInfo))
         if (userInfo.role) {
-          await self.store.dispatch(setRole(userInfo.role))
+          await store.dispatch(setRole(userInfo.role))
         }
         // if (this.role) {
         //   console.log(`role`, this.role)
@@ -61,10 +60,13 @@
     }
     methods = {
       getUserInfo: async(res) => {
+        const store = getStore()
         const role = res.currentTarget.dataset.role
         if (res.detail.errMsg === 'getUserInfo:ok') {
           const loginCode = await wepy.login()
-          await this.store.dispatch(setUserInfo(res.detail.userInfo))
+          const actionSetInfo = await setUserInfo(res.detail.userInfo)
+          console.log(`actionSetInfo`, actionSetInfo)
+          await store.dispatch(actionSetInfo)
           // if (this.role) {
           //   console.log(`role`, this.role)
           //   await self.store.dispatch(setLoginBoxVisual('visibility:hidden;'))
@@ -79,16 +81,20 @@
               console.log({ ...res.detail.userInfo })
               const result = await login.login(code, { ...res.detail.userInfo })
               console.log(result.data.jwt)
-              const store = getStore()
-              await store.dispatch(asyncToken(result.data.jwt))
+              console.log(`设置store jwt`)
               wepy.setStorage({
                 key: 'token',
                 data: result.data.jwt
               })
+              console.log(`设置redux jwt`)
+              const actionToken = await asyncToken(result.data.jwt)
+              console.log(`actionToken`, actionToken)
+              await store.dispatch(actionToken)
               // 如果jwt里的role!==0,那么无需跳转直接写store和缓存
               const serverRole = JSON.parse(Buffer.from(result.data.jwt.split('.')[1], 'base64').toString('ascii')).role
+              console.log(`用户身份`, serverRole)
               if (serverRole) {
-                this.store.dispatch(setRole(serverRole))
+                store.dispatch(setRole(serverRole))
                 const userInfo = this.userInfo
                 userInfo.role = serverRole
                 wepy.setStorage({
@@ -107,7 +113,7 @@
                 })
               }
             } catch (err) {
-              console.log(err)
+              console.log(`出错`, err)
             }
           } else {
             console.log('登录失败！' + res.errMsg)

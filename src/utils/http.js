@@ -1,17 +1,29 @@
 import wepy from 'wepy'
 import { getStore } from 'wepy-redux'
-
+import { asyncToken } from '../store/actions/token'
 // HTTP工具类
 export default class http {
   static async request (method, url, data, loading = true) {
     const store = getStore()
     const state = store.getState()
+    let storeToken = ''
+    // 从store里取token
+    if (state.token.token) {
+      try {
+        const token = await wepy.getStorage({key: 'token'})
+        storeToken = token.data
+        store.dispatch(asyncToken(token.data))
+      } catch (err) {
+        // 取出token失败执行
+      }
+    }
+
     const param = {
       url: url,
       method: method,
       data: data,
       header: {
-        'authorization': `Bearer ${state.token.token}`
+        'authorization': `Bearer ${state.token.token || storeToken}`
       }
     }
     if (loading) {

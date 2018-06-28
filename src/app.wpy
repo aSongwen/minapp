@@ -83,7 +83,7 @@
         await store.dispatch(asyncToken(token.data))
         // throw new Error('error')
       } catch (err) {
-        console.log(err)
+        console.log(`微信session失效或token不存在`, err)
         // session_key 已经失效，需要重新执行登录流程
         console.log(`需要登录`)
         // 刷新token

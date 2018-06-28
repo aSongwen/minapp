@@ -104,7 +104,7 @@
       position: relative;
       z-index: 999; // margin-left: -15rpx;
       background: #fff;
-      padding: 15px 10px 10px 30px;
+      padding: 15px 10px 10px 15px;
       .classify_item {}
       .title {
         font-size: 30rpx;
@@ -130,7 +130,8 @@
       .children_item {
         width: 170rpx;
         text-align: left;
-        margin-top:20rpx;
+        margin-top:25rpx;
+        margin-left:15rpx;
       }
     }
   }

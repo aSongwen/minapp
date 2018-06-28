@@ -58,9 +58,7 @@
     connect
   } from 'wepy-redux'
   import Request from '../api/user'
-  import {
-    refreshToken
-  } from '../utils/refreshToken'
+  import handErr from '../utils/handleError'
   @connect({
     role(state) {
       return state.userInfo.role
@@ -142,7 +140,7 @@
         } else if (res.code === 50001 || res.code === 50002) {
           // wepy.clearStorageSync()
           // 刷新token
-          refreshToken()
+          handErr.handErr(res.code)
           wepy.showModal({
             title: '提示',
             content: res.msg,

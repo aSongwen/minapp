@@ -45,9 +45,6 @@
   // setLoginBoxVisual
   } from '../store/actions/user-info'
   import handErr from '../utils/handleError'
-  import {
-    refreshToken
-  } from '../utils/refreshToken'
   @connect({
     userInfo(state) {
       return state.userInfo.detail
@@ -257,7 +254,7 @@
         } else if (result.code === 50001 || result.code === 50002) {
           // wepy.clearStorageSync()
           // 刷新token
-          refreshToken()
+          handErr.handErr(result.code)
           wepy.showModal({
             title: '提示',
             content: result.msg,
@@ -266,12 +263,12 @@
             wepy.reLaunch({ url: 'userInfo' })
           })
         } else {
+          handErr.handErr(result.code)
           wepy.showModal({
             title: '提示',
             content: result.msg || '未知错误',
             showCancel: false
           })
-          handErr.handErr(result.code)
         }
       } catch (err) {
         console.log(err)
@@ -308,7 +305,6 @@
             }
             if (result.code === 20000) {
               // 报名成功后设置
-              refreshToken()
               this.store.dispatch(setRole(1))
               const userInfo = this.userInfo
               userInfo.role = 1
@@ -321,7 +317,6 @@
                 content: result.msg,
                 showCancel: false
               }).then(res => {
-                console.log(`用户点击确定`)
                 wepy.navigateBack({
                   delta: 1
                 })
@@ -330,7 +325,7 @@
             } else if (result.code === 50001 || result.code === 50002) {
               // wepy.clearStorageSync()
               // 刷新token
-              refreshToken()
+              handErr.handErr(result.code)
               wepy.showModal({
                 title: '提示',
                 content: result.msg,
