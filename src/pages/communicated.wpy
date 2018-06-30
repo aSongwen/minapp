@@ -35,6 +35,9 @@
       comheader: comHeader
     }
     async onLoad(option) {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       if (+option.aid === 0) {
         wepy.setNavigationBarTitle({
           title: '我的关注'

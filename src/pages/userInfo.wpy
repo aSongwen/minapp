@@ -85,6 +85,11 @@
       userItem,
       loginBox
     }
+    onLoad() {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
+    }
     methods = {
       async scanCode() {
         try {

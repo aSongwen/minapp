@@ -130,6 +130,9 @@
       return store.dispatch(asyncArticle(item))
     }
     async onLoad() {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       wepy.showLoading({
         title: 'loading...'
       })
@@ -167,17 +170,22 @@
         position:absolute;
         left: 30rpx;
         right: 30rpx;
-        bottom: 30rpx;
+        top: 30rpx;
+        // bottom: 30rpx;
         margin:auto;
-        text-shadow: 1px 1px 1px #888888;
+        // text-shadow: 1px 1px 1px #888888;
+        text-shadow: 1px 1px 1px #cccccc;
         .slider-txt {
-          color:white;
-          font-size: 36rpx;
+          // color:white;
+          color: #000;
+          // font-size: 36rpx;
+          font-size: 40rpx;
           font-weight: bold;
         }
         .slider-time{
-          display: flex;
-          color: #ffffff;
+          // display: flex;
+          // color: #ffffff;
+          display: none;
         }
       }
     }

@@ -1,10 +1,27 @@
 function formatMsgTime (timespan) {
   var dateTime = new Date(timespan)
-  var year = dateTime.getFullYear()
-  var month = dateTime.getMonth() + 1
-  var day = dateTime.getDate()
-  var hour = dateTime.getHours()
-  var minute = dateTime.getMinutes()
+  var year = dateTime.getFullYear() + ''
+  var month = dateTime.getMonth() + 1 + ''
+  var day = dateTime.getDate() + ''
+  var hour = dateTime.getHours() + ''
+  var minute = dateTime.getMinutes() + ''
+  // 时间格式处理
+  if (year.length === 1) {
+    year = '0' + year
+  }
+  if (month.length === 1) {
+    month = '0' + month
+  }
+  if (day.length === 1) {
+    day = '0' + day
+  }
+  if (hour.length === 1) {
+    hour = '0' + hour
+  }
+  if (minute.length === 1) {
+    minute = '0' + minute
+  }
+  //
   // var second = dateTime.getSeconds()
   var now = new Date()
   // var now_new = Date.parse(now.toDateString());  //typescript转换写法

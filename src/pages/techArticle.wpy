@@ -12,6 +12,9 @@
       link: ''
     }
     onLoad(option) {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       this.link = option.link
     }
   }

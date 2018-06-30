@@ -75,6 +75,9 @@
       ]
     }
     onShow() {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       this.getList()
     }
     async getList() {

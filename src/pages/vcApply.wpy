@@ -190,6 +190,9 @@
       })
     }
     async onLoad() {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       if (!this.role) { // 未报名,删减表单
         this.iptName = [{
           id: 1,

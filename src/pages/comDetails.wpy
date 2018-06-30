@@ -85,6 +85,9 @@
       comheader: comHeader
     }
     async onLoad(option) {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       if (this.role === 1) {
         wepy.setNavigationBarTitle({
           title: '项目详情'

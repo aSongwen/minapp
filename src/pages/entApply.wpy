@@ -208,6 +208,9 @@
       })
     }
     async onLoad() {
+      wepy.showShareMenu({
+        withShareTicket: true
+      })
       if (!this.role) {
         wepy.showToast({
           title: '输入电话和邮箱可快速匹配',

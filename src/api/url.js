@@ -8,7 +8,8 @@ export default class url {
   static startupQuickApply = `${base.baseUrl}/startup/quickapply`
   static login = `${base.baseUrl}/login`
   // 投资人专栏
-  static homeVc = `https://cn.technode.com/post/category/vc-column/feed/`
+  // static homeVc = `https://cn.technode.com/post/category/vc-column/feed/`
+  static homeVc = `https://cn.technode.com/post/category/topics/techcrunch-hangzhou-2018/feed/`
   // cn.technode主页
   static homeTech = `https://cn.technode.com/feed/`
   // 关注
