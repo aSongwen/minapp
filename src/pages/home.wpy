@@ -4,7 +4,7 @@
       <repeat for="{{silderImg}}" key="index" index="index" item="item">
         <block>
           <swiper-item class="slider-item" @tap="spiderJump" data-link="{{item.link}}">
-            <image lazy-load="true" mode="aspectFill" src="{{item.miniCover}}" class="slide-image" binderror="handleError" />
+            <image lazy-load="true" mode="aspectFill" src="{{item.miniCover}}" class="slide-image" binderror="handleError" data-id="{{index}}" />
             <view class="slider-content">
               <text class="slider-txt">{{item.title}}</text>
               <text class="slider-time">{{item.pubDate}}</text>
@@ -139,6 +139,7 @@
       // 加载投资专栏数据
       const homeVcData = await Request.getVcInfo()
       await this.setVcGridData(homeVcData)
+      console.log(this.silderImg)
       // 加载cn.technode官网数据
       const homeTechData = await Request.getTechInfo()
       await this.setTechGridData(homeTechData)
@@ -150,8 +151,9 @@
           url: `techArticle?link=${e.currentTarget.dataset.link}`
         })
       },
-      handleError() {
-        if (this.silderImg.miniCover !== this.silderImg.item.cover) this.silderImg.miniCover = this.silderImg.item.cover
+      handleError(e) {
+        const id = e.target.dataset.id
+        if (this.silderImg[id].miniCover !== this.silderImg[id].cover) this.silderImg[id].miniCover = this.silderImg[id].cover
       }
     }
   }
@@ -170,22 +172,22 @@
         position:absolute;
         left: 30rpx;
         right: 30rpx;
-        top: 30rpx;
-        // bottom: 30rpx;
+        // top: 30rpx;
+        bottom: 30rpx;
         margin:auto;
-        // text-shadow: 1px 1px 1px #888888;
-        text-shadow: 1px 1px 1px #cccccc;
+        text-shadow: 1px 1px 1px #888888;
+        // text-shadow: 1px 1px 1px #cccccc;
         .slider-txt {
-          // color:white;
-          color: #000;
+          color:white;
+          // color: #000;
           // font-size: 36rpx;
           font-size: 40rpx;
           font-weight: bold;
         }
         .slider-time{
-          // display: flex;
-          // color: #ffffff;
-          display: none;
+          display: flex;
+          color: #ffffff;
+          // display: none;
         }
       }
     }

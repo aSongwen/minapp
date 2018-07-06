@@ -15,7 +15,7 @@
       wepy.showShareMenu({
         withShareTicket: true
       })
-      this.link = option.link
+      this.link = decodeURIComponent(option.link)
     }
   }
 </script>

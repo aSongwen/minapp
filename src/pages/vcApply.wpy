@@ -170,7 +170,7 @@
     validateForm() {
       this.validateCon = []
       const regTel = /^[1][3,4,5,7,8][0-9]{9}$/
-      const regEmail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      const regEmail = /^[.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
       !regTel.test(this.jsonData.tel) && this.validateCon.push('*请输入正确的手机号')
       !regEmail.test(this.jsonData.email) && this.validateCon.push('*请输入正确的邮箱地址')
       Object.values(this.jsonData).some(val => val === '') && this.validateCon.push('*信息请输入完整')
